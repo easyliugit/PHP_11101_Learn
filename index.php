@@ -1,6 +1,7 @@
 <a href="./string/pra01.php">字串取代pra01.php</a><br>
 <a href="./string/pra02.php">字串分割pra02.php</a><br>
 <a href="./string/pra03.php">字串組合pra03.php</a><br>
+<a href="./string/pra04.php">子字串取用pra04.php</a><br>
 <?php 
 define('PI',3.1415);
 

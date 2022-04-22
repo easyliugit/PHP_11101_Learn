@@ -1,3 +1,4 @@
+<a href="./string/pra01.php">字串取代pra01.php</a><br>
 <?php 
 define('PI',3.1415);
 

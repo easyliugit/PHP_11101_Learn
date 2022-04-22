@@ -9,7 +9,12 @@
 </head>
 
 <body>
-    <a href="../index.php">回首頁index.php</a><br>
+<a href="../index.php">回首頁index.php</a> > <a href="index.php">[基礎課程] Lesson 4 字串處理</a><br>
+    <a href="pra01.php">字串取代pra01.php</a><br>
+    <a href="pra02.php">字串分割pra02.php</a><br>
+    <a href="pra03.php">字串組合pra03.php</a><br>
+    <a href="pra04.php">子字串取用pra04.php</a><br>
+    <a href="pra05.php">字串函式整合應用pra05.php</a><br>
     <h1>子字串取用</h1>
     <article>
         <div>將” The reason why a great man is great is that he resolves to be a great man”只取前十字成為” The reason…”</div>

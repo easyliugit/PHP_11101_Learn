@@ -12,7 +12,7 @@
     <a href="../index.php">回首頁index.php</a><br>
     <h1>子字串取用</h1>
     <article>
-        <h3>將” The reason why a great man is great is that he resolves to be a great man”只取前十字成為” The reason…”</h3>
+        <div>將” The reason why a great man is great is that he resolves to be a great man”只取前十字成為” The reason…”</div>
     </article>
     <?php
     //$str="The reason why a great man is great is that he resolves to be a great man";

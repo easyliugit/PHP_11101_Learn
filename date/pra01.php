@@ -25,6 +25,31 @@
     echo "<br>";
     echo date("Y 年 n 月 d 日 H 點 i 分 s 秒");
     ?>
+
+    <h2>strtotime()</h2>
+    <?php
+    //時間日期字串格式 yyyy-mm-dd hh:mm:ss 
+    $time = "2021-10-01 10:12:30";
+    $s = strtotime($time);
+    echo $time;
+    echo "<br>";
+    echo $s;
+    echo "<br>";
+    echo date("西元 Y 年 m 月 d 日 l ", $s);
+    echo "<br>";
+    $splus = strtotime("+2 days", $s);
+    echo "<br>";
+    echo date("西元 Y 年 m 月 d 日 l ", $splus);
+    $splus = strtotime("+1 month", $s);
+    echo "<br>";
+    echo date("西元 Y 年 m 月 d 日 l ", $splus);
+    $splus = strtotime("-1 month", $s);
+    echo "<br>";
+    echo date("西元 Y 年 m 月 d 日 l ", $splus);
+    $splus = strtotime("+1 week", $s);
+    echo "<br>";
+    echo date("西元 Y 年 m 月 d 日 l ", $splus);
+    ?>
 </body>
 
 </html>

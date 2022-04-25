@@ -5,7 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>使用程式控制時間</title>
+    <title>線上月曆製作</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table td {
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #aaa;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,19 +28,41 @@
     <a href="pra04.php">時間格式練習pra04.php</a><br>
     <a href="pra05.php">使用程式控制時間pra05.php</a><br>
     <a href="pra06.php">線上月曆製作pra06.php</a><br>
-    <h1>使用程式控制時間</h1>
+    <h1>線上月曆製作</h1>
     <?php
-    $today = date("Y-m-d l");
-    echo $today;
-    echo "<br>下周一<br>";
-    $todaytime = strtotime(date("Y-m-d"));
+    $month = 4;
 
-    $n = 10;
-    for ($i = 0; $i <= $n; $i++) {
-        $nextweek = strtotime("+$i week", $todaytime);
-        echo date("Y-m-d l", $nextweek) . "<br>";
-    }
     ?>
+    <table>
+        <tr>
+            <td>日</td>
+            <td>一</td>
+            <td>二</td>
+            <td>三</td>
+            <td>四</td>
+            <td>五</td>
+            <td>六</td>
+        </tr>
+        <?php
+        for ($i = 0; $i < 6; $i++) {
+            echo "<tr>";
+
+            for ($j = 0; $j < 7; $j++) {
+
+                echo "<td>";
+                echo $j;
+                echo "</td>";
+            }
+
+            echo "</tr>";
+        }
+
+
+
+        ?>
+
+
+    </table>
 </body>
 
 </html>

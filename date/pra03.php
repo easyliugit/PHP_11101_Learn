@@ -16,6 +16,7 @@
     <a href="pra03_1.php">跨年或已過生日的時間差分問題討論pra03_1.php</a><br>
     <a href="pra04.php">時間格式練習pra04.php</a><br>
     <a href="pra05.php">使用程式控制時間pra05.php</a><br>
+    <a href="pra06.php">線上月曆製作pra06.php</a><br>
     <h1>計算距離自己下一次生日還有幾天字串組合</h1>
     <?php
     $birthday = "04-25";

@@ -11,12 +11,13 @@
 <body>
     <a href="../index.php">回首頁index.php</a> > <a href="index.php">[基礎課程] Lesson 5 時間及日期處理</a><br>
     <a href="pra01.php">日期時間練習pra01.php</a><br>
-    <a href="pra02.php">計算距離自己下一次生日還有幾天pra02.php</a><br>
+    <a href="pra02.php">給定兩個日期，計算中間間隔天數pra02.php</a><br>
+    <a href="pra03.php">計算距離自己下一次生日還有幾天字串組合pra03.php</a><br>
     <h1>日期時間練習</h1>
     <h3>未設定時區</h3>
     <?php
 
-    echo date("Y-m-d H:i:s");
+    echo date("Y-m-d H:i:s"); //date(“Y-m-d”,$time)
     echo "<hr>";
     ?>
     <h3>有設定時區(Asia/Taipei)</h3>

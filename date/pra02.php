@@ -5,21 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>計算距離自己下一次生日還有幾天</title>
+    <title>給定兩個日期，計算中間間隔天數</title>
 </head>
 
 <body>
     <a href="../index.php">回首頁index.php</a> > <a href="index.php">[基礎課程] Lesson 5 時間及日期處理</a><br>
     <a href="pra01.php">日期時間練習pra01.php</a><br>
-    <a href="pra02.php">計算距離自己下一次生日還有幾天pra02.php</a><br>
-    <h1>計算距離自己下一次生日還有幾天</h1>
+    <a href="pra02.php">給定兩個日期，計算中間間隔天數pra02.php</a><br>
+    <a href="pra03.php">計算距離自己下一次生日還有幾天字串組合pra03.php</a><br>
+    <h1>給定兩個日期，計算中間間隔天數</h1>
     <?php
     $day1 = "2022-4-10";
     $day2 = "2022-4-20";
     echo "星期一=>" . $day1 . "<br>";
     echo "星期二=>" . $day2 . "<br>";
 
-    $time1 = strtotime($day1);
+    $time1 = strtotime($day1); //strtotime(“+1 days”,$date_string)
     $time2 = strtotime($day2);
 
     echo $time1;

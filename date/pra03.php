@@ -13,6 +13,7 @@
     <a href="pra01.php">日期時間練習pra01.php</a><br>
     <a href="pra02.php">給定兩個日期，計算中間間隔天數pra02.php</a><br>
     <a href="pra03.php">計算距離自己下一次生日還有幾天字串組合pra03.php</a><br>
+    <a href="pra03_1.php">跨年或已過生日的時間差分問題討論pra03_1.php</a><br>
     <h1>計算距離自己下一次生日還有幾天字串組合</h1>
     <?php
     $birthday = "04-25";

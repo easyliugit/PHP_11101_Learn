@@ -1,3 +1,4 @@
+<a href="./date/index.php">[基礎課程] Lesson 5 時間及日期處理</a><br>
 <a href="./string/index.php">[基礎課程] Lesson 4 字串處理</a><br>
 <a href="./string/pra01.php">字串取代pra01.php</a><br>
 <a href="./string/pra02.php">字串分割pra02.php</a><br>

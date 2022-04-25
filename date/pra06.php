@@ -44,13 +44,35 @@
             <td>六</td>
         </tr>
         <?php
+
+        $firstDay = date("Y-") . $month . "-1";
+        $firstWeekday = date("w", strtotime($firstDay));
+        $monthDays = date("t", strtotime($firstDay));
+        $lastDay = date("Y-") . $month . "-" . $monthDays;
+
+        echo "月份" . $month;
+        echo "<br>";
+        echo "第一天是" . $firstDay;
+        echo "<br>";
+        echo "第一天是星期" . $firstWeekday;
+        echo "<br>";
+        echo "最後一天是" . $lastDay;
+        echo "<br>";
+        echo "當月天數共" . $monthDays;
+        echo "<br>";
         for ($i = 0; $i < 6; $i++) {
             echo "<tr>";
 
             for ($j = 0; $j < 7; $j++) {
 
                 echo "<td>";
-                echo $j;
+                if ($i == 0 && $j == $firstWeekday) {
+                    echo "第一天";
+                } else if ($i == 0 && $j < $firstWeekday) {
+                    echo "";
+                } else {
+                    echo $i * 7 + ($j + 1);
+                }
                 echo "</td>";
             }
 

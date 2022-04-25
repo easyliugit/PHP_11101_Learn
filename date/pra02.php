@@ -14,6 +14,7 @@
     <a href="pra02.php">給定兩個日期，計算中間間隔天數pra02.php</a><br>
     <a href="pra03.php">計算距離自己下一次生日還有幾天字串組合pra03.php</a><br>
     <a href="pra03_1.php">跨年或已過生日的時間差分問題討論pra03_1.php</a><br>
+    <a href="pra04.php">時間格式練習pra04.php</a><br>
     <h1>給定兩個日期，計算中間間隔天數</h1>
     <?php
     $day1 = "2022-4-10";

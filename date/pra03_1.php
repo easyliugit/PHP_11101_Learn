@@ -18,6 +18,7 @@
     <a href="pra05.php">使用程式控制時間pra05.php</a><br>
     <a href="pra06.php">線上月曆製作pra06.php</a><br>
     <a href="pra06_array.php">線上月曆製作_使用陣列pra06_array.php</a><br>
+    <a href="pra06_flex.php">線上月曆製作_使用陣列Flexpra06_flex.php</a><br>
     <h1>跨年或已過生日的時間差分問題討論</h1>
     <?php
     $birthday="03-02";

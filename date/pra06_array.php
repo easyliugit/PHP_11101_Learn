@@ -41,7 +41,7 @@
     <a href="pra05.php">使用程式控制時間pra05.php</a><br>
     <a href="pra06.php">線上月曆製作pra06.php</a><br>
     <a href="pra06.php">線上月曆製作_使用陣列pra06_arry.php</a><br>
-    <h1>線上月曆製作</h1>
+    <h1>線上月曆製作_使用陣列</h1>
     <?php
     $month = 4;
 
@@ -63,6 +63,17 @@
         $monthDays = date("t", strtotime($firstDay));
         $lastDay = date("Y-") . $month . "-" . $monthDays;
         $today = date("Y-m-d");
+
+        $dateHouse = [];
+        for ($i = 0; $i < $monthDays; $i++) {
+            $date = date("Y-m-d", strtotime("+$i days", strtotime($firstDay)));
+            $dateHouse[] = $date;
+        }
+
+        echo "<pre>";
+        print_r($dateHouse);
+        echo "</pre>";
+
         echo "月份" . $month;
         echo "<br>";
         echo "第一天是" . $firstDay;

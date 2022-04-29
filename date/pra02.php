@@ -17,6 +17,7 @@
     <a href="pra04.php">時間格式練習pra04.php</a><br>
     <a href="pra05.php">使用程式控制時間pra05.php</a><br>
     <a href="pra06.php">線上月曆製作pra06.php</a><br>
+    <a href="pra06.php">線上月曆製作_使用陣列pra06_arry.php</a><br>
     <h1>給定兩個日期，計算中間間隔天數</h1>
     <?php
     $day1 = "2022-4-10";

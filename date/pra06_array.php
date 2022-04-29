@@ -40,7 +40,7 @@
     <a href="pra04.php">時間格式練習pra04.php</a><br>
     <a href="pra05.php">使用程式控制時間pra05.php</a><br>
     <a href="pra06.php">線上月曆製作pra06.php</a><br>
-    <a href="pra06.php">線上月曆製作_使用陣列pra06_arry.php</a><br>
+    <a href="pra06_array.php">線上月曆製作_使用陣列pra06_array.php</a><br>
     <h1>線上月曆製作_使用陣列</h1>
     <?php
     $month = 4;
@@ -63,27 +63,77 @@
         $monthDays = date("t", strtotime($firstDay));
         $lastDay = date("Y-") . $month . "-" . $monthDays;
         $today = date("Y-m-d");
-
+        $lastWeekday = date("w", strtotime($lastDay));
         $dateHouse = [];
+
+        for ($i = 0; $i < $firstWeekday; $i++) {
+            $dateHouse[] = "";
+        }
+
         for ($i = 0; $i < $monthDays; $i++) {
             $date = date("Y-m-d", strtotime("+$i days", strtotime($firstDay)));
             $dateHouse[] = $date;
+        }
+
+        for ($i = 0; $i < (6 - $lastWeekday); $i++) {
+            $dateHouse[] = "";
         }
 
         echo "<pre>";
         print_r($dateHouse);
         echo "</pre>";
 
-        echo "月份" . $month;
-        echo "<br>";
-        echo "第一天是" . $firstDay;
-        echo "<br>";
-        echo "第一天是星期" . $firstWeekday;
-        echo "<br>";
-        echo "最後一天是" . $lastDay;
-        echo "<br>";
-        echo "當月天數共" . $monthDays;
-        echo "<br>";
+        foreach ($dateHouse as $key => $day) {
+
+            if ($key % 7 == 0) {
+                echo "<tr>";
+            }
+
+            if (!empty($day)) {
+                $dayFormat = date("d", strtotime($day));
+            } else {
+                $dayFormat = "";
+            }
+
+            //$dayFormat=(!empty($day))?date("d",strtotime($day)):"";
+
+            echo "<td>{$dayFormat}</td>";
+
+            if ($key % 7 == 6) {
+                echo "</tr>";
+            }
+        }
+
+
+        ?>
+    </table>
+    <hr>
+    <?php
+    echo "月份" . $month;
+    echo "<br>";
+    echo "第一天是" . $firstDay;
+    echo "<br>";
+    echo "第一天是星期" . $firstWeekday;
+    echo "<br>";
+    echo "最後一天是" . $lastDay;
+    echo "<br>";
+    echo "當月天數共" . $monthDays;
+    echo "<br>";
+    ?>
+
+
+    <table>
+        <tr>
+            <td>日</td>
+            <td>一</td>
+            <td>二</td>
+            <td>三</td>
+            <td>四</td>
+            <td>五</td>
+            <td>六</td>
+        </tr>
+        <?php
+
         for ($i = 0; $i < 6; $i++) {
             echo "<tr>";
 

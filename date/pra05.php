@@ -19,6 +19,7 @@
     <a href="pra06.php">線上月曆製作pra06.php</a><br>
     <a href="pra06_arry.php">線上月曆製作_使用陣列pra06_arry.php</a><br>
     <a href="pra06_flex.php">線上月曆製作_使用陣列Flexpra06_flex.php</a><br>
+    <a href="pra07.php">我的萬年曆pra07.php</a><br>
     <h1>使用程式控制時間</h1>
     <?php
     $today = date("Y-m-d l");

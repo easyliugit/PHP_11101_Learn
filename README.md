@@ -23,5 +23,6 @@
 ### 作業練習
 
 1. [BMI 計算](bmi.php、bmi_post.html、bmi_single-bmi.php)
+2. [登入檢查](login.php)
 
 # PHP進階課程advance

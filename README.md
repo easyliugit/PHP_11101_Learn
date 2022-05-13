@@ -1,4 +1,4 @@
-# PHP基礎課程basic
+# PHP基礎課程Basic
 
 ### 課程單元
 
@@ -15,7 +15,7 @@
 3. [迴圈畫星星](pra03.php)
 4. [陣列練習](pra04.php)
 
-# PHP中等課程normal
+# PHP中等課程Intermediate
 
 ### 課程單元
 
@@ -26,4 +26,4 @@
 2. [登入檢查](login/login.php)
 3. [萬年曆](calendar/index.php)
 
-# PHP進階課程advance
+# PHP進階課程Advanced

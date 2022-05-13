@@ -24,6 +24,13 @@
         <header>
             <p>會員登入</p>
         </header>
+        <?php
+
+        if (!empty($_GET['error'])) {
+            echo "<h3 style='color:red'>{$_GET['error']}</h3>";
+        }
+
+        ?>
         <div id="content">
             <form action="chklogin.php" method="post">
                 <div class="form-group">

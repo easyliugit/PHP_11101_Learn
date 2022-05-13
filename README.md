@@ -22,6 +22,6 @@
 * [網頁傳值](GET、POST)
 ### 作業練習
 
-1. [BMI 計算](bmi.php)
+1. [BMI 計算](bmi.php、bmi_post.html、bmi_single-bmi.php)
 
 # PHP進階課程advance

@@ -22,8 +22,8 @@
 * [網頁傳值](GET、POST)
 ### 作業練習
 
-1. [BMI 計算](bmi.php、bmi_post.html、bmi_single-bmi.php)
-2. [登入檢查](login.php)
-3. [萬年曆](.php)
+1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)
+2. [登入檢查](login/login.php)
+3. [萬年曆](calendar/index.php)
 
 # PHP進階課程advance

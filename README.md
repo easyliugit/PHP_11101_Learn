@@ -28,7 +28,7 @@
 3. [萬年曆](calendar/index.php)
 4. [登入後導向(首頁或後台或使用者資料)](cookie\index.php、session\index.php)
 5. [只要瀏灠器不關閉，不會再次要求登入)](cookie\index.php、session\index.php)
-6. [模擬購物車效果)](cart.php)
+6. [模擬購物車效果)](cookie_session\cart.php)
 
 # PHP進階課程Advanced
 ### 課程單元

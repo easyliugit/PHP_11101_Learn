@@ -20,11 +20,13 @@
 ### 課程單元
 
 * [網頁傳值](GET、POST)
+* [網頁狀態管理](COOKIE、SESSION)
 ### 作業練習
 
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)
 2. [登入檢查](login/login.php)
 3. [萬年曆](calendar/index.php)
+4. [登入後導向(首頁或後台或使用者資料)](session\index.php)
 
 # PHP進階課程Advanced
 ### 課程單元

@@ -26,7 +26,8 @@
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)
 2. [登入檢查](login/login.php)
 3. [萬年曆](calendar/index.php)
-4. [登入後導向(首頁或後台或使用者資料)](session\index.php)
+4. [登入後導向(首頁或後台或使用者資料)](cookie\index.php、session\index.php)
+5. [只要瀏灠器不關閉，不會再次要求登入)](cookie\index.php、session\index.php)
 
 # PHP進階課程Advanced
 ### 課程單元

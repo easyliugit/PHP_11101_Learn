@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="./cookie/index.php">cookie\index.php</a>
     <a href="./session/index.php">session\index.php</a>
 </body>
 </html>

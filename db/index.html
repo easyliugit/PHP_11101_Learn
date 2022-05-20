@@ -8,5 +8,15 @@
 </head>
 <body>
     <h1>MySQL/MariaDB 語法操作</h1>
+    <h3>INSERT</h3>
+    <ul>
+        <li>INSERT INTO `students` (`uni_id`,`seat_num`,`name`,`birthday`,`national_id`,`address`,`parent`,`telphone`,`major`,`secondary`) 
+            VALUES('20220111','23','王小明','1988-09-28','A1234567890','新北市泰山區明志路一段300號','王大明','0933321123','資訊科','新北市泰山國中畢業');</li>
+    </ul>
+    <hr>
+   <h3>UPDATE</h3>
+   <ul>
+       <li>UPDATE `students` SET `uni_id` = '915084' ,`seat_num`='11042' WHERE `students`.`id` = 480;</li>
+   </ul>
 </body>
-</html> 
+</html>

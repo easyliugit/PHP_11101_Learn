@@ -59,5 +59,12 @@
        <li>DELETE FROM `students` WHERE `major`='商業貿易科';            //會造成全部符合條件的資料都刪除</li>
        <li>DELETE FROM `students` ;    //會讓整個資料表的資料都被刪除</li>
    </ul>
+   <h3>SELECT</h3>
+   <ul>
+       <li>SELECT * FROM `students` WHERE `id` &lt; 20 ;</li>
+       <li>SELECT * FROM `students` WHERE `id` > 100 AND `id` < 200;</li>
+       <li>SELECT * FROM `students` WHERE `id` < 100 OR `id` > 200;</li>
+       <li>SELECT `id` as '序號',`name` as '姓名' FROM `students` WHERE `id`<100 OR `id`>200;</li>
+   </ul>
 </body>
 </html>

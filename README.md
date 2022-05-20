@@ -26,6 +26,7 @@
 * [SQL 聚合函式](AVG、COUNT、MAX、MIN、SUM)
 * [SQL 字串函式1](SUBSTRING、LENGTH、CONCAT、GROUP_CONCAT)
 * [SQL 日期/時間函式](NOW、DATEDIFF、CURRENT_DATE)
+* [正規化](第一正規化、第二正規化、第三正規化)
 ### 作業練習
 
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)

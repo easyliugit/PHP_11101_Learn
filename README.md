@@ -23,6 +23,8 @@
 * [網頁狀態管理](COOKIE、SESSION)
 * [MySQL/MariaDB 語法操作](INSERT、UPDATE、DELETE、SELECT)
 * [SQL 條件句操作](WHERE、IN、BETWEEN、ORDER BY、GROUP BY、LIMIT)
+* [SQL 聚合函式](AVG、COUNT、MAX、MIN、SUM)
+* [SQL 字串函式1](CHAR_LENGTH、LENGTH、CONCAT、GROUP_CONCAT)
 ### 作業練習
 
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)

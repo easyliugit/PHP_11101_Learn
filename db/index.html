@@ -65,6 +65,20 @@
        <li>SELECT * FROM `students` WHERE `id` > 100 AND `id` < 200;</li>
        <li>SELECT * FROM `students` WHERE `id` < 100 OR `id` > 200;</li>
        <li>SELECT `id` as '序號',`name` as '姓名' FROM `students` WHERE `id`<100 OR `id`>200;</li>
+       <li>SELECT * FROM `students` WHERE `birthday` >= '1984-01-01';</li>
+    </ul>
+    <h3>SELECT IN</h3>
+    <ul>
+       <li>SELECT * FROM `students` WHERE `id` IN(1,11,21,31,41,51);</li>
+       <li>SELECT * FROM `students` WHERE `seat_num` IN('10101','10203','10511');</li>
+       
    </ul>
+    <h3>SELECT BETWEEN</h3>
+    <ul>
+       <li>SELECT * FROM `students` WHERE `id` BETWEEN 110 AND 130;</li>
+       <li>SELECT * FROM `students` WHERE `birthday` BETWEEN '1983-04-01' AND '1983-04-30';</li>
+       
+   </ul>
+
 </body>
 </html>

@@ -22,6 +22,7 @@
 * [網頁傳值](GET、POST)
 * [網頁狀態管理](COOKIE、SESSION)
 * [MySQL/MariaDB 語法操作](INSERT、UPDATE、DELETE、SELECT)
+* [SQL 條件句操作](WHERE、IN)
 ### 作業練習
 
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)

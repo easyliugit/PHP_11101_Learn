@@ -86,6 +86,16 @@
       <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `major`,`id` DESC;</li>
 
   </ul>
+  <h3>SELECT GROUP BY</h3>
+  <ul>
+     <li>SELECT `major` FROM `students` GROUP BY `major`;</li>
+     <li>SELECT `major`,SUBSTRING(`seat_num`,1,3) as '班級' FROM `students` GROUP BY `major`,SUBSTRING(`seat_num`,1,3)</li>
+     <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `major`,`id` DESC;</li>
+     <li>SELECT `major`,SUBSTRING(`seat_num`,1,3) as '班級' FROM `students` GROUP BY `major`,SUBSTRING(`seat_num`,1,3) ORDER BY `id`</li>
+     <li>SELECT SUBSTRING(`address`,1,3) as "縣市" FROM `students` GROUP BY SUBSTRING(`address`,1,3)</li>
+     <li>SELECT SUBSTRING(`secondary`,6,4) as "國中" FROM `students` GROUP BY SUBSTRING(`secondary`,6,4)</li>
+
+ </ul>
 
 </body>
 </html>

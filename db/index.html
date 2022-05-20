@@ -124,6 +124,29 @@
 
 
 </ul>
+</ul>
+ <h3>日期時間函式</h3>
+ <ul>
+    <li>SELECT Month(`birthday`) as '出生月份', count(*) as '人數'
+     FROM `students` 
+     GROUP BY MONTH(`birthday`) 
+     ORDER BY MONTH(`birthday`)</li>
+    <li>SELECT `name` ,
+         FLOOR(DATEDIFF(CURRENT_DATE(),`birthday`)/365) AS '年齡' 
+         FROM `students` 
+         LIMIT 10;
+     </li>
+    <li>
+     SELECT `name` ,
+     `birthday`,
+      FLOOR(DATEDIFF(CURRENT_DATE(),`birthday`)/365) AS '年齡' ,
+      IF (DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4))) > 0 , 365-DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4)))
+      , 0-DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4))))
+      as '下次生日天數'
+FROM `students` 
+LIMIT 10;
+    </li>
+    <li></li>
 
 </body>
 </html>

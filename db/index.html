@@ -5,6 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MySQL/MariaDB 語法操作</title>
+    <style>
+        *{
+            list-style-type: none;
+            box-sizing: border-box;
+            margin:0;
+            padding:0;
+        }
+        body{
+            padding:2rem;
+        }
+        h1{
+            text-align: center;
+            margin:1rem auto;
+        }
+        h3{
+            font-size:1.5rem;
+            margin:1.5rem;
+            padding:0.5 2rem;
+        }
+        ul{
+            margin:1rem;
+        }
+        li{
+            border: 1px solid #ccc;
+            background: #eee;
+            padding: 1rem;
+            width: 80%;
+            font-size: 1.5rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin:0.75rem 0;
+        }
+    </style>
 </head>
 <body>
     <h1>MySQL/MariaDB 語法操作</h1>
@@ -17,6 +50,14 @@
    <h3>UPDATE</h3>
    <ul>
        <li>UPDATE `students` SET `uni_id` = '915084' ,`seat_num`='11042' WHERE `students`.`id` = 480;</li>
+       <li>UPDATE `students` SET `uni_id` = '915084' ,`seat_num`='11042';            //會造成全部資料表的欄位都是相同的結果</li>
+       <li>UPDATE `students` SET `major` = '商業貿易科' WHERE `major`='國際貿易科';    //會讓符合條件的資料表的欄位都是相同的結果</li>
+   </ul>
+   <h3>DELETE</h3>
+   <ul>
+       <li>DELETE FROM `students` WHERE `id` = 10;</li>
+       <li>DELETE FROM `students` WHERE `major`='商業貿易科';            //會造成全部符合條件的資料都刪除</li>
+       <li>DELETE FROM `students` ;    //會讓整個資料表的資料都被刪除</li>
    </ul>
 </body>
 </html>

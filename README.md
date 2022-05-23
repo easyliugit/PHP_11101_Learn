@@ -1,6 +1,7 @@
-[指導老師GitHub:https://github.com/mackliu](https://github.com/mackliu)
-[BSG:https://github.com/wdaweb/be-start-github-easyliugit](https://github.com/wdaweb/be-start-github-easyliugit)
-[BSC:https://github.com/wdaweb/be-start-classroom-easyliugit](https://github.com/wdaweb/be-start-classroom-easyliugit)
+# 泰山PHP網頁設計職訓課程
+* [指導老師GitHub:https://github.com/mackliu](https://github.com/mackliu)
+* [BSG:https://github.com/wdaweb/be-start-github-easyliugit](https://github.com/wdaweb/be-start-github-easyliugit)
+* [BSC:https://github.com/wdaweb/be-start-classroom-easyliugit](https://github.com/wdaweb/be-start-classroom-easyliugit)
 
 # PHP基礎課程Basic
 

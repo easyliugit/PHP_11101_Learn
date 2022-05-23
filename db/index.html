@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MySQL/MariaDB 語法操作</title>
     <style>
-        *{
+        * {
             list-style-type: none;
             box-sizing: border-box;
-            margin:0;
-            padding:0;
+            margin: 0;
+            padding: 0;
         }
-        body{
-            padding:2rem;
+
+        body {
+            padding: 2rem;
         }
-        h1{
+
+        h1 {
             text-align: center;
-            margin:1rem auto;
+            margin: 1rem auto;
         }
-        h3{
-            font-size:1.5rem;
-            margin:1.5rem;
-            padding:0.5 2rem;
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem;
+            padding: 0.5 2rem;
         }
-        ul{
-            margin:1rem;
+
+        ul {
+            margin: 1rem;
         }
-        li{
+
+        li {
             border: 1px solid #ccc;
             background: #eee;
             padding: 1rem;
@@ -35,163 +41,200 @@
             font-size: 1.5rem;
             white-space: pre-wrap;
             word-break: break-all;
-            margin:0.75rem 0;
+            margin: 0.75rem 0;
         }
     </style>
 </head>
+
 <body>
     <h1>MySQL/MariaDB 語法操作</h1>
     <h3>INSERT</h3>
     <ul>
-        <li>INSERT INTO `students` (`uni_id`,`seat_num`,`name`,`birthday`,`national_id`,`address`,`parent`,`telphone`,`major`,`secondary`) 
-            VALUES('20220111','23','王小明','1988-09-28','A1234567890','新北市泰山區明志路一段300號','王大明','0933321123','資訊科','新北市泰山國中畢業');</li>
+        <li>INSERT INTO `students`
+            (`uni_id`,`seat_num`,`name`,`birthday`,`national_id`,`address`,`parent`,`telphone`,`major`,`secondary`)
+            VALUES('20220111','23','王小明','1988-09-28','A1234567890','新北市泰山區明志路一段300號','王大明','0933321123','資訊科','新北市泰山國中畢業');
+        </li>
     </ul>
     <hr>
-   <h3>UPDATE</h3>
-   <ul>
-       <li>UPDATE `students` SET `uni_id` = '915084' ,`seat_num`='11042' WHERE `students`.`id` = 480;</li>
-       <li>UPDATE `students` SET `uni_id` = '915084' ,`seat_num`='11042';            //會造成全部資料表的欄位都是相同的結果</li>
-       <li>UPDATE `students` SET `major` = '商業貿易科' WHERE `major`='國際貿易科';    //會讓符合條件的資料表的欄位都是相同的結果</li>
-   </ul>
-   <h3>DELETE</h3>
-   <ul>
-       <li>DELETE FROM `students` WHERE `id` = 10;</li>
-       <li>DELETE FROM `students` WHERE `major`='商業貿易科';            //會造成全部符合條件的資料都刪除</li>
-       <li>DELETE FROM `students` ;    //會讓整個資料表的資料都被刪除</li>
-   </ul>
-   <h3>SELECT</h3>
-   <ul>
-       <li>SELECT * FROM `students` WHERE `id` &lt; 20 ;</li>
-       <li>SELECT * FROM `students` WHERE `id` > 100 AND `id` < 200;</li>
-       <li>SELECT * FROM `students` WHERE `id` < 100 OR `id` > 200;</li>
-       <li>SELECT `id` as '序號',`name` as '姓名' FROM `students` WHERE `id`<100 OR `id`>200;</li>
-       <li>SELECT * FROM `students` WHERE `birthday` >= '1984-01-01';</li>
+    <h3>UPDATE</h3>
+    <ul>
+        <li>UPDATE `students` SET `uni_id` = '915084' ,`seat_num`='11042' WHERE `students`.`id` = 480;</li>
+        <li>UPDATE `students` SET `uni_id` = '915084' ,`seat_num`='11042'; //會造成全部資料表的欄位都是相同的結果</li>
+        <li>UPDATE `students` SET `major` = '商業貿易科' WHERE `major`='國際貿易科'; //會讓符合條件的資料表的欄位都是相同的結果</li>
+    </ul>
+    <h3>DELETE</h3>
+    <ul>
+        <li>DELETE FROM `students` WHERE `id` = 10;</li>
+        <li>DELETE FROM `students` WHERE `major`='商業貿易科'; //會造成全部符合條件的資料都刪除</li>
+        <li>DELETE FROM `students` ; //會讓整個資料表的資料都被刪除</li>
+    </ul>
+    <h3>SELECT</h3>
+    <ul>
+        <li>SELECT * FROM `students` WHERE `id` &lt; 20 ;</li>
+        <li>SELECT * FROM `students` WHERE `id` > 100 AND `id` < 200;</li>
+        <li>SELECT * FROM `students` WHERE `id` < 100 OR `id`> 200;</li>
+        <li>SELECT `id` as '序號',`name` as '姓名' FROM `students` WHERE `id`<100 OR `id`>200;</li>
+        <li>SELECT * FROM `students` WHERE `birthday` >= '1984-01-01';</li>
     </ul>
     <h3>SELECT IN</h3>
     <ul>
-       <li>SELECT * FROM `students` WHERE `id` IN(1,11,21,31,41,51);</li>
-       <li>SELECT * FROM `students` WHERE `seat_num` IN('10101','10203','10511');</li>
-       
-   </ul>
+        <li>SELECT * FROM `students` WHERE `id` IN(1,11,21,31,41,51);</li>
+        <li>SELECT * FROM `students` WHERE `seat_num` IN('10101','10203','10511');</li>
+
+    </ul>
     <h3>SELECT BETWEEN</h3>
     <ul>
-       <li>SELECT * FROM `students` WHERE `id` BETWEEN 110 AND 130;</li>
-       <li>SELECT * FROM `students` WHERE `birthday` BETWEEN '1983-04-01' AND '1983-04-30';</li>
-       
-   </ul>
-   <h3>SELECT ORDER BY</h3>
-   <ul>
-      <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `id` DESC;</li>
-      <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `major`;</li>
-      <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `major`,`id` DESC;</li>
+        <li>SELECT * FROM `students` WHERE `id` BETWEEN 110 AND 130;</li>
+        <li>SELECT * FROM `students` WHERE `birthday` BETWEEN '1983-04-01' AND '1983-04-30';</li>
 
-  </ul>
-  <h3>SELECT GROUP BY</h3>
-  <ul>
-     <li>SELECT `major` FROM `students` GROUP BY `major`;</li>
-     <li>SELECT `major`,SUBSTRING(`seat_num`,1,3) as '班級' FROM `students` GROUP BY `major`,SUBSTRING(`seat_num`,1,3)</li>
-     <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `major`,`id` DESC;</li>
-     <li>SELECT `major`,SUBSTRING(`seat_num`,1,3) as '班級' FROM `students` GROUP BY `major`,SUBSTRING(`seat_num`,1,3) ORDER BY `id`</li>
-     <li>SELECT SUBSTRING(`address`,1,3) as "縣市" FROM `students` GROUP BY SUBSTRING(`address`,1,3)</li>
-     <li>SELECT SUBSTRING(`secondary`,6,4) as "國中" FROM `students` GROUP BY SUBSTRING(`secondary`,6,4)</li>
+    </ul>
+    <h3>SELECT ORDER BY</h3>
+    <ul>
+        <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `id` DESC;</li>
+        <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `major`;</li>
+        <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `major`,`id` DESC;</li>
 
- </ul>
- <h3>SELECT LIMIT</h3>
- <ul>
-    <li>SELECT * FROM `students` LIMIT 10;</li>
-    <li>SELECT * FROM `students` LIMIT 10,10;</li>
-    <li>SELECT * FROM `students` ORDER BY `major` LIMIT 10;</li>
-    <li>SELECT * FROM `students` ORDER BY `major`,`id` LIMIT 10,10;</li>
-    <li></li>
-    <li></li>
+    </ul>
+    <h3>SELECT GROUP BY</h3>
+    <ul>
+        <li>SELECT `major` FROM `students` GROUP BY `major`;</li>
+        <li>SELECT `major`,SUBSTRING(`seat_num`,1,3) as '班級' FROM `students` GROUP BY `major`,SUBSTRING(`seat_num`,1,3)
+        </li>
+        <li>SELECT * FROM `students` WHERE `id`<=49 ORDER BY `major`,`id` DESC;</li>
+        <li>SELECT `major`,SUBSTRING(`seat_num`,1,3) as '班級' FROM `students` GROUP BY `major`,SUBSTRING(`seat_num`,1,3)
+            ORDER BY `id`</li>
+        <li>SELECT SUBSTRING(`address`,1,3) as "縣市" FROM `students` GROUP BY SUBSTRING(`address`,1,3)</li>
+        <li>SELECT SUBSTRING(`secondary`,6,4) as "國中" FROM `students` GROUP BY SUBSTRING(`secondary`,6,4)</li>
 
-</ul>
-<h3>聚合函式</h3>
-<ul>
-   <li>SELECT max(`seat_num`) as 'MAX' FROM `students`</li>
-   <li>SELECT min(`seat_num`) as 'MIN' FROM `students`</li>
-   <li>SELECT `major`, max(`seat_num`) as 'MAX' FROM `students` GROUP BY `major`</li>
-   <li>SELECT `major`, count(`seat_num`) as '人數' FROM `students` GROUP BY `major`</li>
+    </ul>
+    <h3>SELECT LIMIT</h3>
+    <ul>
+        <li>SELECT * FROM `students` LIMIT 10;</li>
+        <li>SELECT * FROM `students` LIMIT 10,10;</li>
+        <li>SELECT * FROM `students` ORDER BY `major` LIMIT 10;</li>
+        <li>SELECT * FROM `students` ORDER BY `major`,`id` LIMIT 10,10;</li>
+        <li></li>
+        <li></li>
 
-
-</ul>
-<h3>字串函式</h3>
-<ul>
-   <li>SELECT CONCAT(`seat_num`,`name`) as '座號姓名' FROM `students` LIMIT 10</li>
-   <li>SELECT * FROM `students` WHERE SUBSTRING(`seat_num`,1,3)='101'</li>
-   <li>SELECT `major`,GROUP_CONCAT(`name`) as '學生們' FROM `students` WHERE SUBSTRING(`seat_num`,1,3)='101' GROUP BY `major`</li>
-   <li>SELECT `major`,GROUP_CONCAT(`name`) as '學生們' FROM `students` WHERE LEFT(`seat_num`,3)='101' GROUP BY `major`</li>
+    </ul>
+    <h3>聚合函式</h3>
+    <ul>
+        <li>SELECT max(`seat_num`) as 'MAX' FROM `students`</li>
+        <li>SELECT min(`seat_num`) as 'MIN' FROM `students`</li>
+        <li>SELECT `major`, max(`seat_num`) as 'MAX' FROM `students` GROUP BY `major`</li>
+        <li>SELECT `major`, count(`seat_num`) as '人數' FROM `students` GROUP BY `major`</li>
 
 
-</ul>
-</ul>
- <h3>日期時間函式</h3>
- <ul>
-    <li>SELECT Month(`birthday`) as '出生月份', count(*) as '人數'
-     FROM `students` 
-     GROUP BY MONTH(`birthday`) 
-     ORDER BY MONTH(`birthday`)</li>
-    <li>SELECT `name` ,
-         FLOOR(DATEDIFF(CURRENT_DATE(),`birthday`)/365) AS '年齡' 
-         FROM `students` 
-         LIMIT 10;
-     </li>
-    <li>
-     SELECT `name` ,
-     `birthday`,
-      FLOOR(DATEDIFF(CURRENT_DATE(),`birthday`)/365) AS '年齡' ,
-      IF (DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4))) > 0 , 365-DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4)))
-      , 0-DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4))))
-      as '下次生日天數'
-FROM `students` 
-LIMIT 10;
-    </li>
-    <li></li>
+    </ul>
+    <h3>字串函式</h3>
+    <ul>
+        <li>SELECT CONCAT(`seat_num`,`name`) as '座號姓名' FROM `students` LIMIT 10</li>
+        <li>SELECT * FROM `students` WHERE SUBSTRING(`seat_num`,1,3)='101'</li>
+        <li>SELECT `major`,GROUP_CONCAT(`name`) as '學生們' FROM `students` WHERE SUBSTRING(`seat_num`,1,3)='101' GROUP BY
+            `major`</li>
+        <li>SELECT `major`,GROUP_CONCAT(`name`) as '學生們' FROM `students` WHERE LEFT(`seat_num`,3)='101' GROUP BY `major`
+        </li>
 
-</ul>
 
-<h3>聯表查詢-form where</h3>
-<ul>
-   <li>SELECT * FROM `students`,`major` WHERE `major`.`id`=`students`.`major`</li>
-   <li>SELECT `students`.*,`major`.`name` as 'major' FROM `students`,`major` WHERE `major`.`id`=`students`.`major`</li>
-   <li>SELECT `students`.`id`,`students`.`name`,`graduate_school`.`name` as '畢業國中' FROM `students`,`graduate_school`</li>
-   <li>
-     SELECT `students`.`id`,
-             `students`.`name`,
-             `graduate_school`.`name` as '畢業國中' 
-     FROM `students`,`graduate_school` 
-     WHERE `students`.`graduate_at`=`graduate_school`.`id`
-   </li>
-   <li>
-     SELECT `students`.`id`,
-             `students`.`name`,
-             `graduate_school`.`name` as '畢業國中' ,
-             `status`.`status` as '畢業狀態'
-     FROM `students`,`graduate_school`,`status`
-     WHERE `students`.`graduate_at`=`graduate_school`.`id`
-   </li>
-   <li>
-     SELECT `students`.`id`,
-             `students`.`name`,
-             `graduate_school`.`name` as '畢業國中' ,
-             `status`.`status` as '畢業狀態'
-     FROM `students`,`graduate_school`,`status`
-     WHERE `students`.`graduate_at`=`graduate_school`.`id` && 
-           `students`.`status_code`=`status`.`code`
-   </li>
-   <li>
-     SELECT `students`.`id`,
+    </ul>
+    </ul>
+    <h3>日期時間函式</h3>
+    <ul>
+        <li>SELECT Month(`birthday`) as '出生月份', count(*) as '人數'
+            FROM `students`
+            GROUP BY MONTH(`birthday`)
+            ORDER BY MONTH(`birthday`)</li>
+        <li>SELECT `name` ,
+            FLOOR(DATEDIFF(CURRENT_DATE(),`birthday`)/365) AS '年齡'
+            FROM `students`
+            LIMIT 10;
+        </li>
+        <li>
+            SELECT `name` ,
+            `birthday`,
+            FLOOR(DATEDIFF(CURRENT_DATE(),`birthday`)/365) AS '年齡' ,
+            IF (DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4))) > 0 ,
+            365-DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4)))
+            , 0-DATEDIFF(CURRENT_DATE(),REPLACE(`birthday`,LEFT(`birthday`,4),LEFT(CURRENT_DATE(),4))))
+            as '下次生日天數'
+            FROM `students`
+            LIMIT 10;
+        </li>
+        <li></li>
+
+    </ul>
+
+    <h3>聯表查詢-form where</h3>
+    <ul>
+        <li>SELECT * FROM `students`,`major` WHERE `major`.`id`=`students`.`major`</li>
+        <li>SELECT `students`.*,`major`.`name` as 'major' FROM `students`,`major` WHERE `major`.`id`=`students`.`major`
+        </li>
+        <li>SELECT `students`.`id`,`students`.`name`,`graduate_school`.`name` as '畢業國中' FROM
+            `students`,`graduate_school`</li>
+        <li>
+            SELECT `students`.`id`,
+            `students`.`name`,
+            `graduate_school`.`name` as '畢業國中'
+            FROM `students`,`graduate_school`
+            WHERE `students`.`graduate_at`=`graduate_school`.`id`
+        </li>
+        <li>
+            SELECT `students`.`id`,
+            `students`.`name`,
+            `graduate_school`.`name` as '畢業國中' ,
+            `status`.`status` as '畢業狀態'
+            FROM `students`,`graduate_school`,`status`
+            WHERE `students`.`graduate_at`=`graduate_school`.`id`
+        </li>
+        <li>
+            SELECT `students`.`id`,
+            `students`.`name`,
+            `graduate_school`.`name` as '畢業國中' ,
+            `status`.`status` as '畢業狀態'
+            FROM `students`,`graduate_school`,`status`
+            WHERE `students`.`graduate_at`=`graduate_school`.`id` &&
+            `students`.`status_code`=`status`.`code`
+        </li>
+        <li>
+            SELECT `students`.`id`,
             `students`.`name`,
             `students`.`birthday`,
             `students`.`uni_id`,
             `dept`.`name` as '科系',
             `graduate_school`.`name` as '畢業國中' ,
             `status`.`status` as '畢業狀態'
-     FROM `students`,`graduate_school`,`status`,`dept`
-     WHERE `students`.`graduate_at`=`graduate_school`.`id` && 
-           `students`.`status_code`=`status`.`code` &&
-           `students`.`dept`=`dept`.`id`
-   </li>
-</ul>
+            FROM `students`,`graduate_school`,`status`,`dept`
+            WHERE `students`.`graduate_at`=`graduate_school`.`id` &&
+            `students`.`status_code`=`status`.`code` &&
+            `students`.`dept`=`dept`.`id`
+        </li>
+        <li>
+            SELECT `dept`.`name` as "科系",
+            GROUP_CONCAT(`students`.`name`) as "學生"
+            FROM `students`,`dept`,`class_student`
+            WHERE `students`.`dept`=`dept`.`id` &&
+            `students`.`school_num`=`class_student`.`school_num` &&
+            `class_student`.`class_code`=101
+            GROUP BY `dept`.`name`
+        </li>
+    </ul>
+    <h3>聯表查詢-Out Join</h3>
+    <ul>
+        <li>SELECT `dept`.`name`,count(*) as '人數' FROM `dept`,`students` WHERE `students`.`dept`=`dept`.`id` GROUP By
+            `students`.`dept`</li>
+        <li>
+            SELECT `dept`.`name`,
+            count(`students`.`id`) as '人數'
+            FROM `dept`
+            LEFT JOIN `students`
+            ON `students`.`dept`=`dept`.`id`
+            GROUP By `dept`.`name`
+
+        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
 </body>
+
 </html>

@@ -27,7 +27,9 @@
 * [SQL 字串函式](SUBSTRING、LENGTH、CONCAT、GROUP_CONCAT)
 * [SQL 日期/時間函式](NOW、DATEDIFF、CURRENT_DATE)
 * [正規化](第一正規化、第二正規化、第三正規化)
-* [關聯式資料表](一對一、一對多、多對多、INNER JOIN、FROM WHERE)
+* [關聯式資料表](一對一、一對多、多對多)
+* [結合查詢 JOIN](INNER JOIN、FROM WHERE、Left Join、Right Join)
+* [SQL 語句順序](GROUP BY 遇到Null、)
 ### 作業練習
 
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)
@@ -36,7 +38,7 @@
 4. [登入後導向(首頁或後台或使用者資料)](cookie\index.php、session\index.php)
 5. [只要瀏灠器不關閉，不會再次要求登入)](cookie\index.php、session\index.php)
 6. [模擬購物車效果)](cookie_session\cart.php)
-7. [每日記帳表拆成關聯式資料表]()
+7. [每日記帳表拆成關聯式資料表](db\index.php)
 
 # PHP進階課程Advanced
 ### 課程單元

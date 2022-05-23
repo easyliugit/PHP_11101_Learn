@@ -148,5 +148,50 @@ LIMIT 10;
     </li>
     <li></li>
 
+</ul>
+
+<h3>聯表查詢-form where</h3>
+<ul>
+   <li>SELECT * FROM `students`,`major` WHERE `major`.`id`=`students`.`major`</li>
+   <li>SELECT `students`.*,`major`.`name` as 'major' FROM `students`,`major` WHERE `major`.`id`=`students`.`major`</li>
+   <li>SELECT `students`.`id`,`students`.`name`,`graduate_school`.`name` as '畢業國中' FROM `students`,`graduate_school`</li>
+   <li>
+     SELECT `students`.`id`,
+             `students`.`name`,
+             `graduate_school`.`name` as '畢業國中' 
+     FROM `students`,`graduate_school` 
+     WHERE `students`.`graduate_at`=`graduate_school`.`id`
+   </li>
+   <li>
+     SELECT `students`.`id`,
+             `students`.`name`,
+             `graduate_school`.`name` as '畢業國中' ,
+             `status`.`status` as '畢業狀態'
+     FROM `students`,`graduate_school`,`status`
+     WHERE `students`.`graduate_at`=`graduate_school`.`id`
+   </li>
+   <li>
+     SELECT `students`.`id`,
+             `students`.`name`,
+             `graduate_school`.`name` as '畢業國中' ,
+             `status`.`status` as '畢業狀態'
+     FROM `students`,`graduate_school`,`status`
+     WHERE `students`.`graduate_at`=`graduate_school`.`id` && 
+           `students`.`status_code`=`status`.`code`
+   </li>
+   <li>
+     SELECT `students`.`id`,
+            `students`.`name`,
+            `students`.`birthday`,
+            `students`.`uni_id`,
+            `dept`.`name` as '科系',
+            `graduate_school`.`name` as '畢業國中' ,
+            `status`.`status` as '畢業狀態'
+     FROM `students`,`graduate_school`,`status`,`dept`
+     WHERE `students`.`graduate_at`=`graduate_school`.`id` && 
+           `students`.`status_code`=`status`.`code` &&
+           `students`.`dept`=`dept`.`id`
+   </li>
+</ul>
 </body>
 </html>

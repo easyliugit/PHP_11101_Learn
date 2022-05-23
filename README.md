@@ -29,7 +29,7 @@
 * [正規化](第一正規化、第二正規化、第三正規化)
 * [關聯式資料表](一對一、一對多、多對多)
 * [結合查詢 JOIN](INNER JOIN、FROM WHERE、Left Join、Right Join)
-* [SQL 語句順序](GROUP BY 遇到Null、)
+* [SQL 語句順序](GROUP BY 遇到Null、LEFT JOIN 多張表)
 ### 作業練習
 
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)

@@ -255,6 +255,20 @@
        WHERE `class_student`.`school_num`=`A`.`school_num`
 
      </li>
+     <li>
+       SELECT `A`.`班級`,`A`.`人數`
+
+       FROM (SELECT `class_code` as '班級',
+                       count("*") as "人數" 
+              FROM   `class_student` 
+              GROUP BY `class_code`)A
+       WHERE `A`.`人數` >= (SELECT AVG(`B`.`人數`) FROM 
+                            (SELECT `class_code` as '班級',
+                                    count("*") as "人數" 
+                             FROM   `class_student` 
+                              GROUP BY `class_code`)B
+                           )
+     </li>
  </ul>
 </body>
 </html>

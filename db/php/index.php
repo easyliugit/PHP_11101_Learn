@@ -49,17 +49,27 @@
     
     $rows = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
+    // echo "<table>";
+    // foreach ($rows as $row) {
+    //     echo "<tr>";
+    //     echo "<td>{$row['id']}</td>";
+    //     echo "<td>{$row['school_num']}</td>";
+    //     echo "<td>{$row['name']}</td>";
+    //     echo "<td>{$row['科系']}</td>";
+    //     echo "<td>{$row['parents']}</td>";
+    //     echo "</tr>";
+    // }
+    // echo "</table>";
     echo "<table>";
-    foreach ($rows as $row) {
+    foreach($rows as $key => $row){
         echo "<tr>";
-        echo "<td>{$row['id']}</td>";
-        echo "<td>{$row['school_num']}</td>";
-        echo "<td>{$row['name']}</td>";
-        echo "<td>{$row['科系']}</td>";
-        echo "<td>{$row['parents']}</td>";
+            echo "<td>{$row['id']}</td>";
+            echo "<td>{$row['school_num']}</td>";
+            echo "<td>{$row['name']}</td>";
+            echo "<td>{$row['科系']}</td>";
+            echo "<td>{$row['parents']}</td>";
         echo "</tr>";
     }
-    echo "</table>";
     ?>
 </body>
 

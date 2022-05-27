@@ -22,17 +22,22 @@
         
     //$rows=$pdo->query($sql)->fetchAll(PDO::FETCH_BOTH);
     $query=mysqli_query($conn,$sql);
-    $rows=mysqli_fetch_all($query,MYSQLI_BOTH);
-
+    //$rows=mysqli_fetch_array($query,MYSQLI_BOTH);
+    
     //echo var_dump($query);
-
-    /* echo "<pre>";
-    print_r($rows);
-    echo "</pre>"; */
-
-    echo $rows[0][3];
+    $count=0;
+    while($row=mysqli_fetch_array($query,MYSQLI_BOTH)){
+        if($row['name']=='王鳳如'){
+            echo "<pre>";
+            print_r($row);
+            echo "</pre>";
+        }
+        $count++;
+    }
+    echo $count;
+/*     echo $rows[0][3];
     echo "<br>";
-    echo $rows[0]['birthday'];
+    echo $rows[0]['birthday']; */
     ?>
 </body>
 </html>

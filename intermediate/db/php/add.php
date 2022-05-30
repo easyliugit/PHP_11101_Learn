@@ -37,7 +37,7 @@
         <label for="">科別：</label>
         <input type="text" name="major" id=""><br>
         <label for="">畢業國中：</label>
-        <input type="text" name=secondary"" id=""><br>
+        <input type="text" name="secondary" id=""><br>
         <button type="submit">新增</button>
         <button type="reset">重置</button>
     </form>

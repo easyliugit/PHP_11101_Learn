@@ -47,7 +47,7 @@
 5. [只要瀏灠器不關閉，不會再次要求登入)](cookie\index.php、session\index.php)
 6. [模擬購物車效果)](cookie_session\cart.php)
 7. [每日記帳表拆成關聯式資料表](db\index.php)
-8. [簡易註冊登入系統]()
+8. [簡易註冊登入系統](db\login\index.php)
 
 # PHP進階課程Advanced
 ### 課程單元

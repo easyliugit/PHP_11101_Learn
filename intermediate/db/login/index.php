@@ -40,7 +40,7 @@ $users=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 foreach($users as $user){
     echo $user['acc']."<br>";
 }
-
+echo md5('4321');
 ?>
 
 </body>

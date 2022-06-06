@@ -2,7 +2,7 @@
 //檢查帳密是否正確
 include "connect.php";
 $acc=$_POST['acc'];
-$pw=$_POST['pw'];
+$pw=md5($_POST['pw']);
 
 /* if($acc==資料表中的acc && $pw==資料表中的pw){
     //登入成功->會員中心

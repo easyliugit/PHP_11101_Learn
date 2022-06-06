@@ -11,10 +11,13 @@ $pw=$_POST['pw'];
 }
  */
 
- $sql="SELECT * FROM `users` WHERE `acc`='$acc' && `pw`='$pw'";
-$user=$pdo->query($sql)->fetch();
+$sql="SELECT count(*) FROM `users` WHERE `acc`='$acc' && `pw`='$pw'";
 
-if($acc==$user['acc'] && $pw==$user['pw']){
+ //$user=$pdo->query($sql)->fetch();
+$chk=$pdo->query($sql)->fetchColumn();
+
+//if($acc==$user['acc'] && $pw==$user['pw']){
+if($chk){
     header("location:member_center.php");
 }else{
     header("location:login.php?error=帳號或密碼錯誤");

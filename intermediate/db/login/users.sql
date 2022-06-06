@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- 主機： localhost
--- 產生時間： 2022 年 05 月 30 日 08:33
--- 伺服器版本： 10.7.3-MariaDB
--- PHP 版本： 7.3.12
+-- 主機： 127.0.0.1
+-- 產生時間： 2022-05-30 10:28:32
+-- 伺服器版本： 10.4.24-MariaDB
+-- PHP 版本： 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,6 +37,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- 傾印資料表的資料 `users`
+--
+
+INSERT INTO `users` (`id`, `acc`, `pw`, `birthday`, `passnote`, `email`) VALUES
+(1, 'mack', '1234', '2000-06-14', '第一份工作的薪水', 'mack@dfasdfsa.sfadfsdf');
+
+--
 -- 已傾印資料表的索引
 --
 
@@ -54,7 +61,7 @@ ALTER TABLE `users`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

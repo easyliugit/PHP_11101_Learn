@@ -11,6 +11,7 @@
             margin:auto;
             text-align: right;
         }
+
     </style>
 </head>
 <body>
@@ -18,5 +19,19 @@
     <a href="login.php">登入</a>
 </nav>
 <h1 style="text-align:center">問卷</h1>
+
+<?php 
+include_once "connect.php";
+
+$sql="select * from `users` ";
+
+$users=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+foreach($users as $user){
+    echo $user['acc']."<br>";
+}
+
+?>
+
 </body>
 </html>

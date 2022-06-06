@@ -38,6 +38,7 @@
 * [子查詢](在Select區段、在from區段、在where(join) 區段)
 * [SQL 語句順序](書寫SQL、執行SQL)
 * [PHP連線資料庫的方式](mysql、mysqli、PDO)
+* [自訂函式](function)
 ### 作業練習
 
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)
@@ -48,6 +49,7 @@
 6. [模擬購物車效果)](cookie_session\cart.php)
 7. [每日記帳表拆成關聯式資料表](db\index.php)
 8. [簡易註冊登入系統](db\login\index.php)
+9. [簡易投票系統]()
 
 # PHP進階課程Advanced
 ### 課程單元

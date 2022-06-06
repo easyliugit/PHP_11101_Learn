@@ -1,3 +1,4 @@
+<?php include_once "connect.php";?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,12 +17,21 @@
 </head>
 <body>
 <nav>
-    <a href="login.php">登入</a>
+    <?php
+    if(isset($_SESSION['user'])){
+    ?>
+    <a href="logout.php">登出</a>
+    <?php
+    }else{
+    ?>    
+        <a href="login.php">登入</a>
+    <?php
+    }
+    ?>
 </nav>
 <h1 style="text-align:center">問卷</h1>
 
 <?php 
-include_once "connect.php";
 
 $sql="select * from `users` ";
 

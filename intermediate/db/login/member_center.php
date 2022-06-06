@@ -9,6 +9,20 @@
 <body>
 <nav><a href="logout.php">登出</a></nav>
     <h1>會員中心</h1>
-    歡迎xxxx,祝你有美好的一天
+    <?php include "connect.php";?>
+    歡迎<?=$_SESSION['user'];?>,祝你有美好的一天
+    <?php 
+
+    $sql="select * from `users` where acc='{$_SESSION['user']}'";
+    $user=$pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+    echo "<hr>";
+    echo '序號:'.$user['id']."<br>";
+    echo '帳號:'.$user['acc']."<br>";
+    echo '密碼:**********<br>';
+    echo '密碼提示:'.$user['passnote']."<br>";
+    echo '生日:'.$user['birthday']."<br>";
+    echo 'email:'.$user['email']."<br>";
+    ?>
+    <button>編輯</button>
 </body>
 </html>

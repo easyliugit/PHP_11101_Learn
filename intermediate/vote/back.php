@@ -18,6 +18,8 @@
 <?php
 if(isset($_GET['do'])){
     $file="./back/".$_GET['do'].".php";
+}
+if(isset($file) && file_exists($file)){
     include $file;
 }else{
 ?>

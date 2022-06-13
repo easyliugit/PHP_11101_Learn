@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-06-13 05:07:07
+-- 產生時間： 2022-06-13 10:38:02
 -- 伺服器版本： 10.4.24-MariaDB
 -- PHP 版本： 8.1.6
 
@@ -61,6 +61,25 @@ CREATE TABLE `options` (
   `total` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- 傾印資料表的資料 `options`
+--
+
+INSERT INTO `options` (`id`, `option`, `subject_id`, `total`) VALUES
+(1, '吃便當', 1, 0),
+(2, '吃麥當勞', 1, 0),
+(3, '吃肯德雞', 1, 0),
+(4, '吃豬腳飯', 1, 0),
+(5, '美而美', 2, 0),
+(6, '7-11', 2, 0),
+(7, 'qBurger', 2, 0),
+(8, '永和豆漿', 2, 0),
+(9, '全家', 2, 0),
+(10, '穿西裝', 3, 0),
+(11, '穿洋裝', 3, 0),
+(12, '穿吊嘎', 3, 0),
+(13, '穿制服', 3, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -77,6 +96,15 @@ CREATE TABLE `subjects` (
   `end` date NOT NULL,
   `total` int(11) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 傾印資料表的資料 `subjects`
+--
+
+INSERT INTO `subjects` (`id`, `subject`, `type_id`, `multiple`, `multi_limit`, `start`, `end`, `total`) VALUES
+(1, '今天晚餐吃什麼?', 1, 0, 1, '2022-06-13', '2022-06-23', 0),
+(2, '明天早餐吃飯', 1, 0, 1, '2022-06-13', '2022-06-23', 0),
+(3, '明天上課穿什麼?', 1, 0, 1, '2022-06-13', '2022-06-23', 0);
 
 -- --------------------------------------------------------
 
@@ -167,13 +195,13 @@ ALTER TABLE `log`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `options`
 --
 ALTER TABLE `options`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `type`

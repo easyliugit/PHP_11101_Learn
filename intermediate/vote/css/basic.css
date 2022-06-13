@@ -9,13 +9,19 @@
 #header{
 width:100%;
 height:300px;
-
+position:relative;
+}
+#header .slider{
+height:100%;
+background: blue;
 }
 #header nav{
+    position:absolute;
     width:85%;
     min-width:1000px;
-    margin:auto;
-    background:lightcyan; 
+    padding:0.25rem 7.5%;
+    background:lightcyan;
+    bottom:0; 
 }
 #container{
 width:85%;
@@ -24,4 +30,30 @@ margin:auto;
 }
 footer{
     width:100%;
+    height:3rem;
+    background:black;
+    color:white;
+}
+
+/*--common components---*/
+.btn{
+    display: inline-block;
+    border:1px solid #ccc;
+    border-radius:5px;
+    background:grey;
+    padding:0.25rem 0.75rem;
+    font-size:1.1rem;
+    box-sizing: 0 0 10px #ccc;
+}
+.btn.btn-primary{
+    background-color:rgb(71, 137, 235);
+}
+.btn.btn-info{
+    background-color:aqua;
+}
+.btn.btn-danger{
+    background-color:rgb(248, 78, 78);
+}
+.btn.btn-warning{
+    background-color:rgb(221, 190, 11);
 }

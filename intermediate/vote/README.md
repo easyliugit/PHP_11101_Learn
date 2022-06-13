@@ -83,6 +83,8 @@
     |id|int(11)|--|true|序號|
     |subject|varchar(128)|--|--|主題描述|
     |type_id|int(11)|--|--|--|
+    |multiple|boolean(1)|--|--|單/複選|
+    |mulit_limit|tinyint(2)|1|--|單/複選項目數|
     |start|date|--|--|--|
     |end|date|--|--|--|
     |total|int(11)|--|--|--|
@@ -91,7 +93,7 @@
     |--|--|--|--|--|
     |id|int(11)|--|true|序號|
     |option|varchar(128)|--|--|選項描述|
-    |sujbect_id|int(11)|--|--|--|
+    |subject_id|int(11)|--|--|--|
     |total|int(11)|--|--|--|
 
 * log

@@ -9,6 +9,7 @@ $subject=$_POST['subject'];
 $add_subject=[
     'subject'=>$subject,
     'type_id'=>1,
+    'multiple'=>$_POST['multiple'],
     'start'=>date("Y-m-d"),
     'end'=>date("Y-m-d",strtotime("+10 days")),
 ];

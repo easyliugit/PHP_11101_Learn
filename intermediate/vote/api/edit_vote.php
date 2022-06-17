@@ -10,9 +10,10 @@ $new_subject=$_POST['subject'];
 $subject=find('subjects',$subject_id);
 
 $subject['subject']=$new_subject;
+$subject['multiple']=$_POST['multiple'];
 
 //使用save()函式把投票主題存至資料表subjects中
-//save('subjects',$subject);
+save('subjects',$subject);
 
 $opts=all("options",['subject_id'=>$subject_id]);
 

@@ -102,7 +102,7 @@ function find($table,$arg){
 function del($table,$arg){
     $pdo=pdo();
 
-$sql="DELETE FROM $table WHERE ";
+    $sql="DELETE FROM $table WHERE ";
     if(is_array($arg)){
 
         foreach($arg as $key => $value){

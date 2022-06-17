@@ -6,7 +6,7 @@ $opts=all('options',['subject_id'=>$id]);
 dd($opts); */
 ?>
 
-<form action="../api/edit_vote.php" method="post">
+<form action="./api/edit_vote.php" method="post">
     <div>
         <label for="subject">投票主題：</label>
         <input type="text" name="subject" id="subject" value="<?=$subj['subject'];?>">

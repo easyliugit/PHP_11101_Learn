@@ -1,4 +1,4 @@
-<form action="../api/add_vote.php" method="post">
+<form action="./api/add_vote.php" method="post">
     <div>
         <label for="subject">投票主題：</label>
         <input type="text" name="subject" id="subject">

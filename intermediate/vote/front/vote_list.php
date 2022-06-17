@@ -1,4 +1,4 @@
-    <div>
+<div>
         <ul class='list'>
             <li class='list-header'>
                 <div>投票主題</div>
@@ -13,7 +13,7 @@
 
             //使用迴圈將每一筆資料的內容顯示在畫面上
             foreach($subjects as $subject){
-                echo "<a href='?do=vote&id={$subject['id']}'>";
+                echo "<a href='?do=vote_result&id={$subject['id']}'>";
                 echo "<li class='list-items'>";
                 echo "<div>{$subject['subject']}</div>";
                 if($subject['multiple']==0){
@@ -33,7 +33,7 @@
                     }else{
                         echo "<span style='color:grey'>投票已結束</span>";
                     }
-
+                
                 echo "</div>";
                 echo "<div class='text-center'>{$subject['total']}</div>";
                 echo "</li>";

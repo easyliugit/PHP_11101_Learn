@@ -179,7 +179,7 @@ function  save($table,$arg){
 
         }
         //建立更新的sql語法
-        $sql.="UPDATE $table SET ".implode(" AND " ,$tmp)." WHERE `id`='{$arg['id']}'";
+        $sql.="UPDATE $table SET ".implode(" , " ,$tmp)." WHERE `id`='{$arg['id']}'";
 
     }else{
         //insert
@@ -190,7 +190,7 @@ function  save($table,$arg){
         $sql="INSERT INTO $table (`$cols`) VALUES('$values')";
 
     }
-    
+    //echo $sql;
     return $pdo->exec($sql);
 
 }

@@ -4,7 +4,7 @@ date_default_timezone_set('Asia/Taipei');
 
 function pdo(){
     $dsn="mysql:host=localhost;charset=utf8;dbname=vote";
-    return new PDO($dsn,'root','');
+    return new PDO($dsn,'root','admin');
 }
 /**
  * $table - 資料表名稱 字串型式
@@ -193,6 +193,13 @@ function  save($table,$arg){
     
     return $pdo->exec($sql);
 
+}
+
+
+function dd($array){
+    echo "<pre>";
+    print_r($array);
+    echo "</pre>";
 }
 
 ?>

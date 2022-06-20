@@ -96,7 +96,7 @@
     |subject_id|int(11)|--|--|--|
     |total|int(11)|--|--|--|
 
-* log
+* logs
     |名稱|型態|預設值|A_I|備註|
     |--|--|--|--|--|
     |id|int(11)|--|true|序號|
@@ -105,7 +105,7 @@
     |option_id|int(11)|--|--|--|
     |vote_time|timestamp|--|--|--|
 
-* type
+* types
     |名稱|型態|預設值|A_I|備註|
     |--|--|--|--|--|
     |id|int(11)|--|true|序號|

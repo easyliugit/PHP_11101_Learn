@@ -21,6 +21,9 @@
     background:blue;
     color:#ccc;
 }
+.list-header div a{
+    color:#ccc
+}
 .list-items div{
     width:calc(100% / 5);
     padding:0.5rem 1rem;

@@ -1,7 +1,8 @@
 # 泰山PHP網頁設計職訓課程
 * [指導老師GitHub:https://github.com/mackliu](https://github.com/mackliu)
-* [BSG:https://github.com/wdaweb/be-start-github-easyliugit](https://github.com/wdaweb/be-start-github-easyliugit)
-* [BSC:https://github.com/wdaweb/be-start-classroom-easyliugit](https://github.com/wdaweb/be-start-classroom-easyliugit)
+* [BSC:be-start-github](https://github.com/wdaweb/be-start-github-easyliugit)
+* [BSC:be-start-classroom](https://github.com/wdaweb/be-start-classroom-easyliugit)
+* [BSC:PerpetualCalendar](https://github.com/wdaweb/PerpetualCalendar-easyliugit.git)
 
 # PHP基礎課程Basic
 
@@ -52,6 +53,7 @@
 9. [簡易投票系統](https://github.com/easyliugit/PHP_11101_Learn/tree/main/intermediate/vote)
 
 # PHP進階課程Advanced
+* [網頁設計乙級](https://bquiz.mackliu.com/)
 ### 課程單元
 
 *
@@ -59,7 +61,7 @@
 
 1.
 # PHP學員學習成果
-[[01]](http://220.128.133.15/s1110201) [[02]](http://220.128.133.15/s1110202) [[03]](http://220.128.133.15/s1110203) [[04]](http://220.128.133.15/s1110204) [[05]](http://220.128.133.15/s1110205) [[06]](http://220.128.133.15/s1110206) [[07]](http://220.128.133.15/s1110207) [[08]](http://220.128.133.15/s1110208) [[09]](http://220.128.133.15/s1110209) [[10]](http://220.128.133.15/s1110210)
+* [[01]](http://220.128.133.15/s1110201) [[02]](http://220.128.133.15/s1110202) [[03]](http://220.128.133.15/s1110203) [[04]](http://220.128.133.15/s1110204) [[05]](http://220.128.133.15/s1110205) [[06]](http://220.128.133.15/s1110206) [[07]](http://220.128.133.15/s1110207) [[08]](http://220.128.133.15/s1110208) [[09]](http://220.128.133.15/s1110209) [[10]](http://220.128.133.15/s1110210)
 [[11]](http://220.128.133.15/s1110211) [[12]](http://220.128.133.15/s1110212) [[13]](http://220.128.133.15/s1110213) [[14]](http://220.128.133.15/s1110214) [[15]](http://220.128.133.15/s1110215) [[16]](http://220.128.133.15/s1110216) [[17]](http://220.128.133.15/s1110217) [[18]](http://220.128.133.15/s1110218) [[19]](http://220.128.133.15/s1110219) [[20]](http://220.128.133.15/s1110220)
 [[21]](http://220.128.133.15/s1110221) [[22]](http://220.128.133.15/s1110222) [[23]](http://220.128.133.15/s1110223) [[24]](http://220.128.133.15/s1110224)
-[萬年曆作業111年](http://220.128.133.15/mackliu/calendar/11101/index.html)
+* [萬年曆作業111年](http://220.128.133.15/mackliu/calendar/11101/index.html)

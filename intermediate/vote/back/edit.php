@@ -6,7 +6,20 @@ $opts=all('options',['subject_id'=>$id]);
 dd($opts); */
 ?>
 
-<form action="./api/edit_vote.php" method="post">
+<form action="../api/edit_vote.php" method="post">
+<div>
+        <select name="types" id="types">
+        <?php
+            $types=all("types");
+            foreach($types as $type){
+                $selected=($subj['type_id']==$type['id'])?'selected':'';
+                echo "<option value='{$type['id']}' $selected>";
+                echo $type['name'];
+                echo "</option>";
+            }
+            ?>
+        </select>
+    </div>
     <div>
         <label for="subject">投票主題：</label>
         <input type="text" name="subject" id="subject" value="<?=$subj['subject'];?>">

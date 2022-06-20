@@ -8,7 +8,28 @@ if(isset($_GET['order'])){
     $querystr="&order={$_GET['order']}&type={$_GET['type']}";
 }
 
+$queryfilter="";
+if(isset($_GET['filter'])){
+    $queryfilter="&filter={$_GET['filter']}";
+}
+
+
 ?>
+    <div>
+        <label for="types">分類</label>
+        <select name="types" id="types" onchange="location.href=`?filter=${this.value}<?=$p;?><?=$querystr;?>`">
+            <option value="0">全部</option>
+        <?php
+            $types=all("types");
+            foreach($types as $type){
+                $selected=(isset($_GET['filter']) && $_GET['filter']==$type['id'])?'selected':'';
+                echo "<option value='{$type['id']}' $selected>";
+                echo $type['name'];
+                echo "</option>";
+            }
+            ?>
+        </select>
+    </div>
 <div>
         <ul class='list'>
             <li class='list-header'>
@@ -16,44 +37,44 @@ if(isset($_GET['order'])){
                 <?php
                 if(isset($_GET['type']) && $_GET['type']=='asc'){
                 ?>
-                <div><a href="?order=multiple&type=desc<?=$p;?>">單/複選題</a></div>
+                <div><a href="?order=multiple&type=desc<?=$p;?><?=$queryfilter;?>">單/複選題</a></div>
                 <?php
                 }else{
                 ?>
-                <div><a href="?order=multiple&type=asc<?=$p;?>">單/複選題</a></div>
+                <div><a href="?order=multiple&type=asc<?=$p;?><?=$queryfilter;?>">單/複選題</a></div>
                 <?php
                 }
                 ?>
                 <?php
                 if(isset($_GET['type']) && $_GET['type']=='asc'){
                 ?>
-                <div><a href="?order=end&type=desc<?=$p;?>">投票期間</a></div>
+                <div><a href="?order=end&type=desc<?=$p;?><?=$queryfilter;?>">投票期間</a></div>
                 <?php
                 }else{
                 ?>
-                <div><a href="?order=end&type=asc<?=$p;?>">投票期間</a></div>   
+                <div><a href="?order=end&type=asc<?=$p;?><?=$queryfilter;?>">投票期間</a></div>   
                 <?php
                 }
                 ?>
                 <?php
                 if(isset($_GET['type']) && $_GET['type']=='asc'){
                 ?>
-                    <div><a href="?order=remain&type=desc<?=$p;?>">剩餘天數</a></div> 
+                    <div><a href="?order=remain&type=desc<?=$p;?><?=$queryfilter;?>">剩餘天數</a></div> 
                 <?php 
                 }else{
                 ?>
-                    <div><a href="?order=remain&type=asc<?=$p;?>">剩餘天數</a></div>
+                    <div><a href="?order=remain&type=asc<?=$p;?><?=$queryfilter;?>">剩餘天數</a></div>
                 <?php
                     }
                 ?>
                 <?php
                 if(isset($_GET['type']) && $_GET['type']=='asc'){
                 ?>
-                <div><a href='?order=total&type=desc<?=$p;?>'>投票人數</a></div>
+                <div><a href='?order=total&type=desc<?=$p;?><?=$queryfilter;?>'>投票人數</a></div>
                 <?php
                 }else{
                 ?>
-                <div><a href='?order=total&type=asc<?=$p;?>'>投票人數</a></div>
+                <div><a href='?order=total&type=asc<?=$p;?><?=$queryfilter;?>'>投票人數</a></div>
                 <?php
                 }
                 ?>
@@ -82,14 +103,22 @@ if(isset($_GET['order'])){
              * 
              */
 
-            $total=math('subjects','count','id');
+            $filter=[];
+            if(isset($_GET['filter'])){
+                if(!$_GET['filter']==0){
+                    $filter=['type_id'=>$_GET['filter']];
+                }
+            }
+
+            $total=math('subjects','count','id',$filter);
             $div=3;
             $pages=ceil($total/$div);
             $now=isset($_GET['p'])?$_GET['p']:1;
             $start=($now-1)*$div;
             $page_rows=" limit $start,$div";
 
-            $subjects=all('subjects',$orderStr . $page_rows);
+
+            $subjects=all('subjects',$filter,$orderStr . $page_rows);
 
             //使用迴圈將每一筆資料的內容顯示在畫面上
             foreach($subjects as $subject){
@@ -124,11 +153,13 @@ if(isset($_GET['order'])){
         </ul>
         <div class="text-center">
         <?php
-        for($i=1;$i<=$pages;$i++){
-
-            echo "<a href='?p={$i}{$querystr}'>&nbsp;";
-            echo $i;
-            echo "&nbsp;</a>";
+        if($pages > 1){
+            for($i=1;$i<=$pages;$i++){
+    
+                echo "<a href='?p={$i}{$querystr}{$queryfilter}'>&nbsp;";
+                echo $i;
+                echo "&nbsp;</a>";
+            }
         }
         
         ?>

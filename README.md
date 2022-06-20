@@ -2,7 +2,8 @@
 * [指導老師GitHub:https://github.com/mackliu](https://github.com/mackliu)
 * [BSC:be-start-github](https://github.com/wdaweb/be-start-github-easyliugit)
 * [BSC:be-start-classroom](https://github.com/wdaweb/be-start-classroom-easyliugit)
-* [BSC:PerpetualCalendar](https://github.com/wdaweb/PerpetualCalendar-easyliugit.git)
+* [BSC:PerpetualCalendar0606](https://github.com/wdaweb/PerpetualCalendar-easyliugit.git)
+* [BSC:WebBackend-Polling-System0715](https://github.com/wdaweb/WebBackend-Polling-System-easyliugit.git)
 
 # PHP基礎課程Basic
 

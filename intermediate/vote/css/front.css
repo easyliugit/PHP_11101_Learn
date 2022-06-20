@@ -50,4 +50,11 @@
 .result-table td{
     padding: 0.25rem;
     border:1px solid #ccc;
-} 
+}
+
+#types{
+    padding:0.25rem 0.5rem;
+    font-size:1.25rem;
+    border:0;
+    border-bottom:2px solid orange;
+}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-06-17 10:38:55
+-- 產生時間： 2022-06-20 08:59:04
 -- 伺服器版本： 10.4.24-MariaDB
 -- PHP 版本： 8.1.6
 
@@ -61,7 +61,12 @@ INSERT INTO `logs` (`id`, `user_id`, `subject_id`, `option_id`, `vote_time`) VAL
 (6, 0, 8, 38, '2022-06-17 08:35:20'),
 (7, 0, 8, 39, '2022-06-17 08:35:20'),
 (8, 0, 8, 39, '2022-06-17 08:35:27'),
-(9, 0, 8, 40, '2022-06-17 08:35:27');
+(9, 0, 8, 40, '2022-06-17 08:35:27'),
+(10, 0, 8, 38, '2022-06-20 02:37:05'),
+(11, 0, 7, 36, '2022-06-20 02:47:49'),
+(12, 0, 7, 36, '2022-06-20 02:47:57'),
+(13, 0, 2, 8, '2022-06-20 02:50:55'),
+(14, 0, 2, 6, '2022-06-20 02:51:20');
 
 -- --------------------------------------------------------
 
@@ -86,20 +91,29 @@ INSERT INTO `options` (`id`, `option`, `subject_id`, `total`) VALUES
 (3, '吃肯德雞', 1, 1),
 (4, '吃豬腳飯', 1, 0),
 (5, '美而美', 2, 0),
-(6, '7-11', 2, 0),
+(6, '7-11', 2, 1),
 (7, 'qBurger', 2, 0),
-(8, '永和豆漿', 2, 0),
+(8, '永和豆漿', 2, 1),
 (9, '全家', 2, 0),
 (10, '穿西裝', 3, 0),
 (11, '穿洋裝', 3, 0),
 (12, '穿吊嘎', 3, 0),
 (13, '穿制服', 3, 0),
 (35, 'dddddddd', 6, 0),
-(36, 'EEEEEEE', 7, 0),
+(36, 'EEEEEEE', 7, 2),
 (37, '陳X中', 8, 1),
-(38, '趙X中', 8, 1),
+(38, '趙X中', 8, 2),
 (39, '李X中', 8, 4),
-(40, '王X中', 8, 2);
+(40, '王X中', 8, 2),
+(41, '好', 9, 0),
+(42, '不好', 9, 0),
+(43, 'line pay', 10, 0),
+(44, 'apple pay', 10, 0),
+(45, '街口支付', 10, 0),
+(46, '台灣pay', 10, 0),
+(47, 'google pay', 10, 0),
+(48, '拍錢包', 10, 0),
+(49, '支付寶', 10, 0);
 
 -- --------------------------------------------------------
 
@@ -123,12 +137,14 @@ CREATE TABLE `subjects` (
 --
 
 INSERT INTO `subjects` (`id`, `subject`, `type_id`, `multiple`, `multi_limit`, `start`, `end`, `total`) VALUES
-(1, '今天晚餐吃什麼?', 1, 0, 1, '2022-06-13', '2022-06-23', 21),
-(2, '明天早餐吃飯', 1, 0, 1, '2022-06-13', '2022-06-23', 0),
-(3, '明天上課穿什麼?', 1, 1, 1, '2022-06-13', '2022-06-23', 10),
-(6, 'aaaaaaa', 1, 0, 1, '2022-06-17', '2022-06-27', 0),
-(7, 'CCCC', 1, 1, 1, '2022-06-17', '2022-06-16', 0),
-(8, '台北市長候選,你會選誰', 1, 1, 1, '2022-06-17', '2022-06-27', 4);
+(1, '今天晚餐吃什麼?', 2, 0, 1, '2022-06-13', '2022-06-23', 21),
+(2, '明天早餐吃飯', 1, 0, 1, '2022-06-13', '2022-06-21', 2),
+(3, '明天上課穿什麼?', 1, 1, 1, '2022-06-13', '1900-01-19', 10),
+(6, 'aaaaaaa', 3, 0, 1, '2022-06-17', '2022-06-27', 0),
+(7, 'CCCC', 3, 1, 1, '2022-06-17', '2022-06-16', 2),
+(8, '台北市長候選,你會選誰', 1, 1, 1, '2022-06-17', '2022-06-28', 5),
+(9, '今天學分頁好不好', 4, 0, 1, '2022-06-20', '2022-06-30', 0),
+(10, '你平常喜歡使用那一種無接觸交易方式付款', 4, 1, 1, '2022-06-20', '2022-06-30', 0);
 
 -- --------------------------------------------------------
 
@@ -140,6 +156,16 @@ CREATE TABLE `types` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 傾印資料表的資料 `types`
+--
+
+INSERT INTO `types` (`id`, `name`) VALUES
+(1, '政治'),
+(2, '生活'),
+(3, '經濟'),
+(4, '科技');
 
 -- --------------------------------------------------------
 
@@ -213,25 +239,25 @@ ALTER TABLE `admins`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `options`
 --
 ALTER TABLE `options`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `types`
 --
 ALTER TABLE `types`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `users`

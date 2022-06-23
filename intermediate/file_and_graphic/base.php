@@ -58,3 +58,8 @@ function all($table,...$arg){
         return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     
     }
+    
+    function del($id){
+        global $pdo;
+        return $pdo->exec("DELETE FROM `upload` WHERE `id`='$id'");
+    }

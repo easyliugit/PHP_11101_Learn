@@ -1,18 +1,29 @@
 <?php
+
+//取得主題id
 $id=$_GET['id'];
+
+//從資料表中撈出主題資料
 $subj=find('subjects',$id);
+
+//從資料表中撈出該主題的所有選項資料
 $opts=all('options',['subject_id'=>$id]);
-/* dd($subj);
-dd($opts); */
+
 ?>
 
 <form action="../api/edit_vote.php" method="post">
 <div>
         <select name="types" id="types">
         <?php
+            //取得所有的分類資料
             $types=all("types");
+
+            //使用迴圈顯示所有的分類資料
             foreach($types as $type){
+                //根據主題資料中的id來判斷主題所屬的分類
                 $selected=($subj['type_id']==$type['id'])?'selected':'';
+
+                //在選單中加上$selected來讓下拉選單可以直接顯示主題的分類
                 echo "<option value='{$type['id']}' $selected>";
                 echo $type['name'];
                 echo "</option>";

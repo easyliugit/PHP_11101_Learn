@@ -39,7 +39,7 @@ $row=$stmt->fetch();
         <label for="">電話<input type="text" name="telphone" value="<?=$row['telphone'];?>"></label>
         <label for="">科別<input type="text" name="major" value="<?=$row['major'];?>"></label>
         <label for="">畢業國中<input type="text" name="secondary" value="<?=$row['secondary'];?>"></label>
-        <input type="hidden" name="id" value="<?=$id;?>">
+        <input type="hidden" name="id" value="<?=$row['id'];?>">
         <input type="submit" value="更新">
         <input type="reset" value="重置">
     </form>

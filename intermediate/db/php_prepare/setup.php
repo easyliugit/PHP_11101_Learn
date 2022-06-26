@@ -1,4 +1,9 @@
 <?php
+//系統基本資料
+define("_WEB_ROOT_URL","http://{$_SERVER['SERVER_NAME']}/user/");
+define("_WEB_ROOT_PATH","{$_SERVER['DOCUMENT_ROOT']}/user/");
+//系統變數
+
 //資料庫主機設定
 include("conndb.php");
 //錯誤處理

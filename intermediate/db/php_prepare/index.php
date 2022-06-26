@@ -1,9 +1,4 @@
 <?php
-//系統基本資料
-define("_WEB_ROOT_URL","http://{$_SERVER['SERVER_NAME']}/user/");
-define("_WEB_ROOT_PATH","{$_SERVER['DOCUMENT_ROOT']}/user/");
-//系統變數
-$title="客戶管理系統";
 //連線資料庫
 include("setup.php");
 $sql_query="SELECT * FROM `students` WHERE 1";
@@ -48,6 +43,9 @@ $total_records = $stmt->rowCount();
 
         table tr:hover {
             background: lightcoral;
+        }
+        p {
+            text-align: center;
         }
     </style>
 </head>

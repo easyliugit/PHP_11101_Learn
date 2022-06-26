@@ -69,19 +69,35 @@ $total_records = $stmt->rowCount();
     <?php
     if($total_records){
         while($row=$stmt->fetch()){
-        echo "<tr>";
-        echo "<td>{$row['id']}</td>";
-        echo "<td>{$row['uni_id']}</td>";
-        echo "<td>{$row['name']}</td>";
-        echo "<td>{$row['major']}</td>";
-        echo "<td>{$row['parent']}</td>";
-        echo "<td>{$row['secondary']}</td>";
-        echo "<td>";
-        echo "<button><a href='edit.php?id={$row['id']}'>編輯</a></button>";
-        echo "<button><a href='del.php?id={$row['id']}'>刪除</a></button>";
-        echo "</td>";
-        echo "</tr>";
+            echo "<tr>";
+            echo "<td>{$row['id']}</td>";
+            echo "<td>{$row['uni_id']}</td>";
+            echo "<td>{$row['name']}</td>";
+            echo "<td>{$row['major']}</td>";
+            echo "<td>{$row['parent']}</td>";
+            echo "<td>{$row['secondary']}</td>";
+            echo "<td>";
+            echo "<button><a href='edit.php?id={$row['id']}'>編輯</a></button>";
+            echo "<button><a href='del.php?id={$row['id']}'>刪除</a></button>";
+            echo "</td>";
+            echo "</tr>";
         }
+        // $row_result=$stmt->fetchAll();
+        // echo "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+	    // foreach($row_result as $item=>$row){
+        //     echo "<tr>";
+        //     echo "<td>{$row['id']}</td>";
+        //     echo "<td>{$row['uni_id']}</td>";
+        //     echo "<td>{$row['name']}</td>";
+        //     echo "<td>{$row['major']}</td>";
+        //     echo "<td>{$row['parent']}</td>";
+        //     echo "<td>{$row['secondary']}</td>";
+        //     echo "<td>";
+        //     echo "<button><a href='edit.php?id={$row['id']}'>編輯</a></button>";
+        //     echo "<button><a href='del.php?id={$row['id']}'>刪除</a></button>";
+        //     echo "</td>";
+        //     echo "</tr>";
+        // }
     }
     ?>
 </body>

@@ -18,20 +18,38 @@ class Animal{
     {
         $this->name=$name;
     }
+
+
+    public function sayName(){
+        echo "你好，我是".$this->name."很高興認識你<br>";
+    }
+
 }
 
 class Cat extends Animal{
+   private $habit="每天吃三餐";
+
+
+   public function getHabit(){
+        echo $this->habit;
+   }
+   public function setHabit($habit){
+        $this->habit=$habit;
+   }
 
 
 }
 
 $cat=new Cat('阿中');
 $dog=new Cat('阿華');
-$lion=new Cat('阿國');
+$lion=new Animal('阿國');
 
-echo $cat->name;
-echo $dog->name;
-echo $lion->name;
+
+
+$cat->setHabit('午餐不吃要減肥<br>');
+echo $cat->getHabit();
+echo $dog->getHabit();
+echo $lion->sayName();
 
 
 

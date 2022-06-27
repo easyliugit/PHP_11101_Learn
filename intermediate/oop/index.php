@@ -9,6 +9,11 @@
 <body>
 <?php
 
+interface Voice{
+    public function bray();
+    public function roar();
+}
+
 class Animal{
     public $name="小英";
     protected $emotion="快樂";
@@ -26,7 +31,7 @@ class Animal{
 
 }
 
-class Cat extends Animal{
+class Cat extends Animal implements Voice{
    private $habit="每天吃三餐";
 
 
@@ -37,19 +42,54 @@ class Cat extends Animal{
         $this->habit=$habit;
    }
 
+   public function sayName(){
+    echo "很高興認識你!我是".$this->name."<br>";
+    }
 
+    public function bray(){
+        echo "meow";
+    }
+    public function roar(){
+        
+    }
+}
+class Dog extends Animal implements Voice{
+   private $habit="每天吃三餐";
+
+
+   public function getHabit(){
+        echo $this->habit;
+   }
+   public function setHabit($habit){
+        $this->habit=$habit;
+   }
+
+   public function sayName(){
+    echo "很高興認識你!我是".$this->name."<br>";
+    }
+
+    public function bray(){
+        echo "汪";
+    }
+
+    public function roar(){
+
+    }
 }
 
 $cat=new Cat('阿中');
-$dog=new Cat('阿華');
+$dog=new Dog('阿華');
 $lion=new Animal('阿國');
 
+$cat->bray();
+$dog->bray();
+//$lion->bray();
 
-
-$cat->setHabit('午餐不吃要減肥<br>');
+/* $cat->setHabit('午餐不吃要減肥<br>');
 echo $cat->getHabit();
+echo $cat->sayName();    
 echo $dog->getHabit();
-echo $lion->sayName();
+echo $lion->sayName(); */
 
 
 

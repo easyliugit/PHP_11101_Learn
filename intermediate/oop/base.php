@@ -1,12 +1,17 @@
 <?php
-/**為了簡易的資料庫操作所設計的一套資料庫物件操作方法 */
+/**為了簡易的資料庫操作所設計的一套資料庫物件操作方法 
+ * C - insert($array)
+ * R - find($id) ,all(...arg),q($sql),math($col,$math,...$arg)
+ * U - update($array)
+ * D - del($id)
+*/
 
 class DB{
     protected $dsn="mysql:host=localhost;charset=utf8;dbname=students";
     protected $user='root';
     protected $pw='';
     protected $table='';
-    public $pdo;
+    protected $pdo;
 
     public function __construct($table)
     {
@@ -36,7 +41,7 @@ class DB{
         return $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
     }
 
-
+    
     public function all(...$arg){
         $sql="SELECT * FROM $this->table ";
 
@@ -47,7 +52,7 @@ class DB{
                 foreach($arg[0] as $key => $value){
                     $tmp[]="`$key`='$value'";
                 }
-
+    
                 $sql = $sql ." WHERE ". join(" AND ",$tmp);
             }else{
 
@@ -72,10 +77,21 @@ function dd($array){
     echo "</pre>";
 }
 
-$Class=new DB('classes');
-$Dept=new DB('dept');
-$ClassStudents=new DB('class_student');
-//$class=$Class->all();
+class Room extends DB{
+
+    public function __construct()
+    {
+        $this->table='classes';
+        $this->pdo=new PDO($this->dsn,$this->user,$this->pw);
+    }
+}
+
+
+$Class=new Room;
+/* $Dept=new DB('dept');
+$ClassStudents=new DB('class_student'); */
+$class=$Class->all();
+ dd($class);
 //$dept=$Dept->all();
 
 /* $class_studs=$ClassStudents->all(['class_code'=>101]," limit 10");
@@ -86,8 +102,8 @@ $class_studs=$ClassStudents->all(" limit 10,20");
 dd($class_studs);
 $class_studs=$ClassStudents->all("where `seat_num` <= 10 "," limit 10,20");
 dd($class_studs); */
-/* dd($class);
-dd($dept); */
+
+/*dd($dept); */
 
 
 ?>

@@ -42,6 +42,7 @@
 * [PHP連線資料庫的方式](mysql、mysqli、PDO)
 * [自訂函式](function)
 * [PHP的檔案處理功能](multipart/form-data)
+* [PHP的物件導向程式設計](oop)
 ### 作業練習
 
 1. [BMI 計算](from/bmi.php、bmi_post.html、bmi_single-bmi.php)

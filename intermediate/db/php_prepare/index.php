@@ -68,6 +68,10 @@ $total_records = $stmt->rowCount();
     </tr>
     <?php
     if($total_records){
+        // 指標執行過一次while($row=$stmt->fetch())結束
+        // 重複輸出必須重新$stmt->execute()
+        // execute()內可用array()調整query的欄位值
+        // 適用query 可變動的欄位值
         while($row=$stmt->fetch()){
             echo "<tr>";
             echo "<td>{$row['id']}</td>";
@@ -82,6 +86,7 @@ $total_records = $stmt->rowCount();
             echo "</td>";
             echo "</tr>";
         }
+        // 相同query，請用fetchAll，可以重複使用foreach輸出
         // $row_result=$stmt->fetchAll();
         // echo "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
 	    // foreach($row_result as $item=>$row){

@@ -92,6 +92,26 @@ class DB{
         }
     }
 
+    function del($id){
+
+        $sql="DELETE FROM $this->table WHERE ";
+
+        if(is_array($id)){
+
+            foreach($id as $key => $value){
+                $tmp[]="`$key`='$value'";
+            }
+
+            $sql = $sql . join(" AND ",$tmp);
+
+        }else{
+
+            $sql = $sql . " `id` = '$id'";
+
+        }
+        return $this->pdo->exec($sql);
+    }
+
 }
 
 
@@ -112,13 +132,15 @@ class Room extends DB{
 
 
 $Dept=new DB('dept');
+
+$Dept->del(['name'=>'森林維護科']);
+
 //echo $Dept->insert(['code'=>'701','name'=>'服裝設計科']);
-$dept=$Dept->find(4);
+/* $dept=$Dept->find(4);
 dd($dept);
 $dept['name']='森林維護科';
 dd($dept);
-
-$Dept->update($dept);
+$Dept->update($dept); */
 
 //$Class=new Room;
 /* $Dept=new DB('dept');

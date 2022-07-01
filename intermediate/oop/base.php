@@ -106,6 +106,34 @@ class DB{
         return $this->pdo->exec($sql);
     }
 
+    function q($sql){
+        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function math($math,$col,...$arg){
+        $sql="SELECT $math(`$col`) FROM $this->table ";
+              
+        if(!empty($arg[0])){
+
+            if(is_array($arg[0])){
+
+                $tmp=$this->array_str($arg[0]);
+    
+                $sql = $sql ." WHERE ". join(" AND ",$tmp);
+            }else{
+
+                $sql = $sql .$arg[0];
+            }
+
+        }
+
+        if(!empty($arg[1])){
+            $sql = $sql . $arg[1];
+        }
+       // echo $sql;
+
+        return $this->pdo->query($sql)->fetchColumn();
+    }
 }
 
 
@@ -127,11 +155,13 @@ class Room extends DB{
 
 $Dept=new DB('dept');
 
+echo $Dept->math('max','id');
+
 /* $Dept->del(['name'=>'森林維護科']); */
 
 //echo $Dept->insert(['code'=>'701','name'=>'服裝設計科']);
- $dept=$Dept->find(['code'=>'404']);
-dd($dept);
+ //$dept=$Dept->find(['code'=>'404']);
+
 /*$dept['name']='森林維護科';
 dd($dept);
 $Dept->update($dept); */

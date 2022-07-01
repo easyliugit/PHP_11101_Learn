@@ -68,6 +68,14 @@ class DB{
 
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+    function insert($array){
+        $sql="INSERT into $this->table (`".join("`,`",array_keys($array))."`) values('".join("','",$array)."')";
+        echo $sql;
+        return $this->pdo->exec($sql);
+    }
+
 }
 
 
@@ -87,11 +95,13 @@ class Room extends DB{
 }
 
 
-$Class=new Room;
+$Dept=new DB('dept');
+echo $Dept->insert(['code'=>'701','name'=>'服裝設計科']);
+//$Class=new Room;
 /* $Dept=new DB('dept');
 $ClassStudents=new DB('class_student'); */
-$class=$Class->all();
- dd($class);
+//$class=$Class->all();
+// dd($class);
 //$dept=$Dept->all();
 
 /* $class_studs=$ClassStudents->all(['class_code'=>101]," limit 10");

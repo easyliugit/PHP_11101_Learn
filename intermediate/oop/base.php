@@ -76,6 +76,22 @@ class DB{
         return $this->pdo->exec($sql);
     }
 
+
+    function update($array){      
+        if(isset($array['id'])){
+            foreach($array as $col => $value){
+                if($col!='id'){
+                    $tmp[]="`$col`='$value'";
+                }
+            }
+            $sql="update $this->table set ". join(",",$tmp) ." where `id`='{$array['id']}'";
+            echo $sql;
+            return $this->pdo->exec($sql);
+        }else{
+            echo "資料庫中無此資料";
+        }
+    }
+
 }
 
 
@@ -96,7 +112,14 @@ class Room extends DB{
 
 
 $Dept=new DB('dept');
-echo $Dept->insert(['code'=>'701','name'=>'服裝設計科']);
+//echo $Dept->insert(['code'=>'701','name'=>'服裝設計科']);
+$dept=$Dept->find(4);
+dd($dept);
+$dept['name']='森林維護科';
+dd($dept);
+
+$Dept->update($dept);
+
 //$Class=new Room;
 /* $Dept=new DB('dept');
 $ClassStudents=new DB('class_student'); */

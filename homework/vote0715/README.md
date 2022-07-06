@@ -47,16 +47,15 @@
         |o_id|int(11)|N||Y|主索引|
         |subjects_id|int(11)|N|||投票主題|
         |o_option|varchar(255)|Y|||選項|
-
-* votedb_logs
-    |名稱|型態|預設值|A_I|備註|
-    |--|--|--|--|--|
-    |id|int(11)|--|true|序號|
-    |user_id|int(11)|--|--|投票者|
-    |sujbect_id|int(11)|--|--|--|
-    |option_id|int(11)|--|--|--|
-    |vote_time|timestamp|--|--|--|
-    |user_ip|int(11)|--|--|--|
+    * 投票紀錄(votedb_logs)
+        |欄位名|資料型態|空值|預設值|自動編號|備註|
+        |---|---|---|---|---|---|
+        |l_id|int(11)|N||Y|主索引|
+        |users_id|int(11)|Y|||投票者|
+        |subjects_id|int(11)|N|||投票主題|
+        |options_id|int(11)|N|||投票項目|
+        |l_time|timestamp|Y|||投票時間|
+        |l_ip|varchar(100)|Y|||投票者ip|
 
 
     * 資料表一(資料表名)

@@ -28,17 +28,18 @@
         |t_id|int(11)|N||Y|主索引|
         |t_name|varchar(100)|N|||類別名稱|
         |t_sort|int(11)|Y|||排序|
-* votedb_subjects
-    |名稱|型態|預設值|A_I|備註|
-    |--|--|--|--|--|
-    |id|int(11)|--|true|序號|
-    |subject|varchar(128)|--|--|主題描述|
-    |type_id|int(11)|--|--|--|
-    |multiple|boolean(1)|--|--|單/複選|
-    |mulit_limit|tinyint(2)|1|--|單/複選項目數|
-    |start|date|--|--|--|
-    |end|date|--|--|--|
-    |total|int(11)|--|--|--|
+    * 投票主題(votedb_subjects)
+        |欄位名|資料型態|空值|預設值|自動編號|備註|
+        |---|---|---|---|---|---|
+        |s_id|int(11)|N||Y|主索引|
+        |s_title|varchar(255)|Y|||主題|
+        |types_t_id|int(11)|Y|||投票類別|
+        |s_choice|enum('check','radio')|N|radio||單/複選|
+        |s_choice_num|tinyint(2)|N|1||單/複選項目數|
+        |user_u_id|int(11)|N|||建立者|
+        |s_date|date|N|||建立日期|
+        |s_date_start|date|Y|||投票開始日期|
+        |s_date_end|date|Y|||投票結束日期|
 * votedb_options
     |名稱|型態|預設值|A_I|備註|
     |--|--|--|--|--|

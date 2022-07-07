@@ -1,0 +1,107 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image: linear-gradient(#444cf7 1px, transparent 1px), linear-gradient(to right, #444cf7 1px, #e5e5f7 1px);
+    background-size: 20px 20px;
+}
+.vote_body{
+    width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+}
+/* 頁首 */
+header {
+    background: #000;
+    color: white;
+    overflow: hidden;
+    padding: 20px;
+}
+header h1 {
+    font-size: 60px;
+    display: inline-block;
+}
+header ul {
+    float: right;
+}
+header ul li {
+    float: left;
+    list-style: none;
+}
+header ul li a {
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+}
+header ul li a:hover {
+    color: goldenrod;
+    text-decoration: underline;
+}
+/* 二欄版型 */
+.box{
+    display: flex;
+}
+/* 分類選單 */
+.box>nav{
+    background-color: lightskyblue;
+    width: 160px;
+    padding: 20px;
+}
+.box>nav ul{}
+.box>nav ul li{
+    list-style: none;
+}
+.box>nav ul li a{
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    color: black;
+    text-decoration: none;
+    border-bottom: 1px dashed black;
+}
+.box>nav ul li a:hover{}
+.box article{
+    background-color: lightblue;
+    width: 960px;
+    padding: 20px;
+}
+/* 排序選單 */
+.box article>nav{
+    background-color: lightskyblue;
+    overflow: hidden;
+    padding: 15px;
+}
+.box article>nav ul{}
+.box article>nav ul li{
+    list-style: none;
+    float: left;
+}
+.box article>nav ul.new_vote li{
+    float: right;
+}
+.box article>nav ul li a{
+    display: block;
+    width: 120px;
+    height: 40px;
+    background-color: lightcyan;
+    color: #000;
+    text-decoration: none;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 40px;
+}
+.box article>nav ul li a:hover{}
+
+/* 版權宣告 */
+footer{
+    background: #000;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    font-style: 14px;;
+    font-weight: normal;
+}
+footer h3{}

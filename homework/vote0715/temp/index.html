@@ -10,7 +10,7 @@
 <body>
     <div class="vote_body">
         <header>
-            <h1>'.$title.'</h1>
+            <a href="'.$_SERVER['PHP_SELF'].'"><h1>'.$title.'</h1></a>
             <ul>
                 <li><a href="#">登入</a></li>
                 <li><a href="#">註冊</a></li>
@@ -33,7 +33,7 @@
                         <!-- <li>進行中已結束</li> -->
                     </ul>
                     <ul class="new_vote">
-                        <li><a href="#">新增投票</a></li>
+                        <li><a href="'.$_SERVER['PHP_SELF'].'">新增投票</a></li>
                     </ul>
                 </nav>
                 <section>'.$content.'</section>

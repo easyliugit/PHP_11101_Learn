@@ -11,7 +11,7 @@
                     <td></td>
                 </tr>
                 <?php 
-
+                    
                     $rows=$DB->all();
                     foreach($rows as $row){
                 ?>
@@ -27,7 +27,7 @@
                     </td>
                     <td>
                         <input type="button" value="<?=$Str->updateImg;?>"
-                            onclick="op('#cover','#cvr','./modal/update_title.php?id=<?=$row['id'];?>')">
+                            onclick="op('#cover','#cvr','./modal/upload.php?id=<?=$row['id'];?>&table=<?=$Str->table;?>')">
                     </td>
                 </tr>
                     <input type="hidden" name="id[]" value="<?=$row['id'];?>">

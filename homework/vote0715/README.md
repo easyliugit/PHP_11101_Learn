@@ -39,11 +39,11 @@
         |u_user|varchar(20)|N|||帳號|
         |u_pw|varchar(100)|N|||密碼|
         |u_nick|varchar(100)|N|||暱稱|
-        |u_lv|enum('admin','user')|N|user||等級|
+        |u_lv|enum('admin','user')|N|user||權限|
         |u_email|varchar(100)|Y|||信箱|
         |u_login|int(11)|N|0||登入次數|
-        |u_logintime|time|Y|||登入時間|
-        |u_jointime|time|N|||加入時間|
+        |u_logintime|datetime|Y|||登入時間|
+        |u_jointime|datetime|N|||加入時間|
     * 投票類別(votedb_types)
         |欄位名|資料型態|空值|預設值|自動編號|備註|
         |---|---|---|---|---|---|
@@ -62,7 +62,7 @@
         |s_date|date|N|||建立日期|
         |s_date_start|date|Y|||投票開始日期|
         |s_date_end|date|Y|||投票結束日期|
-        |s_hits|int(11)|Y|||人氣|
+        |s_hits|int(11)|N|0||人氣|
     * 投票項目(votedb_options)
         |欄位名|資料型態|空值|預設值|自動編號|備註|
         |---|---|---|---|---|---|
@@ -76,7 +76,7 @@
         |users_id|int(11)|Y|||投票者|
         |subjects_id|int(11)|N|||投票主題|
         |options_id|int(11)|N|||投票項目|
-        |l_time|timestamp|Y|||投票時間|
+        |l_time|datetime|Y|||投票時間|
         |l_ip|varchar(100)|Y|||投票者ip|
 
 

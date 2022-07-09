@@ -74,18 +74,25 @@ function voteWeb($content=""){
                   </ul>
               </nav>
               <article>
-                  <nav>
-                      <ul>
-                          <li><a href="#">綜合排行</a></li>
-                          <li><a href="#">人氣排行</a></li>
-                          <li><a href="#">新發起的</a></li>
-                          <li><a href="#">即將結束</a></li>
-                          <!-- <li>進行中已結束</li> -->
-                      </ul>
-                      <ul class="new_vote">
-                          <li><a href="#">新增投票</a></li>
-                      </ul>
-                  </nav>
+              <nav>
+                  <ul>
+                      <li><a href="#">綜合排行</a></li>
+                      <li><a href="#">人氣排行</a></li>
+                      <li><a href="#">新發起的</a></li>
+                      <li><a href="#">即將結束</a></li>
+                  </ul>
+                  <ul class="new_vote">
+                      <li><a href="#">新增投票</a></li>
+                  </ul>
+              </nav>
+              <nav>
+              <ul>
+                  <li><a href="#">我的主題</a></li>
+              </ul>
+              <ul class="new_vote">
+                  <li><a href="#">使用者清單</a></li>
+              </ul>
+          </nav>
                   <section>
                   <!-- $content 開始 -->
                   '.$content.'

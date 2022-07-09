@@ -18,13 +18,14 @@ switch($action){
         }else{
             // die_content("測試= 此帳號可以使用");
             users_add($db_link);
-            header("location:{$_SERVER['PHP_SELF']}");
+            $Msg = "帳號建立完成，請重新登入";
+            header("location:{$_SERVER['PHP_SELF']}?Msg={$Msg}");
         }
     case "users_add_form":
         $content=voteWeb(users_add_form());
     break; 
     default:
-        $content=voteWeb(users_list());
+        $content=voteWeb(votes_list());
 }
 echo $content;
 
@@ -66,10 +67,18 @@ function users_add_form(){
     ';
     return $main;
 }
+function votes_list(){
+    global $link;
+    $main='
+    <p>'.$_GET["Msg"].'</p>
+    <p>投票清單</p>
+    ';
+    return $main;
+}
 function users_list(){
     global $link;
     $main='
-    使用者資料清單
+    <p>使用者資料清單</p>
     ';
     return $main;
 }

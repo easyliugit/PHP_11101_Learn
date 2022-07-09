@@ -23,7 +23,7 @@ $stmt->execute();
 $all_stmt = $db_link->prepare($sql_query);
 $all_stmt->execute();
 //計算總筆數
-$total_records = $all_stmt->rowCount();
+$total_records = count($all_stmt->fetchAll());
 //計算總頁數=(總筆數/每頁筆數)後無條件進位。
 $total_pages = ceil($total_records/$pageRow_records);
 ?>

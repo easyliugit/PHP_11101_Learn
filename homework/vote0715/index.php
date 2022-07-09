@@ -4,6 +4,9 @@ require("steup.php");
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "users_add":
+    users_add($db_link);
+    header("location:{$_SERVER['PHP_SELF']}");
     case "users_add_form":
     $content=voteWeb(users_add_form());
     break; 
@@ -11,6 +14,21 @@ switch($action){
     $content=voteWeb(users_list());
 }
 echo $content;
+
+function users_add($db_link){
+    global $link;
+    $sql_query = "INSERT INTO votedb_users (u_user ,u_pw ,u_nick ,u_email ,u_jointime) VALUES (?, ?, ?, ?, NOW())";
+    // die_content("測試= {$sql_query}");
+    $stmt = $db_link -> prepare($sql_query);
+    $stmt -> execute(array(
+        FilterString($_POST["u_user"], 'string')
+        , password_hash($_POST["u_pw"], PASSWORD_DEFAULT)
+        , FilterString($_POST["u_nick"], 'string')
+        , FilterString($_POST["u_email"], 'email')
+    ));
+    $stmt = null;
+    $db_link = null;
+}
 function users_add_form(){
     global $link;
     $main='
@@ -39,6 +57,13 @@ function users_list(){
     global $link;
     $main='
     使用者資料清單
+    ';
+    return $main;
+}
+function defHtml(){
+    global $link;
+    $main='
+    預設格式
     ';
     return $main;
 }

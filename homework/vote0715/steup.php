@@ -101,7 +101,7 @@ function voteWeb($content=""){
                   <nav>
                       <ul>
                           <li><a href="'.$_SERVER['PHP_SELF'].'?action=votes_add_form">新增投票</a></li>
-                          <li><a href="#">我的主題</a></li>
+                          <li><a href="'.$_SERVER['PHP_SELF'].'?action=votes_my_list">我的主題</a></li>
                           <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_update_form">修改個人資料</a></li>
                       </ul>
       ';

@@ -112,21 +112,26 @@ footer{
 footer h3{}
 
 /* 使用者清單 */
-table.users_list{
+table.users_list
+,table.votes_my_list{
     background-color: lightcyan;
     border-spacing: 6px;
     border-top: 6px solid #000;
 }
-table.users_list thead{
+table.users_list thead
+,table.votes_my_list thead{
     background-color: steelblue;
     color: white;
 }
-table.users_list tbody{}
-table.users_list tfoot{
+table.users_list tbody
+,table.votes_my_list tbody{}
+table.users_list tfoot
+,table.votes_my_list tfoot{
     background-color: black;
     color: white;
 }
-table.users_list td{
+table.users_list td
+,table.votes_my_list td{
     padding: 10px;
     border-bottom: 1px solid lightgray;
 }

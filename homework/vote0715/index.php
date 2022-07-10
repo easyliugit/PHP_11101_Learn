@@ -5,6 +5,12 @@ session_start();
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "votes_my_list":
+        $content=voteWeb(votes_my_list());
+    break;
+    case "votes_add":
+        votes_add();
+    break;
     case "votes_add_form":
         $content=voteWeb(votes_add_form());
     break;
@@ -72,6 +78,25 @@ switch($action){
 }
 echo $content;
 
+function votes_add(){
+    global $db_link;
+    $sql_query="SELECT * FROM votedb_users WHERE u_user = '{$_SESSION["l_u_user"]}'";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+    $row_u_id=$row["u_id"];
+
+    $sql_query = "INSERT INTO votedb_subjects (s_title ,s_choice ,users_id ,s_date ,s_date_start ,s_date_end) VALUES (?, ?, ?, NOW(), ?, ?)";
+    $stmt = $db_link -> prepare($sql_query);
+    $stmt -> execute(array(
+                    FilterString($_POST["s_title"], 'string')
+                    , FilterString($_POST["s_choice"], 'string')
+                    , $row_u_id
+                    , FilterString($_POST["s_date_start"], 'string')
+                    , FilterString($_POST["s_date_end"], 'string')
+                ));
+    $stmt = null;
+    $db_link = null;
+}
 function votes_add_form(){
     global $link;
     $main='
@@ -103,12 +128,120 @@ function votes_add_form(){
     ';
     return $main;
 }
-function votes_list(){
-    global $link;
+function votes_my_list(){
+    global $db_link;
+    global $action;
+    //預設每頁筆數
+    $pageRow_records = 10;
+    //預設頁數
+    $num_pages = 1;
+    //若已經有翻頁，將頁數更新
+    if (isset($_GET['page'])) {
+        $num_pages = $_GET['page'];
+    }
+    //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
+    $startRow_records = ($num_pages -1) * $pageRow_records;
+    
+    $sql_query="SELECT * FROM votedb_subjects";
+    //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
+    $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
+    //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
+    $stmt = $db_link->query($sql_query_limit);
+    //以未加上限制顯示筆數的SQL敘述句查詢資料到 $all_stmt 中
+    $all_stmt = $db_link->query($sql_query);
+    //計算總筆數
+    $total_records = count($all_stmt->fetchAll());
+    //計算總頁數=(總筆數/每頁筆數)後無條件進位。
+    $total_pages = ceil($total_records/$pageRow_records);
     $main='
-    <p>'.$_GET["Msg"].'</p>
-    <p>投票清單</p>
+    <table class="votes_my_list">
+    <caption>我的投票主題清單</caption>
+    <thead>
+        <tr>
+            <td></td>
+            <td>投票主題</td>
+            <td>投票類別</td>
+            <td>選擇</td>
+            <td>開始時間</td>
+            <td>結束時間</td>
+            <td>人氣</td>
+            <td>開關</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
     ';
+
+    if($total_records){
+        while($row=$stmt->fetch()){
+            
+    $main.='
+    <tr>
+    <td>'.$row['s_id'].'</td>
+    <td>'.$row['s_title'].'</td>
+    <td>'.$row['types_id'].'</td>
+    <td>'.$row['s_choice'].'</td>
+    <td>'.$row['s_date_start'].'</td>
+    <td>'.$row['s_date_end'].'</td>
+    <td>'.$row['s_hits'].'</td>
+    <td>'.$row['s_close'].'</td>
+    <td>
+    ';
+    if($row['u_lv']=='user'){
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&u_id='.$row['s_id'].'">編輯</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_del&u_id='.$row['s_id'].'">刪除</a>
+    ';
+    }
+
+    $main.='
+    </td>
+    </tr>
+    ';
+    
+        }
+    }
+
+    $main.='
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="8"></td>
+        </tr>
+    </tfoot>
+</table>
+<p>
+    ';
+    if ($num_pages > 1) { // 若不是第一頁則顯示        
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page=1">第一頁</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.($num_pages-1) .'">上一頁</a>
+    ';
+    }
+    if ($num_pages < $total_pages) { // 若不是最後一頁則顯示
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.($num_pages+1) .'">下一頁</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.$total_pages.'">最後頁</a>
+    ';
+    }
+    $main.='
+    頁數：
+    ';
+    for($i=1;$i<=$total_pages;$i++){
+        if($i==$num_pages){
+    $main.='
+    '.$i.' 
+    ';
+        }else{
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.$i.'">'.$i.'</a> 
+    ';
+        }
+    }
+    $main.='
+    </p>
+    ';
+
     return $main;
 }
 function login_users(){
@@ -129,14 +262,13 @@ function login_users(){
         $sql_query = "UPDATE votedb_users SET u_login=u_login+1, u_logintime=NOW() WHERE u_user=?";
         $stmt = $db_link -> prepare($sql_query);
         $stmt -> execute(array(
-            FilterString($_POST["u_user"], 'string')
-        ));
+                        FilterString($_POST["u_user"], 'string')
+                    ));
         $stmt = null;
         $db_link = null;
         //設定登入者的名稱及等級
         $_SESSION["l_u_user"]=$row_u_user;
         $_SESSION["l_u_lv"]=$row_u_lv;
-        // die_content("測試= row_u_name=".$row_u_name." ,row_u_lv=".$row_u_lv);
     }
 }
 function login_users_form(){
@@ -183,11 +315,11 @@ function users_update(){
     $sql_query = "UPDATE votedb_users SET u_pw=?, u_nick=?, u_email=? WHERE u_id=?";
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
-        $mpass
-        , FilterString($_POST["u_nick"], 'string')
-        , FilterString($_POST["u_email"], 'email')
-        , FilterString($_POST["u_id"], 'int')
-    ));
+                    $mpass
+                    , FilterString($_POST["u_nick"], 'string')
+                    , FilterString($_POST["u_email"], 'email')
+                    , FilterString($_POST["u_id"], 'int')
+                ));
     $stmt = null;
     $db_link = null;    
 }
@@ -199,7 +331,6 @@ function users_update_form(){
         $sql_query="SELECT * FROM votedb_users WHERE u_user = '{$_SESSION["l_u_user"]}'";
     }    
     $stmt = $db_link->query($sql_query);
-    // die_content("測試=".$sql_query);
     $row=$stmt->fetch();
     if(($_GET["u_id"]!="") && ($row['u_lv']=='admin')){
         header("location:{$_SERVER['PHP_SELF']}?action=users_list");
@@ -235,11 +366,11 @@ function users_add(){
     $sql_query = "INSERT INTO votedb_users (u_user ,u_pw ,u_nick ,u_email ,u_jointime) VALUES (?, ?, ?, ?, NOW())";
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
-        FilterString($_POST["u_user"], 'string')
-        , password_hash($_POST["u_pw"], PASSWORD_DEFAULT)
-        , FilterString($_POST["u_nick"], 'string')
-        , FilterString($_POST["u_email"], 'email')
-    ));
+                    FilterString($_POST["u_user"], 'string')
+                    , password_hash($_POST["u_pw"], PASSWORD_DEFAULT)
+                    , FilterString($_POST["u_nick"], 'string')
+                    , FilterString($_POST["u_email"], 'email')
+                ));
     $stmt = null;
     $db_link = null;
 }
@@ -379,6 +510,14 @@ function users_list(){
     </p>
     ';
 
+    return $main;
+}
+function votes_list(){
+    global $link;
+    $main='
+    <p>'.$_GET["Msg"].'</p>
+    <p>投票清單</p>
+    ';
     return $main;
 }
 function defHtml(){

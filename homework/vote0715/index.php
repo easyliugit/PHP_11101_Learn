@@ -5,18 +5,19 @@ session_start();
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "votes_add_form":
+        $content=voteWeb(votes_add_form());
+    break;
     case "login_out":
         unset($_SESSION["l_u_user"]);
 	    unset($_SESSION["l_u_lv"]);     
         header("location:{$_SERVER['PHP_SELF']}");
     break;
     case "login_users":
-        isset_login();
         login_users();        
         header("location:{$_SERVER['PHP_SELF']}");
     break;
     case "login_users_form":
-        isset_login();
         $content=voteWeb(login_users_form());
     break;
     case "users_del":
@@ -71,14 +72,51 @@ switch($action){
 }
 echo $content;
 
-function isset_login(){
+function votes_add_form(){
+    global $link;
+    $main='
+    <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+    <fieldset>
+        <legend>新增投票主題</legend>
+        <dl>
+            <dt>投票主題</dt>
+            <dd><input type="text" name="s_title" value=""></dd>
+            <dt>投票類別</dt>
+            <dd><input type="text" name="types_id" value="1"  readonly="readonly">不提供調整</dd>
+            <dt>選擇</dt>
+            <dd>
+                <input type="radio" name="s_choice">單選 
+                <input type="radio" name="s_choice">複選
+                <input type="number" name="s_choice_num" value="1" disabled>暫不限制
+            </dd>
+            <dt>投票開始時間</dt>
+            <dd><input type="date" name="s_date_start" value="'.date('Y-m-d').'"></dd>
+            <dt>投票結束時間</dt>
+            <dd><input type="date" name="s_date_end" value="'.date('Y-m-d').'"></dd>
+        </dl>
+    </fieldset>
+    <input type="hidden" name="users_id" value="">
+    <input type="hidden" name="action" value="users_add">
+    <input type="submit" value="送出">
+    <input type="reset" value="重置">
+    </form>
+    ';
+    return $main;
+}
+function votes_list(){
+    global $link;
+    $main='
+    <p>'.$_GET["Msg"].'</p>
+    <p>投票清單</p>
+    ';
+    return $main;
+}
+function login_users(){
+    global $db_link;
     //檢查是否經過登入，若有登入則重新導向
     if(isset($_SESSION["l_u_user"]) && ($_SESSION["l_u_user"]!="")){
         header("location:{$_SERVER['PHP_SELF']}");
     }
-}
-function login_users(){
-    global $db_link;
     //繫結登入會員資料
 	$query_RecLogin = "SELECT u_user, u_pw, u_lv FROM votedb_users WHERE u_user='{$_POST["u_user"]}'";
     $stmt = $db_link->query($query_RecLogin);
@@ -103,6 +141,10 @@ function login_users(){
 }
 function login_users_form(){
     global $link;
+    //檢查是否經過登入，若有登入則重新導向
+    if(isset($_SESSION["l_u_user"]) && ($_SESSION["l_u_user"]!="")){
+        header("location:{$_SERVER['PHP_SELF']}");
+    }
     $main='
     <form action="'.$_SERVER['PHP_SELF'].'" method="post">
     <fieldset>
@@ -337,14 +379,6 @@ function users_list(){
     </p>
     ';
 
-    return $main;
-}
-function votes_list(){
-    global $link;
-    $main='
-    <p>'.$_GET["Msg"].'</p>
-    <p>投票清單</p>
-    ';
     return $main;
 }
 function defHtml(){

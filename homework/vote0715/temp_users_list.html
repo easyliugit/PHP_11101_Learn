@@ -62,15 +62,15 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>編輯|刪除</td>
-                            </tr>
+                                <td>'.$row['u_id'].'</td>
+                                <td>'.$row['u_user'].'</td>
+                                <td>'.$row['u_nick'].'</td>
+                                <td>'.$row['u_lv'].'</td>
+                                <td>'.$row['u_login'].'</td>
+                                <td>'.$row['u_linintime'].'</td>
+                                <td>'.$row['u_jointime'].'</td>
+                                <td><a href="#">編輯</a> |<a href="#">刪除</a></td>
+                                </tr>
                         </tbody>
                         <tfoot>
                             <tr>
@@ -78,6 +78,17 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <p>
+                        <a href="index_page.php?page=1">第一頁</a> | 
+                        <a href="index_page.php?page='.$num_pages-1. '">上一頁</a>
+                        <a href="index_page.php?page='.$num_pages+1. '">下一頁</a> | 
+                        <a href="index_page.php?page='.$total_pages.'">最後頁</a>
+                    </p>
+                    <p>
+                        頁數：
+                        '.$i.' 
+                        <a href="index_page.php?page='.$i.'">'.$i.'</a> 
+                    </p>
                     <!-- $content 結束 -->
                 </section>
             </article>

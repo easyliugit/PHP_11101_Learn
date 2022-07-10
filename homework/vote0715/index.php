@@ -4,6 +4,9 @@ require("steup.php");
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "users_del":
+        users_del();
+    break;
     case "users_update":
         users_update();
     break;
@@ -42,6 +45,22 @@ switch($action){
 }
 echo $content;
 
+function users_del(){
+    global $db_link;
+    $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+    if($row['u_lv']=='admin'){
+        header("location:{$_SERVER['PHP_SELF']}?action=users_list");
+    }
+    
+    $sql_query = "DELETE FROM votedb_users WHERE u_id=?";
+    $stmt = $db_link -> prepare($sql_query);
+    $stmt -> execute(array($_GET['u_id']));
+    $stmt = null;
+    $db_link = null;
+    header("location:{$_SERVER['PHP_SELF']}?action=users_list");
+}
 function users_update(){
     global $db_link;
     //檢查是否有修改密碼
@@ -53,13 +72,12 @@ function users_update(){
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
         $mpass
-        , $_POST["u_nick"]
-        , $_POST["u_email"]
-        , $_POST["u_id"]
+        , FilterString($_POST["u_nick"], 'string')
+        , FilterString($_POST["u_email"], 'email')
+        , FilterString($_POST["u_id"], 'int')
     ));
     $stmt = null;
     $db_link = null;
-    //重新導向回到主畫面
     header("location:{$_SERVER['PHP_SELF']}?action=users_list");
 }
 function users_update_form(){
@@ -78,7 +96,10 @@ function users_update_form(){
             <dt>使用帳號</dt>
             <dd>'.$row['u_user'].'</dd>
             <dt>使用密碼</dt>
-            <dd><input type="password" name="u_pw" id="u_pw" value="">不修改密碼請保持空白</dd>
+            <dd>
+            <input type="password" name="u_pw" id="u_pw" value="">不修改密碼請保持空白
+            <input type="hidden" name="u_pwo" value="'.$row['u_pw'].'">
+            </dd>
             <dt>暱稱</dt>
             <dd><input type="text" name="u_nick" id="u_nick" value="'.$row['u_nick'].'"></dd>
             <dt>電子郵件</dt>
@@ -132,8 +153,9 @@ function users_add_form(){
 }
 function users_list(){
     global $db_link;
+    global $action;
     //預設每頁筆數
-    $pageRow_records = 3;
+    $pageRow_records = 10;
     //預設頁數
     $num_pages = 1;
     //若已經有翻頁，將頁數更新
@@ -188,7 +210,8 @@ function users_list(){
     ';
     if($row['u_lv']=='user'){
     $main.='
-    <a href="'.$_SERVER['PHP_SELF'].'?action=users_update_form&u_id='.$row['u_id'].'">編輯</a> |<a href="#">刪除</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?action=users_update_form&u_id='.$row['u_id'].'">編輯</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action=users_del&u_id='.$row['u_id'].'">刪除</a>
     ';
     }
 
@@ -212,14 +235,14 @@ function users_list(){
     ';
     if ($num_pages > 1) { // 若不是第一頁則顯示        
     $main.='
-    <a href="index_page.php?page=1">第一頁</a> | 
-    <a href="index_page.php?page='.$num_pages-1 .'">上一頁</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page=1">第一頁</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.($num_pages-1) .'">上一頁</a>
     ';
     }
     if ($num_pages < $total_pages) { // 若不是最後一頁則顯示
     $main.='
-    <a href="index_page.php?page='.$num_pages+1 .'">下一頁</a> | 
-    <a href="index_page.php?page='.$total_pages.'">最後頁</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.($num_pages+1) .'">下一頁</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.$total_pages.'">最後頁</a>
     ';
     }
     $main.='
@@ -232,7 +255,7 @@ function users_list(){
     ';
         }else{
     $main.='
-    <a href="index_page.php?page='.$i.'">'.$i.'</a> 
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.$i.'">'.$i.'</a> 
     ';
         }
     }

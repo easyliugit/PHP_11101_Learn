@@ -6,8 +6,8 @@ $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
     case "login_out":
-        unset($_SESSION["u_user"]);
-	    unset($_SESSION["u_lv"]);     
+        unset($_SESSION["l_u_user"]);
+	    unset($_SESSION["l_u_lv"]);     
         header("location:{$_SERVER['PHP_SELF']}");
     break;
     case "login_users":
@@ -61,6 +61,9 @@ switch($action){
         $content=voteWeb(users_add_form());
     break;
     case "users_list":
+        if($_SESSION["l_u_lv"]!="admin"){
+            header("location:{$_SERVER['PHP_SELF']}");
+        }
         $content=voteWeb(users_list());
     break;
     default:
@@ -70,7 +73,7 @@ echo $content;
 
 function isset_login(){
     //檢查是否經過登入，若有登入則重新導向
-    if(isset($_SESSION["l_u_name"]) && ($_SESSION["l_u_name"]!="")){
+    if(isset($_SESSION["l_u_user"]) && ($_SESSION["l_u_user"]!="")){
         header("location:{$_SERVER['PHP_SELF']}");
     }
 }
@@ -148,10 +151,15 @@ function users_update(){
 }
 function users_update_form(){
     global $db_link;
-    $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";
+    if(isset($_GET["u_id"]) && ($_GET["u_id"]!="")){
+        $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";
+    }else{
+        $sql_query="SELECT * FROM votedb_users WHERE u_user = '{$_SESSION["l_u_user"]}'";
+    }    
     $stmt = $db_link->query($sql_query);
+    // die_content("測試=".$sql_query);
     $row=$stmt->fetch();
-    if($row['u_lv']=='admin'){
+    if(($_GET["u_id"]!="") && ($row['u_lv']=='admin')){
         header("location:{$_SERVER['PHP_SELF']}?action=users_list");
     }
     $main='

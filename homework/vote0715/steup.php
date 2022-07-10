@@ -66,7 +66,7 @@ function voteWeb($content=""){
   //檢查是否經過登入
   if(isset($_SESSION["l_u_user"]) && ($_SESSION["l_u_user"]!="")){
   $main.='
-              <li>'.$_SESSION["l_u_name"].'，您好！</li>
+              <li>'.$_SESSION["l_u_user"].'，您好！</li>
               <li> <a href="'.$_SERVER['PHP_SELF'].'?action=login_out">登出</a></li>
   ';
   }else{
@@ -104,7 +104,7 @@ function voteWeb($content=""){
                   <nav>
                       <ul>
                           <li><a href="#">我的主題</a></li>
-                          <li><a href="#">修改個人資料</a></li>
+                          <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_update_form">修改個人資料</a></li>
                       </ul>
       ';
       if($_SESSION["l_u_lv"]=="admin"){

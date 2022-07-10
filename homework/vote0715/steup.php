@@ -62,8 +62,20 @@ function voteWeb($content=""){
           <header>
               <a href="'.$_SERVER['PHP_SELF'].'"><h1>'.$title.'</h1></a>
               <ul>
-                  <li><a href="'.$_SERVER['PHP_SELF'].'?action=login_users">登入</a></li>
-                  <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_add_form">註冊</a></li>
+  ';
+  //檢查是否經過登入
+  if(isset($_SESSION["l_u_user"]) && ($_SESSION["l_u_user"]!="")){
+  $main.='
+              <li>'.$_SESSION["l_u_name"].'，您好！</li>
+              <li> <a href="'.$_SERVER['PHP_SELF'].'?action=login_out">登出</a></li>
+  ';
+  }else{
+  $main.='
+              <li><a href="'.$_SERVER['PHP_SELF'].'?action=login_users_form">登入</a></li>
+              <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_add_form">註冊</a></li>
+  ';
+  }
+  $main.='
               </ul>
           </header>
           <div class="box">
@@ -85,15 +97,28 @@ function voteWeb($content=""){
                           <li><a href="#">新增投票</a></li>
                       </ul>
                   </nav>
+  ';
+  //檢查是否經過登入
+  if(isset($_SESSION["l_u_user"]) && ($_SESSION["l_u_user"]!="")){
+  $main.='
                   <nav>
                       <ul>
                           <li><a href="#">我的主題</a></li>
                           <li><a href="#">修改個人資料</a></li>
                       </ul>
+      ';
+      if($_SESSION["l_u_lv"]=="admin"){
+      $main.='
                       <ul class="new_vote">
                           <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_list">使用者清單</a></li>
                       </ul>
+      ';
+      }
+      $main.='
                   </nav>
+  ';
+  }
+  $main.='
                   <section>
                   <!-- $content 開始 -->
                   '.$content.'

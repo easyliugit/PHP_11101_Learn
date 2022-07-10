@@ -5,14 +5,33 @@ session_start();
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "login_out":
+        unset($_SESSION["u_user"]);
+	    unset($_SESSION["u_lv"]);     
+        header("location:{$_SERVER['PHP_SELF']}");
+    break;
     case "login_users":
-        $content=voteWeb(login_users());
+        isset_login();
+        login_users();        
+        header("location:{$_SERVER['PHP_SELF']}");
+    break;
+    case "login_users_form":
+        isset_login();
+        $content=voteWeb(login_users_form());
     break;
     case "users_del":
+        $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";
+        $stmt = $db_link->query($sql_query);
+        $row=$stmt->fetch();
+        if($row['u_lv']=='admin'){
+            header("location:{$_SERVER['PHP_SELF']}?action=users_list");
+        }
         users_del();
+        header("location:{$_SERVER['PHP_SELF']}?action=users_list");
     break;
     case "users_update":
         users_update();
+        header("location:{$_SERVER['PHP_SELF']}?action=users_list");
     break;
     case "users_update_form":
         $content=voteWeb(users_update_form());
@@ -49,7 +68,37 @@ switch($action){
 }
 echo $content;
 
+function isset_login(){
+    //檢查是否經過登入，若有登入則重新導向
+    if(isset($_SESSION["l_u_name"]) && ($_SESSION["l_u_name"]!="")){
+        header("location:{$_SERVER['PHP_SELF']}");
+    }
+}
 function login_users(){
+    global $db_link;
+    //繫結登入會員資料
+	$query_RecLogin = "SELECT u_user, u_pw, u_lv FROM votedb_users WHERE u_user='{$_POST["u_user"]}'";
+    $stmt = $db_link->query($query_RecLogin);
+    $row=$stmt->fetch();
+    $row_u_user=$row['u_user'];
+    $row_u_pw=$row['u_pw'];
+    $row_u_lv=$row['u_lv'];
+    //比對密碼，若登入成功則呈現登入狀態
+	if(password_verify($_POST["u_pw"],$row_u_pw)){
+        $sql_query = "UPDATE votedb_users SET u_login=u_login+1, u_logintime=NOW() WHERE u_user=?";
+        $stmt = $db_link -> prepare($sql_query);
+        $stmt -> execute(array(
+            FilterString($_POST["u_user"], 'string')
+        ));
+        $stmt = null;
+        $db_link = null;
+        //設定登入者的名稱及等級
+        $_SESSION["l_u_user"]=$row_u_user;
+        $_SESSION["l_u_lv"]=$row_u_lv;
+        // die_content("測試= row_u_name=".$row_u_name." ,row_u_lv=".$row_u_lv);
+    }
+}
+function login_users_form(){
     global $link;
     $main='
     <form action="'.$_SERVER['PHP_SELF'].'" method="post">
@@ -66,25 +115,18 @@ function login_users(){
     <input type="submit" value="送出">
     <input type="reset" value="重置">
     </form>
-    <a href="#">重設密碼</a>
+    <a href="#">重設密碼</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action=users_add_form">註冊使用</a>
     ';
     return $main;
 }
 function users_del(){
-    global $db_link;
-    $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";
-    $stmt = $db_link->query($sql_query);
-    $row=$stmt->fetch();
-    if($row['u_lv']=='admin'){
-        header("location:{$_SERVER['PHP_SELF']}?action=users_list");
-    }
-    
+    global $db_link;    
     $sql_query = "DELETE FROM votedb_users WHERE u_id=?";
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array($_GET['u_id']));
     $stmt = null;
-    $db_link = null;
-    header("location:{$_SERVER['PHP_SELF']}?action=users_list");
+    $db_link = null;    
 }
 function users_update(){
     global $db_link;
@@ -102,8 +144,7 @@ function users_update(){
         , FilterString($_POST["u_id"], 'int')
     ));
     $stmt = null;
-    $db_link = null;
-    header("location:{$_SERVER['PHP_SELF']}?action=users_list");
+    $db_link = null;    
 }
 function users_update_form(){
     global $db_link;
@@ -305,5 +346,5 @@ function defHtml(){
     ';
     return $main;
 }
-// die_content("測試users_list");
+// die_content("測試");
 ?>

@@ -12,7 +12,9 @@
         <header>
             <a href="'.$_SERVER['PHP_SELF'].'"><h1>'.$title.'</h1></a>
             <ul>
-                <li><a href="'.$_SERVER['PHP_SELF'].'?action=login_users">登入</a></li>
+                <li>'.$_SESSION["l_u_name"].'，您好！</li>
+                <li> <a href="'.$_SERVER['PHP_SELF'].'?action=login_out">登出</a></li>
+                <li><a href="'.$_SERVER['PHP_SELF'].'?action=login_users_form">登入</a></li>
                 <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_add_form">註冊</a></li>
             </ul>
         </header>

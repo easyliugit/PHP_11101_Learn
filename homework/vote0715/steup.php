@@ -91,7 +91,7 @@ function voteWeb($content=""){
                           <li><a href="#">修改個人資料</a></li>
                       </ul>
                       <ul class="new_vote">
-                          <li><a href="#">使用者清單</a></li>
+                          <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_list">使用者清單</a></li>
                       </ul>
                   </nav>
                   <section>

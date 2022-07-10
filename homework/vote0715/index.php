@@ -11,6 +11,10 @@ switch($action){
         if($RecFindUser->fetchColumn()){            
             $Msg = "此帳號已被使用";
             header("location:{$_SERVER['PHP_SELF']}?action=users_add_form&u_user={$_POST["u_user"]}&Msg={$Msg}");
+        }elseif($_POST["u_user"]==""){
+            $Msg = "請輸入帳號";
+            header("location:{$_SERVER['PHP_SELF']}?action=users_add_form&u_user={$_POST["u_user"]}&Msg={$Msg}");
+
         }elseif($_POST["u_pw"]==""){
             $Msg = "請輸入密碼";
             header("location:{$_SERVER['PHP_SELF']}?action=users_add_form&u_user={$_POST["u_user"]}&Msg={$Msg}");
@@ -23,7 +27,10 @@ switch($action){
         }
     case "users_add_form":
         $content=voteWeb(users_add_form());
-    break; 
+    break;
+    case "users_list":
+        $content=voteWeb(users_list());
+    break;
     default:
         $content=voteWeb(votes_list());
 }
@@ -67,18 +74,49 @@ function users_add_form(){
     ';
     return $main;
 }
+function users_list(){
+    global $link;
+    $main='
+    <table class="users_list">
+    <caption>使用者清單</caption>
+    <thead>
+        <tr>
+            <td></td>
+            <td>帳號</td>
+            <td>暱稱</td>
+            <td>權限</td>
+            <td>登入次數</td>
+            <td>登入時間</td>
+            <td>加入日期</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>編輯|刪除</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="8"></td>
+        </tr>
+    </tfoot>
+</table>
+    ';
+    return $main;
+}
 function votes_list(){
     global $link;
     $main='
     <p>'.$_GET["Msg"].'</p>
     <p>投票清單</p>
-    ';
-    return $main;
-}
-function users_list(){
-    global $link;
-    $main='
-    <p>使用者資料清單</p>
     ';
     return $main;
 }

@@ -69,7 +69,7 @@
                                 <td>'.$row['u_login'].'</td>
                                 <td>'.$row['u_linintime'].'</td>
                                 <td>'.$row['u_jointime'].'</td>
-                                <td><a href="#">編輯</a> |<a href="#">刪除</a></td>
+                                <td><a href="'.$_SERVER['PHP_SELF'].'?action=users_update_form&u_id='.$row['u_id'].'">編輯</a> |<a href="#">刪除</a></td>
                                 </tr>
                         </tbody>
                         <tfoot>

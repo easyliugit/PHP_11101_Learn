@@ -4,6 +4,9 @@ require("steup.php");
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "users_update_form":
+        $content=voteWeb(users_update_form());
+    break;
     case "users_add":
         //找尋帳號是否已經註冊
         $query_RecFindUser = "SELECT count(*) FROM votedb_users WHERE u_user='{$_POST["u_user"]}'";
@@ -20,7 +23,7 @@ switch($action){
             header("location:{$_SERVER['PHP_SELF']}?action=users_add_form&u_user={$_POST["u_user"]}&Msg={$Msg}");
 
         }else{            
-            users_add($db_link);
+            users_add();
             $Msg = "帳號建立完成，請重新登入";
             header("location:{$_SERVER['PHP_SELF']}?Msg={$Msg}");
         }
@@ -28,15 +31,45 @@ switch($action){
         $content=voteWeb(users_add_form());
     break;
     case "users_list":
-        $content=voteWeb(users_list($db_link));
+        $content=voteWeb(users_list());
     break;
     default:
         $content=voteWeb(votes_list());
 }
 echo $content;
 
-function users_add($db_link){
-    global $link;
+function users_update_form(){
+    global $db_link;
+    $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+    if($row['u_lv']=='admin'){
+        header("location:{$_SERVER['PHP_SELF']}?action=users_list");
+    }
+    $main='
+    <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+    <fieldset>
+        <legend>新增使用者資料</legend>
+        <dl>
+            <dt>使用帳號</dt>
+            <dd>'.$row['u_user'].'</dd>
+            <dt>使用密碼</dt>
+            <dd><input type="password" name="u_pw" id="u_pw" value="">不修改密碼請保持空白</dd>
+            <dt>暱稱</dt>
+            <dd><input type="text" name="u_nick" id="u_nick" value="'.$row['u_nick'].'"></dd>
+            <dt>電子郵件</dt>
+            <dd><input type="email" name="u_email" id="u_email" value="'.$row['u_email'].'"></dd>
+        </dl>
+    </fieldset>
+    <input type="hidden" name="action" value="users_update">
+    <input type="submit" value="送出">
+    <input type="reset" value="重置">
+</form>
+    ';
+    return $main;
+}
+function users_add(){
+    global $db_link;
     $sql_query = "INSERT INTO votedb_users (u_user ,u_pw ,u_nick ,u_email ,u_jointime) VALUES (?, ?, ?, ?, NOW())";
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
@@ -50,7 +83,6 @@ function users_add($db_link){
 }
 function users_add_form(){
     global $link;
-    $MsgFinUser = $MsgFinUser;
     $main='
     <form action="'.$_SERVER['PHP_SELF'].'" method="post">
     <fieldset>
@@ -73,8 +105,8 @@ function users_add_form(){
     ';
     return $main;
 }
-function users_list($db_link){
-    global $link;
+function users_list(){
+    global $db_link;
     //預設每頁筆數
     $pageRow_records = 3;
     //預設頁數
@@ -131,7 +163,7 @@ function users_list($db_link){
     ';
     if($row['u_lv']=='user'){
     $main.='
-    <a href="#">編輯</a> |<a href="#">刪除</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?action=users_update_form&u_id='.$row['u_id'].'">編輯</a> |<a href="#">刪除</a>
     ';
     }
 

@@ -45,13 +45,17 @@
                                 <dt>使用帳號</dt>
                                 <dd>'.$row['u_user'].'</dd>
                                 <dt>使用密碼</dt>
-                                <dd><input type="password" name="u_pw" id="u_pw" value="">不修改密碼請保持空白</dd>
+                                <dd>
+                                    <input type="password" name="u_pw" id="u_pw" value="">不修改密碼請保持空白
+                                    <input type="hidden" name="u_pwo" value="'.$row['u_pw'].'">
+                                </dd>
                                 <dt>暱稱</dt>
                                 <dd><input type="text" name="u_nick" id="u_nick" value="'.$row['u_nick'].'"></dd>
                                 <dt>電子郵件</dt>
                                 <dd><input type="email" name="u_email" id="u_email" value="'.$row['u_email'].'"></dd>
                             </dl>
                         </fieldset>
+                        <input type="hidden" name="u_id" value="'.$row['u_id'].'">
                         <input type="hidden" name="action" value="users_update">
                         <input type="submit" value="送出">
                         <input type="reset" value="重置">

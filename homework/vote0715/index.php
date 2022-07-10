@@ -4,6 +4,9 @@ require("steup.php");
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "users_update":
+        users_update();
+    break;
     case "users_update_form":
         $content=voteWeb(users_update_form());
     break;
@@ -27,6 +30,7 @@ switch($action){
             $Msg = "帳號建立完成，請重新登入";
             header("location:{$_SERVER['PHP_SELF']}?Msg={$Msg}");
         }
+    break;
     case "users_add_form":
         $content=voteWeb(users_add_form());
     break;
@@ -38,6 +42,26 @@ switch($action){
 }
 echo $content;
 
+function users_update(){
+    global $db_link;
+    //檢查是否有修改密碼
+	$mpass = $_POST["u_pwo"];
+    if($_POST["u_pw"]!=""){
+        $mpass = password_hash($_POST["u_pw"], PASSWORD_DEFAULT);
+    }
+    $sql_query = "UPDATE votedb_users SET u_pw=?, u_nick=?, u_email=? WHERE u_id=?";
+    $stmt = $db_link -> prepare($sql_query);
+    $stmt -> execute(array(
+        $mpass
+        , $_POST["u_nick"]
+        , $_POST["u_email"]
+        , $_POST["u_id"]
+    ));
+    $stmt = null;
+    $db_link = null;
+    //重新導向回到主畫面
+    header("location:{$_SERVER['PHP_SELF']}?action=users_list");
+}
 function users_update_form(){
     global $db_link;
     $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";
@@ -61,6 +85,7 @@ function users_update_form(){
             <dd><input type="email" name="u_email" id="u_email" value="'.$row['u_email'].'"></dd>
         </dl>
     </fieldset>
+    <input type="hidden" name="u_id" value="'.$row['u_id'].'">
     <input type="hidden" name="action" value="users_update">
     <input type="submit" value="送出">
     <input type="reset" value="重置">

@@ -62,7 +62,7 @@ function voteWeb($content=""){
           <header>
               <a href="'.$_SERVER['PHP_SELF'].'"><h1>'.$title.'</h1></a>
               <ul>
-                  <li><a href="#">登入</a></li>
+                  <li><a href="'.$_SERVER['PHP_SELF'].'?action=login_users">登入</a></li>
                   <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_add_form">註冊</a></li>
               </ul>
           </header>

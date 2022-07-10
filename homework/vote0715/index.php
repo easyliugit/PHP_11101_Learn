@@ -1,9 +1,13 @@
 <?php
 require("steup.php");
+session_start();
 // 接收傳遞值
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "login_users":
+        $content=voteWeb(login_users());
+    break;
     case "users_del":
         users_del();
     break;
@@ -45,6 +49,27 @@ switch($action){
 }
 echo $content;
 
+function login_users(){
+    global $link;
+    $main='
+    <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+    <fieldset>
+        <legend>登入</legend>
+        <dl>
+            <dt>使用帳號</dt>
+            <dd><input type="text" name="u_user" id="u_user" value=""></dd>
+            <dt>使用密碼</dt>
+            <dd><input type="password" name="u_pw" id="u_pw" value=""></dd>
+        </dl>
+    </fieldset>
+    <input type="hidden" name="action" value="login_users">
+    <input type="submit" value="送出">
+    <input type="reset" value="重置">
+    </form>
+    <a href="#">重設密碼</a>
+    ';
+    return $main;
+}
 function users_del(){
     global $db_link;
     $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";

@@ -127,7 +127,16 @@ function users_list($db_link){
     <td>'.$row['u_login'].'</td>
     <td>'.$row['u_linintime'].'</td>
     <td>'.$row['u_jointime'].'</td>
-    <td><a href="#">編輯</a> |<a href="#">刪除</a></td>
+    <td>
+    ';
+    if($row['u_lv']=='user'){
+    $main.='
+    <a href="#">編輯</a> |<a href="#">刪除</a>
+    ';
+    }
+
+    $main.='
+    </td>
     </tr>
     ';
     

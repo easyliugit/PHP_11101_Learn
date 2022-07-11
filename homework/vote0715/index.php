@@ -200,8 +200,8 @@ function votes_my_list(){
     ';
     if($row['u_lv']=='user'){
     $main.='
-    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&u_id='.$row['s_id'].'">編輯</a> | 
-    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_del&u_id='.$row['s_id'].'">刪除</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&s_id='.$row['s_id'].'">編輯</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_del&s_id='.$row['s_id'].'">刪除</a>
     ';
     }
 
@@ -524,11 +524,117 @@ function users_list(){
     return $main;
 }
 function votes_list(){
-    global $link;
+    global $db_link;
+    //預設每頁筆數
+    $pageRow_records = 10;
+    //預設頁數
+    $num_pages = 1;
+    //若已經有翻頁，將頁數更新
+    if (isset($_GET['page'])) {
+        $num_pages = $_GET['page'];
+    }
+    //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
+    $startRow_records = ($num_pages -1) * $pageRow_records;
+    
+    $sql_query="SELECT * FROM votedb_subjects";
+    //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
+    $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
+    //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
+    $stmt = $db_link->query($sql_query_limit);
+    //以未加上限制顯示筆數的SQL敘述句查詢資料到 $all_stmt 中
+    $all_stmt = $db_link->query($sql_query);
+    //計算總筆數
+    $total_records = count($all_stmt->fetchAll());
+    //計算總頁數=(總筆數/每頁筆數)後無條件進位。
+    $total_pages = ceil($total_records/$pageRow_records);
     $main='
-    <p>'.$_GET["Msg"].'</p>
-    <p>投票清單</p>
+    <table class="votes_my_list">
+    <caption>所有投票清單</caption>
+    <thead>
+        <tr>
+            <td></td>
+            <td>投票主題</td>
+            <td>投票類別</td>
+            <td>選擇</td>
+            <td>開始時間</td>
+            <td>結束時間</td>
+            <td>人氣</td>
+            <td>開關</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
     ';
+
+    if($total_records){
+        while($row=$stmt->fetch()){
+            
+    $main.='
+    <tr>
+    <td>'.$row['s_id'].'</td>
+    <td>'.$row['s_title'].'</td>
+    <td>'.$row['types_id'].'</td>
+    <td>'.$row['s_choice'].'</td>
+    <td>'.$row['s_date_start'].'</td>
+    <td>'.$row['s_date_end'].'</td>
+    <td>'.$row['s_hits'].'</td>
+    <td>'.$row['s_close'].'</td>
+    <td>
+    ';
+    if($row['u_lv']=='user'){
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?s_id='.$row['s_id'].'">投票</a>
+    ';
+    }
+
+    $main.='
+    </td>
+    </tr>
+    ';
+    
+        }
+    }
+
+    $main.='
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="9"></td>
+        </tr>
+    </tfoot>
+</table>
+<p>
+    ';
+    if ($num_pages > 1) { // 若不是第一頁則顯示        
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page=1">第一頁</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.($num_pages-1) .'">上一頁</a>
+    ';
+    }
+    if ($num_pages < $total_pages) { // 若不是最後一頁則顯示
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.($num_pages+1) .'">下一頁</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.$total_pages.'">最後頁</a>
+    ';
+    }
+    $main.='
+    頁數：
+    ';
+    for($i=1;$i<=$total_pages;$i++){
+        if($i==$num_pages){
+    $main.='
+    '.$i.' 
+    ';
+        }else{
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.$i.'">'.$i.'</a> 
+    ';
+        }
+    }
+    $main.='
+    </p>
+    ';
+
     return $main;
 }
 function defHtml(){

@@ -10,6 +10,7 @@ switch($action){
     break;
     case "votes_add":
         votes_add();
+        header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
     break;
     case "votes_add_form":
         $content=voteWeb(votes_add_form());
@@ -84,8 +85,9 @@ function votes_add(){
     $stmt = $db_link->query($sql_query);
     $row=$stmt->fetch();
     $row_u_id=$row["u_id"];
-
+    
     $sql_query = "INSERT INTO votedb_subjects (s_title ,s_choice ,users_id ,s_date ,s_date_start ,s_date_end) VALUES (?, ?, ?, NOW(), ?, ?)";
+    // die_content("測試= ");
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
                     FilterString($_POST["s_title"], 'string')
@@ -107,11 +109,11 @@ function votes_add_form(){
             <dt>投票主題</dt>
             <dd><input type="text" name="s_title" value=""></dd>
             <dt>投票類別</dt>
-            <dd><input type="text" name="types_id" value="1"  readonly="readonly">不提供調整</dd>
+            <dd><input type="text" name="types_id" value="1" readonly="readonly">不提供調整</dd>
             <dt>選擇</dt>
             <dd>
-                <input type="radio" name="s_choice">單選 
-                <input type="radio" name="s_choice">複選
+                <input type="radio" name="s_choice" value="radio">單選 
+                <input type="radio" name="s_choice" value="check">複選
                 <input type="number" name="s_choice_num" value="1" disabled>暫不限制
             </dd>
             <dt>投票開始時間</dt>
@@ -121,7 +123,7 @@ function votes_add_form(){
         </dl>
     </fieldset>
     <input type="hidden" name="users_id" value="">
-    <input type="hidden" name="action" value="users_add">
+    <input type="hidden" name="action" value="votes_add">
     <input type="submit" value="送出">
     <input type="reset" value="重置">
     </form>
@@ -131,6 +133,15 @@ function votes_add_form(){
 function votes_my_list(){
     global $db_link;
     global $action;
+    //檢查是否經過登入，若沒有登入則重新導向
+    if(!isset($_SESSION["l_u_user"]) || ($_SESSION["l_u_user"]=="")){
+        header("location:{$_SERVER['PHP_SELF']}");
+    }
+    $sql_query="SELECT * FROM votedb_users WHERE u_user = '{$_SESSION["l_u_user"]}'";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+    $row_u_id=$row["u_id"];
+    
     //預設每頁筆數
     $pageRow_records = 10;
     //預設頁數
@@ -142,7 +153,7 @@ function votes_my_list(){
     //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
     $startRow_records = ($num_pages -1) * $pageRow_records;
     
-    $sql_query="SELECT * FROM votedb_subjects";
+    $sql_query="SELECT * FROM votedb_subjects WHERE users_id = {$row_u_id}";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
@@ -206,7 +217,7 @@ function votes_my_list(){
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="8"></td>
+            <td colspan="9"></td>
         </tr>
     </tfoot>
 </table>

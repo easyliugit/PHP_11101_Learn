@@ -1,4 +1,4 @@
-﻿﻿<?php
+﻿<?php
 $do=$_GET['do']??'title';
 include "base.php";
 $DB=new DB($do);

@@ -7,4 +7,4 @@ foreach($ads as $ad){
 }
 
 ?>
-</marquee> 
+</marquee>

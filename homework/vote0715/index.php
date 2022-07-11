@@ -80,19 +80,13 @@ switch($action){
 echo $content;
 
 function votes_add(){
-    global $db_link;
-    $sql_query="SELECT * FROM votedb_users WHERE u_user = '{$_SESSION["l_u_user"]}'";
-    $stmt = $db_link->query($sql_query);
-    $row=$stmt->fetch();
-    $row_u_id=$row["u_id"];
-    
+    global $db_link;    
     $sql_query = "INSERT INTO votedb_subjects (s_title ,s_choice ,users_id ,s_date ,s_date_start ,s_date_end) VALUES (?, ?, ?, NOW(), ?, ?)";
-    // die_content("測試= ");
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
                     FilterString($_POST["s_title"], 'string')
                     , FilterString($_POST["s_choice"], 'string')
-                    , $row_u_id
+                    , FilterString($_POST["users_id"], 'int')
                     , FilterString($_POST["s_date_start"], 'string')
                     , FilterString($_POST["s_date_end"], 'string')
                 ));
@@ -100,7 +94,15 @@ function votes_add(){
     $db_link = null;
 }
 function votes_add_form(){
-    global $link;
+    global $db_link;
+    //檢查是否經過登入，若沒有登入則重新導向
+    if(!isset($_SESSION["l_u_user"]) || ($_SESSION["l_u_user"]=="")){
+        header("location:{$_SERVER['PHP_SELF']}");
+    }
+    $sql_query="SELECT * FROM votedb_users WHERE u_user = '{$_SESSION["l_u_user"]}'";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+
     $main='
     <form action="'.$_SERVER['PHP_SELF'].'" method="post">
     <fieldset>
@@ -122,11 +124,20 @@ function votes_add_form(){
             <dd><input type="date" name="s_date_end" value="'.date('Y-m-d').'"></dd>
         </dl>
     </fieldset>
-    <input type="hidden" name="users_id" value="">
+    <fieldset>
+        <legend>新增投票選項</legend>
+        <input type="button" id="btn_add_option" value="新增選項" />
+        <ol id="add_options">
+            <li id="li0"><input type="text" name="o_option[]"><input type="button" id="btn_del_option" value="刪除選項" onclick="delOption(0)"></li>
+        </ol>
+    </fieldset>
+    <input type="hidden" name="users_id" value="'.$row["u_id"].'">
     <input type="hidden" name="action" value="votes_add">
     <input type="submit" value="送出">
     <input type="reset" value="重置">
     </form>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/votes_add_form.js"></script>
     ';
     return $main;
 }

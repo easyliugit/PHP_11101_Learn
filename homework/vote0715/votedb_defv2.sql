@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2022 年 07 月 10 日 16:51
+-- 產生時間： 2022 年 07 月 11 日 17:19
 -- 伺服器版本： 10.7.3-MariaDB
 -- PHP 版本： 7.3.12
 
@@ -58,7 +58,7 @@ CREATE TABLE `votedb_subjects` (
   `s_id` int(11) UNSIGNED NOT NULL COMMENT '主索引',
   `s_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '主題',
   `types_id` int(11) UNSIGNED DEFAULT 1 COMMENT '投票類別',
-  `s_choice` enum('check','radio') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'radio' COMMENT '單/複選',
+  `s_choice` enum('checkbox','radio') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'radio' COMMENT '單/複選',
   `s_choice_num` tinyint(2) NOT NULL DEFAULT 1 COMMENT '單/複選項目數',
   `users_id` int(11) UNSIGNED NOT NULL DEFAULT 1 COMMENT '建立者',
   `s_date` date NOT NULL COMMENT '建立日期',
@@ -97,15 +97,6 @@ CREATE TABLE `votedb_users` (
   `u_logintime` datetime DEFAULT NULL COMMENT '登入時間',
   `u_jointime` datetime NOT NULL COMMENT '加入時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- 傾印資料表的資料 `votedb_users`
---
-
-INSERT INTO `votedb_users` (`u_id`, `u_user`, `u_pw`, `u_nick`, `u_lv`, `u_email`, `u_login`, `u_logintime`, `u_jointime`) VALUES
-(1, 'voteadmin', '$2y$10$OwfU2P3QhXERkuobNob7t.I4pOn/0U5JBuhyg1ms7Z/ORKaVHLZPu', 'admin', 'admin', 'easy19050711@gmail.com', 0, NULL, '2022-07-09 22:32:54'),
-(2, 'mark', '$2y$10$Csk1hDwjmFPDgbDFF7DhaOrSSNaCtDA1COLxYzt5WQPQWUETzjBl6', 'mark', 'admin', '', 8, '2022-07-10 22:34:08', '2022-07-10 00:55:49'),
-(4, '123', '$2y$10$nj/Xm6mXiCBQte.tg1F3kuLg3bxIWuBgpRfn3pOTffpO3Rl/A3VG2', '567', 'user', '', 1, '2022-07-10 22:06:34', '2022-07-10 17:11:41');
 
 --
 -- 已傾印資料表的索引
@@ -173,7 +164,7 @@ ALTER TABLE `votedb_types`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `votedb_users`
 --
 ALTER TABLE `votedb_users`
-  MODIFY `u_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主索引', AUTO_INCREMENT=5;
+  MODIFY `u_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主索引';
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

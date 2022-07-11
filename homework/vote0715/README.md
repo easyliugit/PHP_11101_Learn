@@ -59,7 +59,7 @@
         |s_id|int(11)|N||Y|主索引|
         |s_title|varchar(255)|Y|||主題|
         |types_id|int(11)|Y|1||投票類別|
-        |s_choice|enum('check','radio')|N|radio||單/複選|
+        |s_choice|enum('checbox','radio')|N|radio||單/複選|
         |s_choice_num|tinyint(2)|N|1||單/複選項目數|
         |users_id|int(11)|N|1||建立者|
         |s_date|date|N|||建立日期|

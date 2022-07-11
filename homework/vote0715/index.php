@@ -113,7 +113,7 @@ function votes_add_form(){
             <dt>選擇</dt>
             <dd>
                 <input type="radio" name="s_choice" value="radio">單選 
-                <input type="radio" name="s_choice" value="check">複選
+                <input type="radio" name="s_choice" value="checkbox">複選
                 <input type="number" name="s_choice_num" value="1" disabled>暫不限制
             </dd>
             <dt>投票開始時間</dt>

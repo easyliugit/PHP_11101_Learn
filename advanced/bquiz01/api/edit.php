@@ -17,7 +17,7 @@ if(!empty($_POST['id'])){
                 case "admin":
                     $row['acc']=$_POST['acc'][$idx];
                     $row['pw']=$_POST['pw'][$idx];
-
+                    
                 break;
                 case "menu":
                     $row['text']=$_POST['text'][$idx];

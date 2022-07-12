@@ -5,9 +5,17 @@ session_start();
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
-    case "votes_my_list":
-        $content=voteWeb(votes_my_list());
+    case "votes_del":
+        votes_del();
+        header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
     break;
+    // case "votes_update":
+    //     votes_update();
+    //     header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+    // break;
+    // case "votes_update_form":
+    //     $content=voteWeb(votes_update_form());
+    // break;
     case "votes_add":
         votes_add();
         header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
@@ -19,6 +27,9 @@ switch($action){
         unset($_SESSION["l_u_user"]);
 	    unset($_SESSION["l_u_lv"]);     
         header("location:{$_SERVER['PHP_SELF']}");
+    break;
+    case "votes_my_list":
+        $content=voteWeb(votes_my_list());
     break;
     case "login_users":
         login_users();        
@@ -79,6 +90,12 @@ switch($action){
 }
 echo $content;
 
+function votes_del(){
+    global $db_link;
+    $sql_query = "UPDATE votedb_subjects SET s_del='1' WHERE s_id={$_GET["s_id"]}";
+    $db_link -> exec($sql_query);
+    $db_link = null;
+}
 function votes_add(){
     global $db_link;
     $sql_query = "INSERT INTO votedb_subjects (s_title ,s_choice ,users_id ,s_date ,s_date_start ,s_date_end) VALUES (?, ?, ?, NOW(), ?, ?)";
@@ -177,7 +194,7 @@ function votes_my_list(){
     //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
     $startRow_records = ($num_pages -1) * $pageRow_records;
     
-    $sql_query="SELECT * FROM votedb_subjects WHERE users_id = {$row_u_id} ORDER BY s_id DESC";
+    $sql_query="SELECT * FROM votedb_subjects WHERE users_id = {$row_u_id} AND s_del = '0' ORDER BY s_id DESC";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
@@ -202,6 +219,7 @@ function votes_my_list(){
             <td>人氣</td>
             <td>投票數</td>
             <td>開關</td>
+            <td>刪除</td>
             <td></td>
         </tr>
     </thead>
@@ -222,6 +240,7 @@ function votes_my_list(){
     <td>'.$row['s_hits'].'</td>
     <td>'.$row['s_votes'].'</td>
     <td>'.$row['s_close'].'</td>
+    <td>'.$row['s_del'].'</td>
     <td>
     ';
     if($row['users_id']==$row_u_id){
@@ -243,7 +262,7 @@ function votes_my_list(){
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="10"></td>
+            <td colspan="11"></td>
         </tr>
     </tfoot>
 </table>
@@ -563,7 +582,7 @@ function votes_list(){
     //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
     $startRow_records = ($num_pages -1) * $pageRow_records;
     
-    $sql_query="SELECT * FROM votedb_subjects ORDER BY s_id DESC";
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' ORDER BY s_id DESC";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中

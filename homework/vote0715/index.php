@@ -176,13 +176,11 @@ function votes_update_form(){
     <fieldset>
         <legend>投票選項</legend>
         <ol id="options">
-        <!-- <li id="li0"><input type="text" name="o_option[]" value=""><input type="button" id="btn_del_option" value="刪除選項" onclick="delOption(0)"></li> -->
+        <!-- <li><input type="text" name="o_option[]" value=""> <input type="checkbox" name="del_check[]" value="">刪除</li> -->
         ';
     if($total_records_options){
-        $i = 0;
         foreach($row_result_options as $item=>$row_options){
-            $main.='<li id="li'.$i.'"><input type="text" name="o_option[]" value="'.$row_options["o_option"].'"><input type="button" id="btn_del_option" value="刪除選項" onclick="delOption('.$i.')"></li>';
-            $i++;
+            $main.='<li><input type="text" name="o_option[]" value="'.$row_options["o_option"].'"> <input type="checkbox" name="del_check[]" value="'.$row_options["o_id"].'">刪除<input type="hidden" name="o_id[]" value="'.$row_options["o_id"].'"></li>';
         }
     }
     $main.='
@@ -198,7 +196,7 @@ function votes_update_form(){
     <input type="hidden" name="s_id" value="'.$row["s_id"].'">
     <input type="hidden" name="action" value="votes_update">
     <input type="submit" value="送出">
-    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&s_id='.$row["s_id"].'">重置</a>
+    <input type="reset" value="重置"> 
     </form>
     <script src="./js/jquery-3.6.0.min.js"></script>
     <script src="./js/votes_update_form.js"></script>

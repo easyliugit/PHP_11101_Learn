@@ -46,6 +46,7 @@ function die_content($content=""){
   die($main);
 }
 function voteWeb($content=""){
+  global $db_link;
   global $title;
   $main='
   <!DOCTYPE html>
@@ -81,8 +82,24 @@ function voteWeb($content=""){
           <div class="box">
               <nav>
                   <ul>
-                      <li><a href="#">全部 ()</a></li>
-                      <li><a href="#">生活 ()</a></li>
+                  <!-- <li><a href="#">全部 ()</a></li> -->
+  ';
+                      // $sql_query="SELECT * FROM `votedb_types` WHERE t_name != '全部' ORDER BY t_sort ASC ,t_id DESC";
+                      $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
+                      $stmt = $db_link->query($sql_query);
+                      $row_result=$stmt->fetchAll();
+                      $total_records = count($row_result);
+                      if($total_records){
+                        foreach($row_result as $item=>$row){                          
+                          $sql_query="SELECT count(*) FROM `votedb_subjects` WHERE types_id = {$row['t_id']}";
+                          $stmt = $db_link->query($sql_query);
+                          $stmt->execute();
+                          $total_records = $stmt->fetchColumn();
+
+                          $main.='<li><a href="'.$_SERVER['PHP_SELF'].'?types_id='.$row["t_id"].'">'.$row['t_name'].' ('.$total_records.')</a></li>';
+                        }
+                      }
+  $main.='
                   </ul>
               </nav>
               <article>

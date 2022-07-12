@@ -581,8 +581,12 @@ function votes_list(){
     }
     //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
     $startRow_records = ($num_pages -1) * $pageRow_records;
-    
-    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' ORDER BY s_id DESC";
+    if($_GET["types_id"]!=""){
+        $get_types_id = "AND types_id={$_GET["types_id"]} ";        
+    }else{
+        $get_types_id = "";
+    }
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' {$get_types_id}ORDER BY s_id DESC";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
@@ -619,7 +623,19 @@ function votes_list(){
     <tr>
     <td>'.$row['s_id'].'</td>
     <td>'.$row['s_title'].'</td>
-    <td>'.$row['types_id'].'</td>
+    <td>';
+        if($_GET["types_id"]!=""){
+            $types_id = $_GET["types_id"];        
+        }else{
+            $types_id = $row['types_id'];
+        }
+        $sql_query="SELECT * FROM `votedb_types` WHERE t_id = {$types_id}";
+        // die_content("測試sql_query= {$sql_query}");
+        $stmt_types = $db_link->query($sql_query);
+        $row_types=$stmt_types->fetch();
+        $main .= $row_types['t_name'];
+        $main.=
+    '</td>
     <td>'.$row['s_choice'].'</td>
     <td>'.$row['s_date_start'].'</td>
     <td>'.$row['s_date_end'].'</td>

@@ -99,13 +99,42 @@ function votes_update(){
     $sql_query = "UPDATE votedb_subjects SET s_title=?, types_id=?, s_choice=?, s_date_start=? ,s_date_end=? WHERE s_id=?";
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
-                    FilterString($_POST["s_title"], 'string')
-                    , FilterString($_POST["types_id"], 'int')
-                    , FilterString($_POST["s_choice"], 'string')
-                    , FilterString($_POST["s_date_start"], 'string')
-                    , FilterString($_POST["s_date_end"], 'string')
-                    , FilterString($_POST["s_id"], 'int')
-                ));
+        FilterString($_POST["s_title"], 'string')
+        , FilterString($_POST["types_id"], 'int')
+        , FilterString($_POST["s_choice"], 'string')
+        , FilterString($_POST["s_date_start"], 'string')
+        , FilterString($_POST["s_date_end"], 'string')
+        , FilterString($_POST["s_id"], 'int')
+    ));
+
+    for ($i=0; $i < count($_POST["o_id"]); $i++) { 
+        if(in_array($_POST["o_id"][$i],$_POST["del_check"])){
+            $sql_query = "DELETE FROM votedb_options WHERE o_id=?";
+            $stmt = $db_link -> prepare($sql_query);
+            $stmt -> execute(array($_POST["o_id"][$i]));
+        }else{
+            $sql_query = "UPDATE votedb_options SET o_option=? WHERE o_id=?";
+            $stmt = $db_link -> prepare($sql_query);
+            $stmt -> execute(array(
+                FilterString($_POST["o_option"][$i], 'string')
+                , FilterString($_POST["o_id"][$i], 'int')
+            ));
+        }
+    }
+
+    for ($i=0; $i < count($_POST["o_option_add"]) ; $i++) { 
+        if ($_POST["o_option_add"][$i]=="") {
+            continue;
+        }
+        // die_content("測試= ");
+        $sql_query = "INSERT INTO votedb_options (subjects_id ,o_option) VALUES (?, ?)";
+        $stmt = $db_link -> prepare($sql_query);
+        $stmt -> execute(array(
+                        FilterString($_POST["s_id"], 'int')
+                        , FilterString($_POST["o_option_add"][$i], 'string')
+                    ));
+    }
+
     $stmt = null;
     $db_link = null;    
 }

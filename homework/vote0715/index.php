@@ -5,6 +5,13 @@ session_start();
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "votes_update":
+        votes_update();
+        header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+    break;
+    case "votes_update_form":
+        $content=voteWeb(votes_update_form());
+    break;
     case "votes_del":
         votes_del();
         if($_GET["at"]=="votes_list"){
@@ -13,13 +20,6 @@ switch($action){
             header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
         }
     break;
-    // case "votes_update":
-    //     votes_update();
-    //     header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
-    // break;
-    // case "votes_update_form":
-    //     $content=voteWeb(votes_update_form());
-    // break;
     case "votes_add":
         votes_add();
         header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
@@ -94,36 +94,123 @@ switch($action){
 }
 echo $content;
 
+function votes_update(){
+    global $db_link;
+    $sql_query = "UPDATE votedb_subjects SET s_title=?, types_id=?, s_choice=?, s_date_start=? ,s_date_end=? WHERE s_id=?";
+    $stmt = $db_link -> prepare($sql_query);
+    $stmt -> execute(array(
+                    FilterString($_POST["s_title"], 'string')
+                    , FilterString($_POST["types_id"], 'int')
+                    , FilterString($_POST["s_choice"], 'string')
+                    , FilterString($_POST["s_date_start"], 'string')
+                    , FilterString($_POST["s_date_end"], 'string')
+                    , FilterString($_POST["s_id"], 'int')
+                ));
+    $stmt = null;
+    $db_link = null;    
+}
+function votes_update_form(){
+    global $db_link;
+    //檢查是否經過登入，若沒有登入則重新導向
+    if(!isset($_SESSION["l_u_user"]) || ($_SESSION["l_u_user"]=="")){
+        header("location:{$_SERVER['PHP_SELF']}");
+    }
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$_GET["s_id"]}'";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+    // die_content("測試=");
+    
+    $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
+    $stmt_types = $db_link->query($sql_query);
+    $row_result_types=$stmt_types->fetchAll();
+    $total_records_types = count($row_result_types);
+
+    $sql_query="SELECT * FROM `votedb_options` WHERE subjects_id = '{$row["s_id"]}'";
+    $stmt_options = $db_link->query($sql_query);
+    $row_result_options=$stmt_options->fetchAll();
+    $total_records_options = count($row_result_options);
+
+    $main='
+    <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+    <fieldset>
+        <legend>編輯投票主題</legend>
+        <dl>
+            <dt>投票主題</dt>
+            <dd><input type="text" name="s_title" value="'.$row["s_title"].'"></dd>
+            <dt>投票類別</dt>
+            <dd>
+                <select name="types_id">
+                    <!-- <option value="1" selected>全部</option> -->
+    ';
+    if($total_records_types){
+        foreach($row_result_types as $item=>$row_types){
+            if($row["types_id"]==$row_types["t_id"]){
+                $selected = " selected";
+            }
+            $main.='<option value="'.$row_types["t_id"].'"'.$selected.'>'.$row_types["t_name"].'</option>';
+        }
+    }
+    $main.='
+                </select>
+            </dd>
+            <!-- <dd><input type="text" name="types_id" value="1" readonly="readonly">不提供調整</dd> -->
+            <dt>選擇</dt>
+            <dd>
+            ';
+            if($row["s_choice"=="radio"]){
+                $radio_checked = " checked";
+            }else{
+                $checkbox_checked = " checked";
+            }
+            $main.='
+                <input type="radio" name="s_choice" value="radio"'.$radio_checked.'>單選 
+                <input type="radio" name="s_choice" value="checkbox"'.$checkbox_checked.'>複選
+                <input type="number" name="s_choice_num" value="1" disabled>暫不限制
+            </dd>
+            <dt>投票開始時間</dt>
+            <dd><input type="date" name="s_date_start" value="'.$row["s_date_start"].'"></dd>
+            <dt>投票結束時間</dt>
+            <dd><input type="date" name="s_date_end" value="'.$row["s_date_end"].'"></dd>
+        </dl>
+    </fieldset>
+    <fieldset>
+        <legend>投票選項</legend>
+        <ol id="options">
+        <!-- <li id="li0"><input type="text" name="o_option[]" value=""><input type="button" id="btn_del_option" value="刪除選項" onclick="delOption(0)"></li> -->
+        ';
+    if($total_records_options){
+        $i = 0;
+        foreach($row_result_options as $item=>$row_options){
+            $main.='<li id="li'.$i.'"><input type="text" name="o_option[]" value="'.$row_options["o_option"].'"><input type="button" id="btn_del_option" value="刪除選項" onclick="delOption('.$i.')"></li>';
+            $i++;
+        }
+    }
+    $main.='
+        </ol>
+    </fieldset>
+    <fieldset>
+        <legend>新增投票選項</legend>
+        <input type="button" id="btn_add_option" value="新增選項" />
+        <ol id="add_options">
+            <li id="li_add0"><input type="text" name="o_option_add[]" value=""><input type="button" id="btn_del_option" value="刪除選項" onclick="delOption_add(0)"></li>
+        </ol>
+    </fieldset>
+    <input type="hidden" name="s_id" value="'.$row["s_id"].'">
+    <input type="hidden" name="action" value="votes_update">
+    <input type="submit" value="送出">
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&s_id='.$row["s_id"].'">重置</a>
+    </form>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/votes_update_form.js"></script>
+    ';
+
+    return $main;
+}
 function votes_del(){
     global $db_link;
     $sql_query = "UPDATE votedb_subjects SET s_del='1' WHERE s_id={$_GET["s_id"]}";
     $db_link -> exec($sql_query);
     $db_link = null;
-}
-function votes_update(){
-    global $db_link;
-    //檢查是否經過登入，若沒有登入則重新導向
-    // if(!isset($_SESSION["l_u_user"]) || ($_SESSION["l_u_user"]=="")){
-    //     header("location:{$_SERVER['PHP_SELF']}");
-    // }
-    // $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$_GET["s_id"]}'";
-    // $stmt = $db_link->query($sql_query);
-    // $row=$stmt->fetch();
-
-    // $sql_query="SELECT * FROM `votedb_options` WHERE subjects_id = '{$row["s_id"]}'";
-    // $stmt_options = $db_link->query($sql_query);
-    // $row_result_options=$stmt_options->fetchAll();
-
-    // $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
-    // $stmt_types = $db_link->query($sql_query);
-    // $row_result_types=$stmt_types->fetchAll();
-    // $total_records_types = count($row_result_types);
-
-    $main='
-    
-    ';
-
-    return $main;
 }
 function votes_add(){
     global $db_link;

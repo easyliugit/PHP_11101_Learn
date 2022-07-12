@@ -133,6 +133,11 @@ function votes_add_form(){
     $stmt = $db_link->query($sql_query);
     $row=$stmt->fetch();
 
+    $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
+    $stmt_types = $db_link->query($sql_query);
+    $row_result_types=$stmt_types->fetchAll();
+    $total_records_types = count($row_result_types);
+
     $main='
     <form action="'.$_SERVER['PHP_SELF'].'" method="post">
     <fieldset>
@@ -141,7 +146,22 @@ function votes_add_form(){
             <dt>投票主題</dt>
             <dd><input type="text" name="s_title" value=""></dd>
             <dt>投票類別</dt>
-            <dd><input type="text" name="types_id" value="1" readonly="readonly">不提供調整</dd>
+            <dd>
+            <select name="types_id">
+            <!-- <option value="1" selected>全部</option> -->
+    ';
+            if($total_records_types){
+                foreach($row_result_types as $item=>$row_types){
+                    $main.='<option value="'.$row_types['t_id'].'"';
+                    if($row_types['t_id']==1){
+                        $main.= ' selected';
+                    }
+                    $main.='>'.$row_types['t_name'].'</option>';
+                }
+            }
+    $main.='
+            </select>
+            </dd>
             <dt>選擇</dt>
             <dd>
                 <input type="radio" name="s_choice" value="radio" checked>單選 
@@ -219,7 +239,6 @@ function votes_my_list(){
             <td>人氣</td>
             <td>投票數</td>
             <td>開關</td>
-            <td>刪除</td>
             <td></td>
         </tr>
     </thead>
@@ -233,14 +252,19 @@ function votes_my_list(){
     <tr>
     <td>'.$row['s_id'].'</td>
     <td>'.$row['s_title'].'</td>
-    <td>'.$row['types_id'].'</td>
+    <td>';
+        $sql_query="SELECT * FROM `votedb_types` WHERE t_id = {$row['types_id']}";
+        $stmt_types = $db_link->query($sql_query);
+        $row_types=$stmt_types->fetch();
+        $main .= $row_types['t_name'];
+        $main.=
+    '</td>
     <td>'.$row['s_choice'].'</td>
     <td>'.$row['s_date_start'].'</td>
     <td>'.$row['s_date_end'].'</td>
     <td>'.$row['s_hits'].'</td>
     <td>'.$row['s_votes'].'</td>
     <td>'.$row['s_close'].'</td>
-    <td>'.$row['s_del'].'</td>
     <td>
     ';
     if($row['users_id']==$row_u_id){
@@ -262,7 +286,7 @@ function votes_my_list(){
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="11"></td>
+            <td colspan="10"></td>
         </tr>
     </tfoot>
 </table>
@@ -630,7 +654,6 @@ function votes_list(){
             $types_id = $row['types_id'];
         }
         $sql_query="SELECT * FROM `votedb_types` WHERE t_id = {$types_id}";
-        // die_content("測試sql_query= {$sql_query}");
         $stmt_types = $db_link->query($sql_query);
         $row_types=$stmt_types->fetch();
         $main .= $row_types['t_name'];

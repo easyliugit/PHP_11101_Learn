@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>'.$title.'</title>
+    <link rel="stylesheet" href="./css/share.css">
+</head>
+<body>
+    <div class="vote_body">
+        <header>
+            <a href="'.$_SERVER['PHP_SELF'].'"><h1>'.$title.'</h1></a>
+            <ul>
+                <li><a href="#">登入</a></li>
+                <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_add_form">註冊</a></li>
+            </ul>
+        </header>
+        <div class="box">
+            <nav>
+                <ul>
+                    <li><a href="#">全部 ()</a></li>
+                    <li><a href="#">生活 ()</a></li>
+                </ul>
+            </nav>
+            <article>
+                <nav>
+                    <ul>
+                        <li><a href="#">綜合排行</a></li>
+                        <li><a href="#">人氣排行</a></li>
+                        <li><a href="#">新發起的</a></li>
+                        <li><a href="#">即將結束</a></li>
+                        <!-- <li>進行中已結束</li> -->
+                    </ul>
+                    <ul class="new_vote">
+                        <li><a href="#">新增投票</a></li>
+                    </ul>
+                </nav>
+                <section>
+                    <!-- $content 開始 -->
+                    <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+                        <fieldset>
+                            <legend>編輯投票主題</legend>
+                            <dl>
+                                <dt>投票主題</dt>
+                                <dd><input type="text" name="s_title" value=""></dd>
+                                <dt>投票類別</dt>
+                                <dd>
+                                    <select name="types_id">
+                                        <!-- <option value="1" selected>全部</option> -->
+                                    </select>
+                                </dd>
+                                <!-- <dd><input type="text" name="types_id" value="1" readonly="readonly">不提供調整</dd> -->
+                                <dt>選擇</dt>
+                                <dd>
+                                    <input type="radio" name="s_choice" value="radio" checked>單選 
+                                    <input type="radio" name="s_choice" value="checkbox">複選
+                                    <input type="number" name="s_choice_num" value="1" disabled>暫不限制
+                                </dd>
+                                <dt>投票開始時間</dt>
+                                <dd><input type="date" name="s_date_start" value=""></dd>
+                                <dt>投票結束時間</dt>
+                                <dd><input type="date" name="s_date_end" value=""></dd>
+                            </dl>
+                        </fieldset>
+                        <fieldset>
+                            <legend>投票選項</legend>
+                            <ol id="options">
+                                <li id="li0"><input type="text" name="o_option[]"><input type="button" id="btn_del_option" value="刪除選項" onclick="delOption(0)"></li>
+                            </ol>
+                        </fieldset>
+                        <fieldset>
+                            <legend>新增投票選項</legend>
+                            <input type="button" id="btn_add_option" value="新增選項" />
+                            <ol id="add_options">
+                                <li id="li_add0"><input type="text" name="o_option_add[]"><input type="button" id="btn_del_option" value="刪除選項" onclick="delOption_add(0)"></li>
+                            </ol>
+                        </fieldset>
+                        <input type="hidden" name="action" value="votes_update">
+                        <input type="submit" value="送出">
+                        <input type="reset" value="重置">                        
+                    </form>
+                    <script src="./js/jquery-3.6.0.min.js"></script>
+                    <script src="./js/votes_add_form.js"></script>
+                </section>
+            </article>
+        </div>
+        <footer>
+            <h3>版權所有© 泰山職訓PHP網頁設計11101 01劉峻誌</h3>
+        </footer>
+    </div>    
+</body>
+</html>

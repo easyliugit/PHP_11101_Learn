@@ -7,7 +7,11 @@ $action=$_REQUEST['action'];
 switch($action){
     case "votes_del":
         votes_del();
-        header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+        if($_GET["at"]=="votes_list"){
+            header("location:{$_SERVER['PHP_SELF']}");
+        }else{
+            header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+        }
     break;
     // case "votes_update":
     //     votes_update();
@@ -96,12 +100,38 @@ function votes_del(){
     $db_link -> exec($sql_query);
     $db_link = null;
 }
+function votes_update(){
+    global $db_link;
+    //檢查是否經過登入，若沒有登入則重新導向
+    // if(!isset($_SESSION["l_u_user"]) || ($_SESSION["l_u_user"]=="")){
+    //     header("location:{$_SERVER['PHP_SELF']}");
+    // }
+    // $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$_GET["s_id"]}'";
+    // $stmt = $db_link->query($sql_query);
+    // $row=$stmt->fetch();
+
+    // $sql_query="SELECT * FROM `votedb_options` WHERE subjects_id = '{$row["s_id"]}'";
+    // $stmt_options = $db_link->query($sql_query);
+    // $row_result_options=$stmt_options->fetchAll();
+
+    // $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
+    // $stmt_types = $db_link->query($sql_query);
+    // $row_result_types=$stmt_types->fetchAll();
+    // $total_records_types = count($row_result_types);
+
+    $main='
+    
+    ';
+
+    return $main;
+}
 function votes_add(){
     global $db_link;
-    $sql_query = "INSERT INTO votedb_subjects (s_title ,s_choice ,users_id ,s_date ,s_date_start ,s_date_end) VALUES (?, ?, ?, NOW(), ?, ?)";
+    $sql_query = "INSERT INTO votedb_subjects (s_title ,types_id ,s_choice ,users_id ,s_date ,s_date_start ,s_date_end) VALUES (?, ?, ?, ?, NOW(), ?, ?)";
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
                     FilterString($_POST["s_title"], 'string')
+                    , FilterString($_POST["types_id"], 'int')
                     , FilterString($_POST["s_choice"], 'string')
                     , FilterString($_POST["users_id"], 'int')
                     , FilterString($_POST["s_date_start"], 'string')
@@ -594,7 +624,7 @@ function users_list(){
 }
 function votes_list(){
     global $db_link;
-    global $action;
+    $action = "votes_list";
     //預設每頁筆數
     $pageRow_records = 10;
     //預設頁數
@@ -669,7 +699,7 @@ function votes_list(){
     if($_SESSION["l_u_lv"]=="admin"){
     $main.='
     <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&s_id='.$row['s_id'].'">編輯</a> | 
-    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_del&s_id='.$row['s_id'].'">刪除</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_del&s_id='.$row['s_id'].'&at='.$action.'">刪除</a>
     ';
     }
 

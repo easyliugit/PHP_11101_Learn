@@ -88,10 +88,10 @@ function voteWeb($content=""){
               <article>
                   <nav>
                       <ul>
-                          <li><a href="#">綜合排行</a></li>
-                          <li><a href="#">人氣排行</a></li>
-                          <li><a href="#">新發起的</a></li>
-                          <li><a href="#">即將結束</a></li>
+                          <li><a href="'.$_SERVER['PHP_SELF'].'">綜合排行</a></li>
+                          <li><a href="'.$_SERVER['PHP_SELF'].'">人氣排行</a></li>
+                          <li><a href="'.$_SERVER['PHP_SELF'].'">新發起的</a></li>
+                          <li><a href="'.$_SERVER['PHP_SELF'].'">即將結束</a></li>
                       </ul>
                   </nav>
   ';

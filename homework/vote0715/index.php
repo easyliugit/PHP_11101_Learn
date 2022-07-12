@@ -80,7 +80,7 @@ switch($action){
 echo $content;
 
 function votes_add(){
-    global $db_link;    
+    global $db_link;
     $sql_query = "INSERT INTO votedb_subjects (s_title ,s_choice ,users_id ,s_date ,s_date_start ,s_date_end) VALUES (?, ?, ?, NOW(), ?, ?)";
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
@@ -90,6 +90,19 @@ function votes_add(){
                     , FilterString($_POST["s_date_start"], 'string')
                     , FilterString($_POST["s_date_end"], 'string')
                 ));
+    $s_id = $db_link -> lastInsertId();
+    for ($i=0; $i < count($_POST["o_option"]) ; $i++) { 
+        if ($_POST["o_option"][$i]=="") {
+            continue;
+        }
+        // die_content("測試= ");
+        $sql_query = "INSERT INTO votedb_options (subjects_id ,o_option) VALUES (?, ?)";
+        $stmt = $db_link -> prepare($sql_query);
+        $stmt -> execute(array(
+                        $s_id
+                        , FilterString($_POST["o_option"][$i], 'string')
+                    ));
+    }
     $stmt = null;
     $db_link = null;
 }
@@ -114,7 +127,7 @@ function votes_add_form(){
             <dd><input type="text" name="types_id" value="1" readonly="readonly">不提供調整</dd>
             <dt>選擇</dt>
             <dd>
-                <input type="radio" name="s_choice" value="radio">單選 
+                <input type="radio" name="s_choice" value="radio" checked>單選 
                 <input type="radio" name="s_choice" value="checkbox">複選
                 <input type="number" name="s_choice_num" value="1" disabled>暫不限制
             </dd>
@@ -164,7 +177,7 @@ function votes_my_list(){
     //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
     $startRow_records = ($num_pages -1) * $pageRow_records;
     
-    $sql_query="SELECT * FROM votedb_subjects WHERE users_id = {$row_u_id}";
+    $sql_query="SELECT * FROM votedb_subjects WHERE users_id = {$row_u_id} ORDER BY s_id DESC";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
@@ -187,6 +200,7 @@ function votes_my_list(){
             <td>開始時間</td>
             <td>結束時間</td>
             <td>人氣</td>
+            <td>投票數</td>
             <td>開關</td>
             <td></td>
         </tr>
@@ -206,10 +220,11 @@ function votes_my_list(){
     <td>'.$row['s_date_start'].'</td>
     <td>'.$row['s_date_end'].'</td>
     <td>'.$row['s_hits'].'</td>
+    <td>'.$row['s_votes'].'</td>
     <td>'.$row['s_close'].'</td>
     <td>
     ';
-    if($row['u_lv']=='user'){
+    if($row['users_id']==$row_u_id){
     $main.='
     <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&s_id='.$row['s_id'].'">編輯</a> | 
     <a href="'.$_SERVER['PHP_SELF'].'?action=votes_del&s_id='.$row['s_id'].'">刪除</a>
@@ -228,7 +243,7 @@ function votes_my_list(){
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="9"></td>
+            <td colspan="10"></td>
         </tr>
     </tfoot>
 </table>
@@ -536,6 +551,7 @@ function users_list(){
 }
 function votes_list(){
     global $db_link;
+    global $action;
     //預設每頁筆數
     $pageRow_records = 10;
     //預設頁數
@@ -547,7 +563,7 @@ function votes_list(){
     //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
     $startRow_records = ($num_pages -1) * $pageRow_records;
     
-    $sql_query="SELECT * FROM votedb_subjects";
+    $sql_query="SELECT * FROM votedb_subjects ORDER BY s_id DESC";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
@@ -559,7 +575,7 @@ function votes_list(){
     //計算總頁數=(總筆數/每頁筆數)後無條件進位。
     $total_pages = ceil($total_records/$pageRow_records);
     $main='
-    <table class="votes_my_list">
+    <table class="votes_list">
     <caption>所有投票清單</caption>
     <thead>
         <tr>
@@ -570,7 +586,7 @@ function votes_list(){
             <td>開始時間</td>
             <td>結束時間</td>
             <td>人氣</td>
-            <td>開關</td>
+            <td>投票數</td>
             <td></td>
         </tr>
     </thead>
@@ -589,12 +605,13 @@ function votes_list(){
     <td>'.$row['s_date_start'].'</td>
     <td>'.$row['s_date_end'].'</td>
     <td>'.$row['s_hits'].'</td>
-    <td>'.$row['s_close'].'</td>
+    <td>'.$row['s_votes'].'</td>
     <td>
     ';
-    if($row['u_lv']=='user'){
+    if($_SESSION["l_u_lv"]=="admin"){
     $main.='
-    <a href="'.$_SERVER['PHP_SELF'].'?s_id='.$row['s_id'].'">投票</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&s_id='.$row['s_id'].'">編輯</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_del&s_id='.$row['s_id'].'">刪除</a>
     ';
     }
 

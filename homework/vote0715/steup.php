@@ -106,7 +106,7 @@ function voteWeb($content=""){
                       $total_records = count($row_result);
                       if($total_records){
                         foreach($row_result as $item=>$row){                          
-                          $sql_query="SELECT count(*) FROM `votedb_subjects` WHERE types_id = {$row['t_id']} AND s_del = '0'";
+                          $sql_query="SELECT count(*) FROM `votedb_subjects` WHERE types_id = {$row['t_id']} AND s_del = '0' AND s_close = '0'";
                           $stmt = $db_link->query($sql_query);
                           $stmt->execute();
                           $total_records = $stmt->fetchColumn();

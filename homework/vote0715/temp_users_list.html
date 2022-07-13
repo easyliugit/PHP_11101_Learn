@@ -57,6 +57,7 @@
                                 <td>登入次數</td>
                                 <td>登入時間</td>
                                 <td>加入日期</td>
+                                <td>開關</td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -69,6 +70,10 @@
                                 <td>'.$row['u_login'].'</td>
                                 <td>'.$row['u_linintime'].'</td>
                                 <td>'.$row['u_jointime'].'</td>
+                                <td>
+                                    <a href="">開</a>
+                                    <a href="">關</a>
+                                </td>
                                 <td><a href="'.$_SERVER['PHP_SELF'].'?action=users_update_form&u_id='.$row['u_id'].'">編輯</a> |<a href="#">刪除</a></td>
                                 </tr>
                         </tbody>

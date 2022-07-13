@@ -54,6 +54,10 @@ switch($action){
             header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
         }
     break;
+    case "votes_close":
+        votes_close();
+        header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+    break;
     case "votes_add":
         if ($_POST["s_title"]!="") {
             votes_add();
@@ -387,6 +391,12 @@ function votes_del(){
     $db_link -> exec($sql_query);
     $db_link = null;
 }
+function votes_close(){
+    global $db_link;
+    $sql_query = "UPDATE votedb_subjects SET s_close='{$_GET["s_close"]}' WHERE s_id={$_GET["s_id"]}";
+    $db_link -> exec($sql_query);
+    $db_link = null;
+}
 function votes_add(){
     global $db_link;
     $sql_query = "INSERT INTO votedb_subjects (s_title ,types_id ,s_choice ,users_id ,s_date ,s_date_start ,s_date_end) VALUES (?, ?, ?, ?, NOW(), ?, ?)";
@@ -404,7 +414,6 @@ function votes_add(){
         if ($_POST["o_option"][$i]=="") {
             continue;
         }
-        // die_content("測試= ");
         $sql_query = "INSERT INTO votedb_options (subjects_id ,o_option) VALUES (?, ?)";
         $stmt = $db_link -> prepare($sql_query);
         $stmt -> execute(array(
@@ -556,7 +565,13 @@ function votes_my_list(){
     <td>'.$row['s_date_end'].'</td>
     <td>'.$row['s_hits'].'</td>
     <td>'.$row['s_votes'].'</td>
-    <td>'.$row['s_close'].'</td>
+    <td>
+    ';
+    $row_s_close = ($row['s_close']=="0") ? 1 : 0 ;
+    $row_s_close_val = ($row['s_close']=="0") ? '開' : '關' ;
+    $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_close&s_id='.$row['s_id'].'&s_close='.$row_s_close.'">'.$row_s_close_val.'</a>
+    </td>
     <td>
     ';
     if($row['users_id']==$row_u_id){
@@ -909,7 +924,7 @@ function votes_list(){
     }else{
         $get_types_id = "";
     }
-    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' {$get_types_id}ORDER BY s_id DESC";
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' AND s_close = '0' {$get_types_id}ORDER BY s_id DESC";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中

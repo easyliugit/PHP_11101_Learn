@@ -9,11 +9,21 @@ switch($action){
         $content=voteWeb(votes_log_list());
     break;
     case "votes_option":
-        votes_option();
+        if (count($_POST["options_id"])) {
+            votes_option();
+            header("location:{$_SERVER['PHP_SELF']}?action=votes_log_list&s_id={$_POST["subjects_id"]}");
+        } else {
+            $Msg = "請選擇投票項目";
+            // die_content("測試= ");
+            header("location:{$_SERVER['PHP_SELF']}?action=votes_option_form&s_id={$_POST["subjects_id"]}&Msg={$Msg}");
+        }
+        
     break;
     case "votes_option_form":
         if(isset($_GET["s_id"])&&($_GET["s_id"]!="")){
             $content=voteWeb(votes_option_form());
+        }else {
+            header("location:{$_SERVER['PHP_SELF']}");
         }
     break;
     case "votes_update":
@@ -30,9 +40,10 @@ switch($action){
         //檢查是否經過登入，若沒有登入則重新導向
         if(!isset($_SESSION["l_u_user"]) || ($_SESSION["l_u_user"]=="")){
             header("location:{$_SERVER['PHP_SELF']}");
-        }
-        if(isset($_GET["s_id"])&&($_GET["s_id"]!="")){
+        }elseif(isset($_GET["s_id"])&&($_GET["s_id"]!="")){
             $content=voteWeb(votes_update_form());
+        }else {
+            header("location:{$_SERVER['PHP_SELF']}");
         }
     break;
     case "votes_del":
@@ -71,13 +82,9 @@ switch($action){
         $content=voteWeb(login_users_form());
     break;
     case "users_del":
-        $sql_query="SELECT * FROM votedb_users WHERE u_id = {$_GET["u_id"]}";
-        $stmt = $db_link->query($sql_query);
-        $row=$stmt->fetch();
-        if($row['u_lv']=='admin'){
-            header("location:{$_SERVER['PHP_SELF']}?action=users_list");
+        if(isset($_GET["u_id"])&&($_GET["u_id"]!="")){
+            users_del();
         }
-        users_del();
         header("location:{$_SERVER['PHP_SELF']}?action=users_list");
     break;
     case "users_update":
@@ -132,9 +139,33 @@ function votes_log_list(){
 }
 function votes_option(){
     global $db_link;
-    $main='
-    ';
-    return $main;
+    $post_s_id = FilterString($_POST["subjects_id"], 'int');
+
+    for ($i=0; $i < count($_POST["options_id"]) ; $i++) { 
+        $post_o_id = FilterString($_POST["options_id"][$i], 'int');
+        $sql_query = "INSERT INTO votedb_logs (users_id ,subjects_id ,options_id ,l_time ,l_ip) VALUES (?, ?, ?, NOW(), ?)";
+        $stmt = $db_link -> prepare($sql_query);
+        $stmt -> execute(array(
+                        FilterString($_POST["users_id"], 'int')
+                        , $post_s_id
+                        , $post_o_id
+                        , FilterString($_POST["l_ip"], 'string')
+                    ));
+    
+        $sql_query="SELECT count(*) FROM votedb_logs WHERE options_id = {$post_o_id}";
+        $stmt = $db_link->query($sql_query);
+        $total_records = $stmt->fetchColumn();
+        
+        $sql_query = "UPDATE votedb_options SET o_votes=$total_records WHERE o_id={$post_o_id}";
+        $db_link -> exec($sql_query);
+    }
+
+    $sql_query="SELECT count(*) FROM votedb_logs WHERE subjects_id = {$post_s_id}";
+    $stmt = $db_link->query($sql_query);
+    $total_records = $stmt->fetchColumn();
+    
+    $sql_query = "UPDATE votedb_subjects SET s_votes=$total_records WHERE s_id={$post_s_id}";
+    $db_link -> exec($sql_query);
 }
 function votes_option_form(){
     global $db_link;
@@ -183,6 +214,7 @@ function votes_option_form(){
             <dd>'.$row["s_date_end"].'</dd>
         </dl>
     </fieldset>
+    <p>'.$_GET["Msg"].'</p>
     <fieldset>
         <legend>投票選項</legend>
         <ol>
@@ -253,7 +285,9 @@ function votes_update(){
 }
 function votes_update_form(){
     global $db_link;
-    $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$_GET["s_id"]}'";
+    $get_s_id = FilterString($_GET["s_id"], 'int');
+
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$get_s_id}'";
     $stmt = $db_link->query($sql_query);
     $row=$stmt->fetch();
     
@@ -636,12 +670,19 @@ function login_users_form(){
     return $main;
 }
 function users_del(){
-    global $db_link;    
-    $sql_query = "DELETE FROM votedb_users WHERE u_id=?";
-    $stmt = $db_link -> prepare($sql_query);
-    $stmt -> execute(array($_GET['u_id']));
-    $stmt = null;
-    $db_link = null;    
+    global $db_link;
+    $get_u_id = FilterString($_GET["u_id"], 'int');
+
+    $sql_query="SELECT * FROM votedb_users WHERE u_id = {$get_u_id}";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+    if($row['u_lv']!='admin'){
+        $sql_query = "DELETE FROM votedb_users WHERE u_id=?";
+        $stmt = $db_link -> prepare($sql_query);
+        $stmt -> execute(array($get_u_id));
+        $stmt = null;
+        $db_link = null;    
+    }    
 }
 function users_update(){
     global $db_link;

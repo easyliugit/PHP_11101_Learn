@@ -56,7 +56,11 @@ switch($action){
     break;
     case "votes_close":
         votes_close();
-        header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+        if($_GET["at"]=="votes_list"){
+            header("location:{$_SERVER['PHP_SELF']}");
+        }else{
+            header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+        }
     break;
     case "votes_add":
         if ($_POST["s_title"]!="") {
@@ -245,7 +249,7 @@ function votes_option_form(){
 }
 function votes_update(){
     global $db_link;
-    $sql_query = "UPDATE votedb_subjects SET s_title=?, types_id=?, s_choice=?, s_date_start=? ,s_date_end=? WHERE s_id=?";
+    $sql_query = "UPDATE votedb_subjects SET s_title=?, types_id=?, s_choice=?, s_date_start=? ,s_date_end=? ,s_close=? WHERE s_id=?";
     $stmt = $db_link -> prepare($sql_query);
     $stmt -> execute(array(
         FilterString($_POST["s_title"], 'string')
@@ -253,6 +257,7 @@ function votes_update(){
         , FilterString($_POST["s_choice"], 'string')
         , FilterString($_POST["s_date_start"], 'string')
         , FilterString($_POST["s_date_end"], 'string')
+        , FilterString($_POST["s_close"], 'string')
         , FilterString($_POST["s_id"], 'int')
     ));
 
@@ -314,6 +319,17 @@ function votes_update_form(){
     <fieldset>
         <legend>編輯投票主題</legend>
         <dl>
+            <dd>
+    ';
+    if($row["s_close"]=="0"){
+        $s_close_0_checked = " checked";
+    }else{
+        $s_close_1_checked = " checked";
+    }
+    $main.='
+            <input type="radio" name="s_close" value="0"'.$s_close_0_checked.'>開
+            <input type="radio" name="s_close" value="1"'.$s_close_1_checked.'>關
+            </dd>
             <dt>投票主題</dt>
             <dd><input type="text" name="s_title" value="'.$row["s_title"].'"></dd>
             <dt>投票類別</dt>
@@ -337,13 +353,13 @@ function votes_update_form(){
             <!-- <dd><input type="text" name="types_id" value="1" readonly="readonly">不提供調整</dd> -->
             <dt>選擇</dt>
             <dd>
-            ';
-            if($row["s_choice"=="radio"]){
-                $radio_checked = " checked";
-            }else{
-                $checkbox_checked = " checked";
-            }
-            $main.='
+    ';
+    if($row["s_choice"=="radio"]){
+        $radio_checked = " checked";
+    }else{
+        $checkbox_checked = " checked";
+    }
+    $main.='
                 <input type="radio" name="s_choice" value="radio"'.$radio_checked.'>單選 
                 <input type="radio" name="s_choice" value="checkbox"'.$checkbox_checked.'>複選
                 <input type="number" name="s_choice_num" value="1" disabled>暫不限制
@@ -924,7 +940,12 @@ function votes_list(){
     }else{
         $get_types_id = "";
     }
-    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' AND s_close = '0' {$get_types_id}ORDER BY s_id DESC";
+    if($_SESSION["l_u_lv"]=="admin"){
+        $and_s_close="";
+    }else {
+        $and_s_close="AND s_close = '0' ";
+    }
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' {$and_s_close}{$get_types_id}ORDER BY s_id DESC";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
@@ -982,12 +1003,15 @@ function votes_list(){
     <td>'.$row['s_votes'].'</td>
     <td>
     ';
-    if($_SESSION["l_u_lv"]=="admin"){
+if($_SESSION["l_u_lv"]=="admin"){
+    $row_s_close = ($row['s_close']=="0") ? 1 : 0 ;
+    $row_s_close_val = ($row['s_close']=="0") ? '開' : '關' ;
     $main.='
+    <a href="'.$_SERVER['PHP_SELF'].'?action=votes_close&s_id='.$row['s_id'].'&s_close='.$row_s_close.'&at='.$action.'">'.$row_s_close_val.'</a> | 
     <a href="'.$_SERVER['PHP_SELF'].'?action=votes_update_form&s_id='.$row['s_id'].'">編輯</a> | 
     <a href="'.$_SERVER['PHP_SELF'].'?action=votes_del&s_id='.$row['s_id'].'&at='.$action.'">刪除</a>
     ';
-    }
+}
 
     $main.='
     </td>

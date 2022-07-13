@@ -12,7 +12,9 @@ switch($action){
         votes_option();
     break;
     case "votes_option_form":
-        $content=voteWeb(votes_option_form());
+        if(isset($_GET["s_id"])&&($_GET["s_id"]!="")){
+            $content=voteWeb(votes_option_form());
+        }
     break;
     case "votes_update":
         if ($_POST["s_title"]!="") {
@@ -25,7 +27,13 @@ switch($action){
         // header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
     break;
     case "votes_update_form":
-        $content=voteWeb(votes_update_form());
+        //檢查是否經過登入，若沒有登入則重新導向
+        if(!isset($_SESSION["l_u_user"]) || ($_SESSION["l_u_user"]=="")){
+            header("location:{$_SERVER['PHP_SELF']}");
+        }
+        if(isset($_GET["s_id"])&&($_GET["s_id"]!="")){
+            $content=voteWeb(votes_update_form());
+        }
     break;
     case "votes_del":
         votes_del();
@@ -130,7 +138,12 @@ function votes_option(){
 }
 function votes_option_form(){
     global $db_link;
-    $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$_GET["s_id"]}'";
+    $get_s_id = FilterString($_GET["s_id"], 'int');
+
+    $sql_query = "UPDATE votedb_subjects SET s_hits=s_hits+1 WHERE s_id={$get_s_id}";
+    $stmt = $db_link -> exec($sql_query);
+
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$get_s_id}'";
     $stmt = $db_link->query($sql_query);
     $row=$stmt->fetch();
     
@@ -240,10 +253,6 @@ function votes_update(){
 }
 function votes_update_form(){
     global $db_link;
-    //檢查是否經過登入，若沒有登入則重新導向
-    if(!isset($_SESSION["l_u_user"]) || ($_SESSION["l_u_user"]=="")){
-        header("location:{$_SERVER['PHP_SELF']}");
-    }
     $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$_GET["s_id"]}'";
     $stmt = $db_link->query($sql_query);
     $row=$stmt->fetch();

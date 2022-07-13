@@ -141,7 +141,28 @@ echo $content;
 function votes_log_list(){
     global $db_link;
     $main='
-    <p>顯示投票結果</p>
+    <h3>投票結果</h3>
+    <dl>
+        <dt>投票主題</dt>
+        <dd></dd>
+        <dt>選擇</dt>
+        <dd></dd>
+        <dt></dt>
+        <dd></dd>
+        <dt>選項</dt>
+        <dd>
+            <div class="chart">
+                <div class="bar-1" style="grid-row-start: 55;">111111</div>
+                <div class="bar-2" style="grid-row-start: 70;">222222</div>
+                <div class="bar-3" style="grid-row-start: 20;background-color: blue;"></div>
+                <div class="bar-4"></div>
+                <div class="bar-5"></div>
+                <div class="bar-6"></div>
+            </div>
+        </dd>
+        <dt></dt>
+        <dd></dd>
+    </dl>
     ';
     return $main;
 }

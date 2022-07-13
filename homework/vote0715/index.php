@@ -5,9 +5,24 @@ session_start();
 $action=$_REQUEST['action'];
 // 顯示頁面與資料庫存取
 switch($action){
+    case "votes_log_list":
+        $content=voteWeb(votes_log_list());
+    break;
+    case "votes_option":
+        votes_option();
+    break;
+    case "votes_option_form":
+        $content=voteWeb(votes_option_form());
+    break;
     case "votes_update":
-        votes_update();
-        header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+        if ($_POST["s_title"]!="") {
+            votes_update();
+            $Msg = "已更新完成";
+        }else {
+            $Msg = "請輸入投票主題";
+        }
+        header("location:{$_SERVER['PHP_SELF']}?action=votes_update_form&s_id={$_POST["s_id"]}&Msg={$Msg}");
+        // header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
     break;
     case "votes_update_form":
         $content=voteWeb(votes_update_form());
@@ -21,8 +36,13 @@ switch($action){
         }
     break;
     case "votes_add":
-        votes_add();
-        header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+        if ($_POST["s_title"]!="") {
+            votes_add();
+            header("location:{$_SERVER['PHP_SELF']}?action=votes_my_list");
+        }else {
+            $Msg = "請輸入投票主題";
+            header("location:{$_SERVER['PHP_SELF']}?action=votes_add_form&s_id={$_POST["s_id"]}&Msg={$Msg}");
+        }
     break;
     case "votes_add_form":
         $content=voteWeb(votes_add_form());
@@ -84,16 +104,96 @@ switch($action){
         $content=voteWeb(users_add_form());
     break;
     case "users_list":
-        if($_SESSION["l_u_lv"]!="admin"){
+        if($_SESSION["l_u_lv"]=="admin"){
+            $content=voteWeb(users_list());
+        }else {
             header("location:{$_SERVER['PHP_SELF']}");
         }
-        $content=voteWeb(users_list());
     break;
     default:
         $content=voteWeb(votes_list());
 }
 echo $content;
 
+function votes_log_list(){
+    global $db_link;
+    $main='
+    <p>顯示投票結果</p>
+    ';
+    return $main;
+}
+function votes_option(){
+    global $db_link;
+    $main='
+    ';
+    return $main;
+}
+function votes_option_form(){
+    global $db_link;
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$_GET["s_id"]}'";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+    
+    $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
+    $stmt_types = $db_link->query($sql_query);
+    $row_result_types=$stmt_types->fetchAll();
+    $total_records_types = count($row_result_types);
+
+    $sql_query="SELECT * FROM `votedb_options` WHERE subjects_id = '{$row["s_id"]}'";
+    $stmt_options = $db_link->query($sql_query);
+    $row_result_options=$stmt_options->fetchAll();
+    $total_records_options = count($row_result_options);
+    $main='
+    <form action="'.$_SERVER['PHP_SELF'].'" method="post">
+    <fieldset>
+        <legend>投票選項</legend>
+        <dl>
+            <dt>投票主題</dt>
+            <dd>'.$row["s_title"].'</dd>
+            <dt>投票類別</dt>
+            <dd>
+    ';
+    if($total_records_types){
+        foreach($row_result_types as $item=>$row_types){
+            if($row["types_id"]==$row_types["t_id"]){
+                $main .= $row_types["t_name"];
+            }
+        }
+    }
+    $main.='
+            </dd>
+            <dt>選擇</dt>
+            <dd>'.$row["s_choice"].'</dd>
+            <dt>投票開始時間</dt>
+            <dd>'.$row["s_date_start"].'</dd>
+            <dt>投票結束時間</dt>
+            <dd>'.$row["s_date_end"].'</dd>
+        </dl>
+    </fieldset>
+    <fieldset>
+        <legend>投票選項</legend>
+        <ol>
+            <!-- <li><input type="radio" name="options_id[]" value="" checked>111</li> -->
+            <!-- <li><input type="checkbox" name="options_id[]" value="" checked>111</li> -->
+    ';
+    if($total_records_options){
+        foreach($row_result_options as $item=>$row_options){
+            $main.='<li><input type="'.$row["s_choice"].'" name="options_id[]" value="'.$row_options["o_id"].'">'.$row_options["o_option"].'</li>';
+        }
+    }
+    $main.='
+        </ol>
+    </fieldset>
+    <input type="hidden" name="users_id" value="'.$row["users_id"].'">
+    <input type="hidden" name="subjects_id" value="'.$row["s_id"].'">
+    <input type="hidden" name="l_ip" value="'.GetIP().'">
+    <input type="hidden" name="action" value="votes_option">
+    <input type="submit" value="送出">
+    <input type="reset" value="重置">                        
+    </form>
+    ';
+    return $main;
+}
 function votes_update(){
     global $db_link;
     $sql_query = "UPDATE votedb_subjects SET s_title=?, types_id=?, s_choice=?, s_date_start=? ,s_date_end=? WHERE s_id=?";
@@ -147,7 +247,6 @@ function votes_update_form(){
     $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$_GET["s_id"]}'";
     $stmt = $db_link->query($sql_query);
     $row=$stmt->fetch();
-    // die_content("測試=");
     
     $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
     $stmt_types = $db_link->query($sql_query);
@@ -160,6 +259,10 @@ function votes_update_form(){
     $total_records_options = count($row_result_options);
 
     $main='
+    <p class="Msg">'.$_GET["Msg"].'</p>
+    <script>
+    setTimeout(function(){$(".Msg").remove();},2000);
+    </script>
     <form action="'.$_SERVER['PHP_SELF'].'" method="post">
     <fieldset>
         <legend>編輯投票主題</legend>
@@ -175,6 +278,8 @@ function votes_update_form(){
         foreach($row_result_types as $item=>$row_types){
             if($row["types_id"]==$row_types["t_id"]){
                 $selected = " selected";
+            }else{
+                $selected = "";
             }
             $main.='<option value="'.$row_types["t_id"].'"'.$selected.'>'.$row_types["t_name"].'</option>';
         }
@@ -288,7 +393,7 @@ function votes_add_form(){
         <legend>新增投票主題</legend>
         <dl>
             <dt>投票主題</dt>
-            <dd><input type="text" name="s_title" value=""></dd>
+            <dd><input type="text" name="s_title" value="">'.$_GET["Msg"].'</dd>
             <dt>投票類別</dt>
             <dd>
             <select name="types_id">
@@ -790,7 +895,9 @@ function votes_list(){
     $main.='
     <tr>
     <td>'.$row['s_id'].'</td>
-    <td>'.$row['s_title'].'</td>
+    <td>
+        <a href="'.$_SERVER['PHP_SELF'].'?action=votes_option_form&s_id='.$row['s_id'].'">'.$row['s_title'].'</a>
+    </td>
     <td>';
         if($_GET["types_id"]!=""){
             $types_id = $_GET["types_id"];        

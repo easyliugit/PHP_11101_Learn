@@ -140,25 +140,71 @@ echo $content;
 
 function votes_log_list(){
     global $db_link;
+    $get_s_id = FilterString($_GET["s_id"], 'int');
+
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$get_s_id}'";
+    $stmt = $db_link->query($sql_query);
+    $row=$stmt->fetch();
+
+    $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
+    $stmt_types = $db_link->query($sql_query);
+    $row_result_types=$stmt_types->fetchAll();
+    $total_records_types = count($row_result_types);
+
+    $sql_query="SELECT * FROM `votedb_options` WHERE subjects_id = '{$row["s_id"]}'";
+    $stmt_options = $db_link->query($sql_query);
+    $row_result_options=$stmt_options->fetchAll();
+    $total_records_options = count($row_result_options);
+
     $main='
     <h3>投票結果</h3>
     <dl>
         <dt>投票主題</dt>
-        <dd></dd>
+        <dd>'.$row["s_title"].'</dd>
+        <dt>投票類別</dt>
+    ';
+if($total_records_types){
+    foreach($row_result_types as $item=>$row_types){
+        if($row["types_id"]==$row_types["t_id"]){
+            $main .= $row_types["t_name"];
+        }
+    }
+}
+    $main.='
         <dt>選擇</dt>
-        <dd></dd>
-        <dt></dt>
-        <dd></dd>
+        <dd>'.$row["s_choice"].'</dd>
+        <dt>投票開始時間</dt>
+        <dd>'.$row["s_date_start"].'</dd>
+        <dt>投票結束時間</dt>
+        <dd>'.$row["s_date_end"].'</dd>
         <dt>選項</dt>
         <dd>
-            <div class="chart">
-                <div class="bar-1" style="grid-row-start: 55;">111111</div>
-                <div class="bar-2" style="grid-row-start: 70;">222222</div>
-                <div class="bar-3" style="grid-row-start: 20;background-color: blue;"></div>
-                <div class="bar-4"></div>
-                <div class="bar-5"></div>
-                <div class="bar-6"></div>
-            </div>
+        <div class="options">
+        <!-- <div class="logs-1" style="grid-row-start: 55;">111111</div> -->
+        <!-- <div class="logs-2" style="grid-row-start: 70;">222222</div> -->
+        <!-- <div class="logs-3" style="grid-row-start: 20;background-color: blue;"></div> -->
+        <!-- <div class="logs-4"></div> -->
+        <!-- <div class="logs-5"></div> -->
+        <!-- <div class="logs-6"></div> -->
+        ';
+if($total_records_options){
+    foreach($row_result_options as $item=>$row_options){
+        $option_percent = 100 - number_format( $row_options["o_votes"] * $row["s_votes"], 2);
+        $main.='<div class="logs-'.$row_options["o_id"].'" style="grid-row-start: '.$option_percent.';">'.$row_options["o_votes"].'</div>';
+    }
+}
+        $main.='
+        </div>
+        <div class="options_name">
+        ';
+if($total_records_options){
+    foreach($row_result_options as $item=>$row_options){
+        // die_content("測試= ". $row_options["o_votes"] *100);
+        $main.='<div>'.$row_options["o_option"].'</div>';
+    }
+}
+        $main.='
+        </div>
         </dd>
         <dt></dt>
         <dd></dd>
@@ -226,13 +272,13 @@ function votes_option_form(){
             <dt>投票類別</dt>
             <dd>
     ';
-    if($total_records_types){
-        foreach($row_result_types as $item=>$row_types){
-            if($row["types_id"]==$row_types["t_id"]){
-                $main .= $row_types["t_name"];
-            }
+if($total_records_types){
+    foreach($row_result_types as $item=>$row_types){
+        if($row["types_id"]==$row_types["t_id"]){
+            $main .= $row_types["t_name"];
         }
     }
+}
     $main.='
             </dd>
             <dt>選擇</dt>

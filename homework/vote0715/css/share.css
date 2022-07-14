@@ -140,15 +140,32 @@ table.users_list td
     padding: 10px;
     border-bottom: 1px solid lightgray;
 }
-.chart{
-    height: 50vh;
+.options{
+    height: 30vh;
     width: 70vw;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(100, 1fr);
     grid-column-gap: 5px;
+    border: 1px solid black;
+    padding: 10px;
+    color: white;
 }
-[class*="bar"]{
+.options_name{
+    /* height: 20vh; */
+    width: 70vw;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(100, 1fr);
+    grid-column-gap: 5px;
+    padding: 10px;
+}
+.options
+,.options_name{
+    text-align: center;
+    font-weight: 600;
+}
+[class*="logs"]{
     grid-row-start: 1;
     grid-row-end: 101;
     border-radius: 5px 5px 0 0;

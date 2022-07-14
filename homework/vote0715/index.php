@@ -19,7 +19,7 @@ switch($action){
         }
         
     break;
-    case "votes_option_form":
+    case "votes_option_form":        
         if(isset($_GET["s_id"])&&($_GET["s_id"]!="")){
             $get_s_id = $_GET["s_id"];
             //找今天是否已經投票
@@ -203,7 +203,8 @@ if($total_records_types){
         ';
 if($total_records_options){
     foreach($row_result_options as $item=>$row_options){
-        $option_percent = 100 - number_format( $row_options["o_votes"] * $row["s_votes"], 2);
+        // die_content("測試= ". round($row_options["o_votes"]/$row["s_votes"]*100));
+        $option_percent = 100 - round($row_options["o_votes"]/$row["s_votes"]*100);
         $main.='<div class="logs-'.$row_options["o_id"].'" style="grid-row-start: '.$option_percent.';">'.$row_options["o_votes"].'</div>';
     }
 }
@@ -213,7 +214,6 @@ if($total_records_options){
         ';
 if($total_records_options){
     foreach($row_result_options as $item=>$row_options){
-        // die_content("測試= ". $row_options["o_votes"] *100);
         $main.='<div>'.$row_options["o_option"].'</div>';
     }
 }
@@ -266,6 +266,10 @@ function votes_option_form(){
     $sql_query="SELECT * FROM votedb_subjects WHERE s_id = '{$get_s_id}'";
     $stmt = $db_link->query($sql_query);
     $row=$stmt->fetch();
+    if((strtotime($row["s_date_start"]) > strtotime(date("Y-m-d"))) || (strtotime($row["s_date_end"]) < strtotime(date("Y-m-d")))){
+        // die_content("測試 投票結束 s_date_start=".$row["s_date_start"]." > Y-m-d=".date("Y-m-d"));
+        header("location:{$_SERVER['PHP_SELF']}?action=votes_log_list&s_id={$get_s_id}");
+    }
     
     $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
     $stmt_types = $db_link->query($sql_query);
@@ -662,13 +666,16 @@ function votes_my_list(){
     <td>'.$row['s_date_end'].'</td>
     <td>'.$row['s_hits'].'</td>
     <td>'.$row['s_votes'].'</td>
-    <td>
+    ';
+    $close_class = ($row['s_close']=="0") ? ' class="open"' : ' class="open close"' ;
+    $main.='
+    <td'.$close_class.'>
     ';
     $row_s_close = ($row['s_close']=="0") ? 1 : 0 ;
     $row_s_close_val = ($row['s_close']=="0") ? '開' : '關' ;
     $main.='
     <a href="'.$_SERVER['PHP_SELF'].'?action=votes_close&s_id='.$row['s_id'].'&s_close='.$row_s_close.'">'.$row_s_close_val.'</a>
-    </td>
+    </td..>
     <td>
     ';
     if($row['users_id']==$row_u_id){

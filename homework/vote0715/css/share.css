@@ -66,7 +66,12 @@ header ul li a:hover {
     text-decoration: none;
     border-bottom: 1px dashed black;
 }
-.box>nav ul li a:hover{}
+.box>nav ul li a:hover{
+    background-color: white;
+}
+.box>nav ul li.li_hover a{
+    background-color: white;
+}
 .box article{
     background-color: lightblue;
     width: 960px;
@@ -79,12 +84,15 @@ header ul li a:hover {
     padding: 15px;
     margin-bottom: 10px;
 }
+.box article>nav.user_nav{
+    background-color: orange;
+}
 .box article>nav ul{}
 .box article>nav ul li{
     list-style: none;
     float: left;
 }
-.box article>nav ul.new_vote li{
+.box article>nav ul.admin_nav li{
     float: right;
 }
 .box article>nav ul li a{
@@ -98,7 +106,22 @@ header ul li a:hover {
     text-align: center;
     line-height: 40px;
 }
-.box article>nav ul li a:hover{}
+.box article>nav ul li.li_hover a{
+    background-color: white;
+}
+.box article>nav.user_nav ul li a{
+    background-color: blanchedalmond;
+}
+.box article>nav ul.admin_nav li a{
+    background-color: indianred;
+    color: white;
+}
+.box article>nav ul li a:hover{
+    background-color: white;
+}
+.box article>nav ul.admin_nav li a:hover{
+    color: black;
+}
 
 /* 版權宣告 */
 footer{
@@ -119,11 +142,19 @@ table.users_list
     border-spacing: 6px;
     border-top: 6px solid #000;
 }
+table.users_list
+,table.votes_my_list{
+    background-color: blanchedalmond;
+}
 table.users_list thead
 ,table.votes_list thead
 ,table.votes_my_list thead{
     background-color: steelblue;
     color: white;
+}
+table.users_list thead
+,table.votes_my_list thead{
+    background-color: orange;
 }
 table.users_list tbody
 ,table.votes_list tbody
@@ -140,6 +171,20 @@ table.users_list td
     padding: 10px;
     border-bottom: 1px solid lightgray;
 }
+table.votes_my_list td.open a{
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-color: lightgreen;
+    color: #000;
+    text-decoration: none;
+    margin-right: 10px;
+    text-align: center;
+    line-height: 40px;
+}
+table.votes_my_list td.close a{
+    background-color: lightcoral;
+}
 .options{
     height: 30vh;
     width: 70vw;
@@ -147,7 +192,7 @@ table.users_list td
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(100, 1fr);
     grid-column-gap: 5px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     padding: 10px;
     color: white;
 }

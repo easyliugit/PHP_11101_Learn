@@ -118,7 +118,13 @@ function voteWeb($content=""){
                           $stmt->execute();
                           $total_records = $stmt->fetchColumn();
 
-                          $main.='<li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_desc_LinkVal.'types_id='.$row["t_id"].'">'.$row['t_name'].' ('.$total_records.')</a></li>';
+                          if ($row["t_id"]==$_GET["types_id"]) {
+                            $get_types_class=' class="li_hover"';
+                          }else{
+                            $get_types_class='';
+                          }
+
+                          $main.='<li'.$get_types_class.'><a href="'.$_SERVER['PHP_SELF'].'?'.$get_desc_LinkVal.'types_id='.$row["t_id"].'">'.$row['t_name'].' ('.$total_records.')</a></li..>';
                         }
                       }
   $main.='
@@ -134,9 +140,14 @@ function voteWeb($content=""){
   }else{
       $get_types_LinkVal .= "";
   }
+  if ($_GET["desc"]=="s_hits") {
+    $get_hits_class=' class="li_hover"';
+  }else{
+    $get_hits_class='';
+  }
   $main.='
                           <li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'">綜合排行</a></li>
-                          <li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'desc=s_hits">人氣排行</a></li>
+                          <li'.$get_hits_class.'><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'desc=s_hits">人氣排行</a></li>
                           <!-- <li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'">新發起的</a></li> -->
                           <!-- <li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'">即將結束</a></li> -->
                       </ul>
@@ -145,7 +156,7 @@ function voteWeb($content=""){
   //檢查是否經過登入
   if(isset($_SESSION["l_u_user"]) && ($_SESSION["l_u_user"]!="")){
   $main.='
-                  <nav>
+                  <nav class="user_nav">
                       <ul>
                           <li><a href="'.$_SERVER['PHP_SELF'].'?action=votes_add_form">新增投票</a></li>
                           <li><a href="'.$_SERVER['PHP_SELF'].'?action=votes_my_list">我的主題</a></li>
@@ -154,7 +165,7 @@ function voteWeb($content=""){
       ';
       if($_SESSION["l_u_lv"]=="admin"){
       $main.='
-                      <ul class="new_vote">
+                      <ul class="admin_nav">
                           <li><a href="'.$_SERVER['PHP_SELF'].'?action=users_list">使用者清單</a></li>
                       </ul>
       ';

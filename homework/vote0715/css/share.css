@@ -152,7 +152,6 @@ table.users_list td
     color: white;
 }
 .options_name{
-    /* height: 20vh; */
     width: 70vw;
     display: grid;
     grid-template-columns: repeat(12, 1fr);

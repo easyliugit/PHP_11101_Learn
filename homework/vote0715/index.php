@@ -21,7 +21,21 @@ switch($action){
     break;
     case "votes_option_form":
         if(isset($_GET["s_id"])&&($_GET["s_id"]!="")){
-            $content=voteWeb(votes_option_form());
+            $get_s_id = $_GET["s_id"];
+            //找今天是否已經投票
+            $client_ip=GetIP();
+            // $client_ip="127.0.0.1";
+            $query_RecFindLogs = "SELECT l_time FROM votedb_logs WHERE subjects_id={$get_s_id} AND l_ip='{$client_ip}' ORDER BY l_id DESC";
+            $RecFindLogs=$db_link->query($query_RecFindLogs);
+            $RecLogsTime=$RecFindLogs->fetchColumn();
+            $RecLogsTime_date=date_format(date_create($RecLogsTime),"Y-m-d");
+            $today=date("Y-m-d");
+            if($RecLogsTime!="" && strtotime($today)==strtotime($RecLogsTime_date)){
+                header("location:{$_SERVER['PHP_SELF']}?action=votes_log_list&s_id={$get_s_id}");
+            }else{
+                $content=voteWeb(votes_option_form());
+            }
+            // die_content("測試1 RecLogsTime_date={$RecLogsTime_date} RecLogsTime={$RecLogsTime} today={$today} client_ip{$client_ip}");
         }else {
             header("location:{$_SERVER['PHP_SELF']}");
         }

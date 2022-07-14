@@ -208,10 +208,62 @@ table.votes_my_list td.close a{
 ,.options_name{
     text-align: center;
     font-weight: 600;
+    clear: both;
 }
 [class*="logs"]{
     grid-row-start: 1;
     grid-row-end: 101;
     border-radius: 5px 5px 0 0;
     background-color: #ff4136;
+}
+
+fieldset {
+    background-color: floralwhite;
+}
+
+legend {
+    background-color: orange;
+    color: white;
+    padding: 5px 10px;
+}
+dt {
+    float: left;
+    clear: left;
+    width: 110px;
+    font-weight: bold;
+    color: black;
+}
+
+dt::after {
+    content: ":";
+}
+
+dd {
+    margin: 0 0 0 80px;
+    padding: 0 0 0.5em 0;
+}
+input[type=text] {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: blanchedalmond;
+    border: none;
+    color: black;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+ol {
+    /* background: #ff9999; */
+    /* padding: 20px; */
+  }
+ol li {
+/* background: #ffe5e5; */
+/* color: darkred; */
+/* padding: 5px; */
+margin-left: 35px;
 }

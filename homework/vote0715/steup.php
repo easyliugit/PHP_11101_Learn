@@ -47,19 +47,19 @@ function die_content($content=""){
 }
 function GetIP(){
   if(!empty($_SERVER["HTTP_CLIENT_IP"])){
-   $cip = $_SERVER["HTTP_CLIENT_IP"];
+    $cip = $_SERVER["HTTP_CLIENT_IP"];
   }
   elseif(!empty($_SERVER["HTTP_X_FORWARDED_FOR"])){
-   $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
   }
   elseif(!empty($_SERVER["REMOTE_ADDR"])){
-   $cip = $_SERVER["REMOTE_ADDR"];
+    $cip = $_SERVER["REMOTE_ADDR"];
   }
   else{
-   $cip = "無法取得IP位址！";
+    $cip = "無法取得IP位址！";
   }
   return $cip;
- }
+}
 function voteWeb($content=""){
   global $db_link;
   global $title;
@@ -99,19 +99,26 @@ function voteWeb($content=""){
                   <ul>
                   <!-- <li><a href="#">全部 ()</a></li> -->
   ';
+  $get_desc_LinkVal="";
+  if($_GET["desc"]!=""){
+      $get_desc_LinkVal .= "desc={$_GET["desc"]}&";
+  }else{
+      $get_desc_LinkVal .= "";
+  }
                       // $sql_query="SELECT * FROM `votedb_types` WHERE t_name != '全部' ORDER BY t_sort ASC ,t_id DESC";
                       $sql_query="SELECT * FROM `votedb_types` ORDER BY t_sort ASC ,t_id DESC";
                       $stmt = $db_link->query($sql_query);
                       $row_result=$stmt->fetchAll();
                       $total_records = count($row_result);
                       if($total_records){
+                        $main.='<li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_desc_LinkVal.'">全部 ('.$total_records.')</a></li>';
                         foreach($row_result as $item=>$row){                          
                           $sql_query="SELECT count(*) FROM `votedb_subjects` WHERE types_id = {$row['t_id']} AND s_del = '0' AND s_close = '0'";
                           $stmt = $db_link->query($sql_query);
                           $stmt->execute();
                           $total_records = $stmt->fetchColumn();
 
-                          $main.='<li><a href="'.$_SERVER['PHP_SELF'].'?types_id='.$row["t_id"].'">'.$row['t_name'].' ('.$total_records.')</a></li>';
+                          $main.='<li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_desc_LinkVal.'types_id='.$row["t_id"].'">'.$row['t_name'].' ('.$total_records.')</a></li>';
                         }
                       }
   $main.='
@@ -120,10 +127,18 @@ function voteWeb($content=""){
               <article>
                   <nav>
                       <ul>
-                          <li><a href="'.$_SERVER['PHP_SELF'].'">綜合排行</a></li>
-                          <li><a href="'.$_SERVER['PHP_SELF'].'">人氣排行</a></li>
-                          <li><a href="'.$_SERVER['PHP_SELF'].'">新發起的</a></li>
-                          <li><a href="'.$_SERVER['PHP_SELF'].'">即將結束</a></li>
+  ';
+  $get_types_LinkVal="";
+  if($_GET["types_id"]!=""){
+      $get_types_LinkVal .= "types_id={$_GET["types_id"]}&";
+  }else{
+      $get_types_LinkVal .= "";
+  }
+  $main.='
+                          <li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'">綜合排行</a></li>
+                          <li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'desc=s_hits">人氣排行</a></li>
+                          <!-- <li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'">新發起的</a></li> -->
+                          <!-- <li><a href="'.$_SERVER['PHP_SELF'].'?'.$get_types_LinkVal.'">即將結束</a></li> -->
                       </ul>
                   </nav>
   ';

@@ -1005,6 +1005,7 @@ function users_list(){
 }
 function votes_list(){
     global $db_link;
+    $get_page_LinkVal="";
     $action = "votes_list";
     //預設每頁筆數
     $pageRow_records = 10;
@@ -1016,17 +1017,27 @@ function votes_list(){
     }
     //本頁開始記錄筆數 = (頁數-1)*每頁記錄筆數
     $startRow_records = ($num_pages -1) * $pageRow_records;
+
     if($_GET["types_id"]!=""){
-        $get_types_id = "AND types_id={$_GET["types_id"]} ";        
+        $get_where_types_id = "AND types_id={$_GET["types_id"]} ";
+        $get_page_LinkVal .= "types_id={$_GET["types_id"]}&";
     }else{
-        $get_types_id = "";
+        $get_where_types_id = "";
+        $get_page_LinkVal .= "";
+    }
+    if($_GET["desc"]!=""){
+        $get_order_desc = "{$_GET["desc"]} DESC ,";        
+        $get_page_LinkVal .= "desc={$_GET["desc"]}&";        
+    }else{
+        $get_order_desc = "";
+        $get_page_LinkVal .= "";
     }
     if($_SESSION["l_u_lv"]=="admin"){
         $and_s_close="";
     }else {
         $and_s_close="AND s_close = '0' ";
     }
-    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' {$and_s_close}{$get_types_id}ORDER BY s_id DESC";
+    $sql_query="SELECT * FROM votedb_subjects WHERE s_del = '0' {$and_s_close}{$get_where_types_id}ORDER BY {$get_order_desc}s_id DESC";
     //加上限制顯示筆數的SQL敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
     $sql_query_limit = $sql_query." LIMIT {$startRow_records}, {$pageRow_records}";
     //以加上限制顯示筆數的SQL敘述句查詢資料到 $stmt 中
@@ -1114,14 +1125,14 @@ if($_SESSION["l_u_lv"]=="admin"){
     ';
     if ($num_pages > 1) { // 若不是第一頁則顯示        
     $main.='
-    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page=1">第一頁</a> | 
-    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.($num_pages-1) .'">上一頁</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?'.$get_page_LinkVal.'page=1">第一頁</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?'.$get_page_LinkVal.'page='.($num_pages-1) .'">上一頁</a>
     ';
     }
     if ($num_pages < $total_pages) { // 若不是最後一頁則顯示
     $main.='
-    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.($num_pages+1) .'">下一頁</a> | 
-    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.$total_pages.'">最後頁</a>
+    <a href="'.$_SERVER['PHP_SELF'].'?'.$get_page_LinkVal.'page='.($num_pages+1) .'">下一頁</a> | 
+    <a href="'.$_SERVER['PHP_SELF'].'?'.$get_page_LinkVal.'page='.$total_pages.'">最後頁</a>
     ';
     }
     $main.='
@@ -1134,7 +1145,7 @@ if($_SESSION["l_u_lv"]=="admin"){
     ';
         }else{
     $main.='
-    <a href="'.$_SERVER['PHP_SELF'].'?action='.$action.'&page='.$i.'">'.$i.'</a> 
+    <a href="'.$_SERVER['PHP_SELF'].'?'.$get_page_LinkVal.'page='.$i.'">'.$i.'</a> 
     ';
         }
     }

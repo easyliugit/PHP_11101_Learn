@@ -14,6 +14,7 @@
 <body>
   <h1 class="header">學生資料管理系統</h1>
   <div id="addForm">
+    <h3>新增學員</h3>
     <form method="post">
       <p>班級:<input type="number" name="classroom" id="classroom"></p>
       <p>座號:<input type="number" name="seatnum" id="seatnum"></p>
@@ -24,7 +25,18 @@
       </p>
     </form>
   </div>
-  <div id="editForm"></div>
+  <div id="editForm">
+    <h3>編輯學員</h3>
+    <form method="post">
+      <p>班級:<input type="number" name="classroom" id="eClassroom" value=""></p>
+      <p>座號:<input type="number" name="seatnum" id="eSeatnum" value=""></p>
+      <p>姓名:<input type="text" name="name" id="eName" value=""></p>
+      <p>生日:<input type="date" name="birthday" id="eBirthday" value=""></p>
+      <p>
+        <input type="button" value="確認編輯" onclick="update()">
+      </p>
+    </form>
+  </div>
 
   <a href="javascript:query(101)">101</a>
   <a href="javascript:query(102)">102</a>
@@ -36,7 +48,7 @@
   <a href="javascript:query(108)">108</a>
   <a href="javascript:query(109)">109</a>
   <a href="javascript:query(110)">110</a>
-  <h3 id="room"></h3>
+  <h3 id="room" data-classroom="101"></h3>
   <div id="result" style="display:none"></div>
   <table id="list">
 
@@ -76,6 +88,7 @@ function create(){
 //查詢資料的函式
 function query(classroom){
   $("#room").html(`現在顯示的是${classroom}班的學生`)
+  $("#room").data('classroom',classroom)
   $.get("api/query.php",{classroom},(students)=>{
     students=JSON.parse(students)
     let tr="";
@@ -84,12 +97,25 @@ function query(classroom){
                 <td>${val.name}</td>
                 <td>${val.birthday}</td>
                 <td>
-                    <button onclick='del(${classroom},${val.id})'>刪除(${val.id}))</button>
+                    <button onclick='edit(${val.id})'>編輯(${val.id}))</button>
+                    <button onclick='del(${val.id})'>刪除(${val.id}))</button>
                 </td>
              </tr>`;
     })
 
     $("#list").html(tr);
+  })
+}
+
+
+//取得要修改的學生資料
+function edit(id){
+  $.get("./api/show.php",{id},(student)=>{
+      student=JSON.parse(student)
+      $("#eClassroom").val(student.classroom)
+      $("#eSeatnum").val(student.seat_num)
+      $("#eName").val(student.name)
+      $("#eBirthday").val(student.birthday)
   })
 }
 
@@ -99,8 +125,8 @@ function update(){
 }
 
 //刪除資料的函式
-function del(classroom,id){
-
+function del(id){
+  let classroom=$("#room").data('classroom')
   $.post("./api/delete.php",{id},(res)=>{
       if(parseInt(res)===1){
         $("#result").css({background:'lightblue',color:'blue',display:'block'}).text("刪除成功");
@@ -109,9 +135,9 @@ function del(classroom,id){
       }
 
       query(classroom);
-      
+
       setTimeout(()=>{
-        $("#result").hide();
+        $("#result").hide(500);
       },3000)
   })
 

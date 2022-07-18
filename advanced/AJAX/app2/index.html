@@ -37,6 +37,7 @@
   <a href="javascript:query(109)">109</a>
   <a href="javascript:query(110)">110</a>
   <h3 id="room"></h3>
+  <div id="result" style="display:none"></div>
   <table id="list">
 
   </table>
@@ -79,7 +80,13 @@ function query(classroom){
     students=JSON.parse(students)
     let tr="";
     students.forEach((val,idx)=>{
-      tr=tr+`<tr><td>${val.name}</td><td>${val.birthday}</td></tr>`;
+      tr=tr+`<tr>
+                <td>${val.name}</td>
+                <td>${val.birthday}</td>
+                <td>
+                    <button onclick='del(${classroom},${val.id})'>刪除(${val.id}))</button>
+                </td>
+             </tr>`;
     })
 
     $("#list").html(tr);
@@ -92,7 +99,17 @@ function update(){
 }
 
 //刪除資料的函式
-function del(){
+function del(classroom,id){
+
+  $.post("./api/delete.php",{id},(res)=>{
+      if(parseInt(res)===1){
+        $("#result").css({background:'lightblue',color:'blue',display:'block'}).text("刪除成功");
+      }else{
+        $("#result").css({background:'pinky',color:'red',display:'block'}).text("刪除失敗");
+      }
+
+      query(classroom);
+  })
 
 }
 

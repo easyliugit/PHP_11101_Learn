@@ -36,7 +36,7 @@
   <a href="javascript:query(108)">108</a>
   <a href="javascript:query(109)">109</a>
   <a href="javascript:query(110)">110</a>
-  <h3 id="classroom"></h3>
+  <h3 id="room"></h3>
   <table id="list">
 
   </table>
@@ -62,12 +62,19 @@ function create(){
     "birthday":$("#birthday").val()
   }
 
-  console.log(form)
+  $.post("./api/insert.php",form,(res)=>{
+    if(parseInt(res)===1){
+      alert("新增成功")
+      query(form.classroom)
+    }else{
+      alert("新增失敗")
+    }
+  })
 }
 
 //查詢資料的函式
 function query(classroom){
-  $("#classroom").html(`現在顯示的是${classroom}班的學生`)
+  $("#room").html(`現在顯示的是${classroom}班的學生`)
   $.get("api/query.php",{classroom},(students)=>{
     students=JSON.parse(students)
     let tr="";

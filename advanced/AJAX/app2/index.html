@@ -33,6 +33,7 @@
       <p>姓名:<input type="text" name="name" id="eName" value=""></p>
       <p>生日:<input type="date" name="birthday" id="eBirthday" value=""></p>
       <p>
+        <input type="hidden" name="id" id="stuId" value="">
         <input type="button" value="確認編輯" onclick="update()">
       </p>
     </form>
@@ -112,16 +113,33 @@ function query(classroom){
 function edit(id){
   $.get("./api/show.php",{id},(student)=>{
       student=JSON.parse(student)
+      //console.log(student)
       $("#eClassroom").val(student.classroom)
       $("#eSeatnum").val(student.seat_num)
       $("#eName").val(student.name)
       $("#eBirthday").val(student.birthday)
+      $("#stuId").val(student.id)
   })
 }
 
 //編輯資料的函式
 function update(){
-
+  let form={
+    "classroom":$("#eClassroom").val(),
+    "seatnum":$("#eSeatnum").val(),
+    "name":$("#eName").val(),
+    "birthday":$("#eBirthday").val(),
+    "id":$("#stuId").val()
+  }
+  //console.log(form)
+  $.post("./api/update.php",form,()=>{
+    $("#eClassroom").val(""),
+    $("#eSeatnum").val(""),
+    $("#eName").val(""),
+    $("#eBirthday").val(""),
+    $("#stuId").val("")
+    query(form.classroom)
+  })
 }
 
 //刪除資料的函式

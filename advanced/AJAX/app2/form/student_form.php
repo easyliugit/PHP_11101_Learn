@@ -25,12 +25,12 @@ if($type=='add'){
         <?php
         if($type=='add'){
 
-          echo "<input type='button' value='確認新增' onclick='create()'>";
+          echo "<input type='button' class='btn btn-primary' value='確認新增' onclick='create()'>";
         }else{
-          echo "<input type='button' value='確認編輯' onclick='update()'>";
+          echo "<input type='button' class='btn btn-primary' value='確認編輯' onclick='update()'>";
 
         }
         ?>
-        <input type="button" value="取消" onclick="$('.modal-body').html('');$('#stuModal').modal('hide')">
+        <input type="button" class='btn btn-warning' value="取消" onclick="$('.modal-body').html('');$('#stuModal').modal('hide')">
       </p>
     </form>

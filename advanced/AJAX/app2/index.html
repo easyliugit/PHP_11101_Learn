@@ -6,37 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>學生資料管理系統</title>
     <link rel="shortcut icon" href="#" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <!---匯入要使用的函式庫--->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
 
 </head>
 <body>
   <h1 class="header">學生資料管理系統</h1>
-  <div id="addForm">
-    <h3>新增學員</h3>
-    <form method="post">
-      <p>班級:<input type="number" name="classroom" id="classroom"></p>
-      <p>座號:<input type="number" name="seatnum" id="seatnum"></p>
-      <p>姓名:<input type="text" name="name" id="name"></p>
-      <p>生日:<input type="date" name="birthday" id="birthday"></p>
-      <p>
-        <input type="button" value="確認新增" onclick="create()">
-      </p>
-    </form>
-  </div>
-  <div id="editForm">
-    <h3>編輯學員</h3>
-    <form method="post">
-      <p>班級:<input type="number" name="classroom" id="eClassroom" value=""></p>
-      <p>座號:<input type="number" name="seatnum" id="eSeatnum" value=""></p>
-      <p>姓名:<input type="text" name="name" id="eName" value=""></p>
-      <p>生日:<input type="date" name="birthday" id="eBirthday" value=""></p>
-      <p>
-        <input type="hidden" name="id" id="stuId" value="">
-        <input type="button" value="確認編輯" onclick="update()">
-      </p>
-    </form>
+  <div class="btn btn-primary" onclick="loadForm('add')">新增學生</div>
+
+  <div id="studentForm">
+
   </div>
 
   <a href="javascript:query(101)">101</a>
@@ -54,7 +35,9 @@
   <table id="list">
 
   </table>
-    
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>    
 </body>
 </html>
 <script>
@@ -66,6 +49,11 @@
 * 5.是否需要更新畫面內容？更新畫面的方法？
 ************************************/
 query(101);
+
+function loadForm(type){
+  $("#studentForm").load("./form/student_form.php",{type})
+  
+}
 
 //新增資料的函式
 function create(){
@@ -111,13 +99,15 @@ function query(classroom){
 
 //取得要修改的學生資料
 function edit(id){
+  loadForm('edit');
+
   $.get("./api/show.php",{id},(student)=>{
       student=JSON.parse(student)
       //console.log(student)
-      $("#eClassroom").val(student.classroom)
-      $("#eSeatnum").val(student.seat_num)
-      $("#eName").val(student.name)
-      $("#eBirthday").val(student.birthday)
+      $("#classroom").val(student.classroom)
+      $("#seatnum").val(student.seat_num)
+      $("#name").val(student.name)
+      $("#birthday").val(student.birthday)
       $("#stuId").val(student.id)
   })
 }
@@ -125,18 +115,18 @@ function edit(id){
 //編輯資料的函式
 function update(){
   let form={
-    "classroom":$("#eClassroom").val(),
-    "seatnum":$("#eSeatnum").val(),
-    "name":$("#eName").val(),
-    "birthday":$("#eBirthday").val(),
+    "classroom":$("#classroom").val(),
+    "seatnum":$("#seatnum").val(),
+    "name":$("#name").val(),
+    "birthday":$("#birthday").val(),
     "id":$("#stuId").val()
   }
   //console.log(form)
   $.post("./api/update.php",form,()=>{
-    $("#eClassroom").val(""),
-    $("#eSeatnum").val(""),
-    $("#eName").val(""),
-    $("#eBirthday").val(""),
+    $("#classroom").val(""),
+    $("#seatnum").val(""),
+    $("#name").val(""),
+    $("#birthday").val(""),
     $("#stuId").val("")
     query(form.classroom)
   })

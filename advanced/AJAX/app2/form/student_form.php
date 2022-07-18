@@ -31,6 +31,6 @@ if($type=='add'){
 
         }
         ?>
-        <input type="button" value="取消" onclick="$('#studentForm').html('')">
+        <input type="button" value="取消" onclick="$('.modal-body').html('');$('#stuModal').modal('hide')">
       </p>
     </form>

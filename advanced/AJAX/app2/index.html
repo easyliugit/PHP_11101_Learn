@@ -14,8 +14,26 @@
 </head>
 <body>
   <h1 class="header">學生資料管理系統</h1>
-  <div class="btn btn-primary" onclick="loadForm('add')">新增學生</div>
+  <div class="btn btn-primary position-sticky sticky-top" onclick="loadForm('add')" >新增學生</div>
 
+<!-- Modal -->
+<div class="modal fade" id="stuModal" tabindex="-1" aria-labelledby="stuModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="stuModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
   <div id="studentForm">
 
   </div>
@@ -51,7 +69,10 @@
 query(101);
 
 function loadForm(type){
-  $("#studentForm").load("./form/student_form.php",{type})
+  $(".modal-body").load("./form/student_form.php",{type},()=>{
+    $("#stuModal").modal('show');
+
+  })
   
 }
 
@@ -71,6 +92,9 @@ function create(){
     }else{
       alert("新增失敗")
     }
+
+    $(".modal-body").html('');
+    $("#stuModal").modal('hide');
   })
 }
 
@@ -99,7 +123,7 @@ function query(classroom){
 
 //取得要修改的學生資料
 function edit(id){
-  $("#studentForm").load("./form/student_form.php",{type:'edit'},()=>{
+  $(".modal-body").load("./form/student_form.php",{type:'edit'},()=>{
     $.get("./api/show.php",{id},(student)=>{
         student=JSON.parse(student)
         //console.log(student)
@@ -108,6 +132,8 @@ function edit(id){
         $("#name").val(student.name)
         $("#birthday").val(student.birthday)
         $("#stuId").val(student.id)
+
+        $("#stuModal").modal('show')
     })
 
   })
@@ -131,6 +157,9 @@ function update(){
     $("#birthday").val(""),
     $("#stuId").val("")
     query(form.classroom)
+    
+    $(".modal-body").html('');
+    $("#stuModal").modal('hide');
   })
 }
 

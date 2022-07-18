@@ -99,17 +99,19 @@ function query(classroom){
 
 //取得要修改的學生資料
 function edit(id){
-  loadForm('edit');
+  $("#studentForm").load("./form/student_form.php",{type:'edit'},()=>{
+    $.get("./api/show.php",{id},(student)=>{
+        student=JSON.parse(student)
+        //console.log(student)
+        $("#classroom").val(student.classroom)
+        $("#seatnum").val(student.seat_num)
+        $("#name").val(student.name)
+        $("#birthday").val(student.birthday)
+        $("#stuId").val(student.id)
+    })
 
-  $.get("./api/show.php",{id},(student)=>{
-      student=JSON.parse(student)
-      //console.log(student)
-      $("#classroom").val(student.classroom)
-      $("#seatnum").val(student.seat_num)
-      $("#name").val(student.name)
-      $("#birthday").val(student.birthday)
-      $("#stuId").val(student.id)
   })
+
 }
 
 //編輯資料的函式

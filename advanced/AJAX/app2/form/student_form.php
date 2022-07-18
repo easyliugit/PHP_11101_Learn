@@ -4,7 +4,7 @@ $type=$_POST['type'];
 <?php
 if($type=='add'){
   echo "<h3>新增學員</h3>";
-
+  
 }else{
   echo "<h3>編輯學員</h3>";
 
@@ -18,7 +18,7 @@ if($type=='add'){
       <p>
         <?php
         if($type=='edit'){
-          echo "<input type='hidden' name='id' value=''>";
+          echo "<input type='hidden' name='id' id='stuId' value=''>";
         }
 
         ?>
@@ -33,4 +33,4 @@ if($type=='add'){
         ?>
         <input type="button" value="取消" onclick="$('#studentForm').html('')">
       </p>
-    </form> 
+    </form>

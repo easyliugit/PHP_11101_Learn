@@ -109,6 +109,10 @@ function del(classroom,id){
       }
 
       query(classroom);
+      
+      setTimeout(()=>{
+        $("#result").hide();
+      },3000)
   })
 
 }

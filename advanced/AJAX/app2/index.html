@@ -13,6 +13,18 @@
 </head>
 <body>
   <h1 class="header">學生資料管理系統</h1>
+  <div id="addForm">
+    <form method="post">
+      <p>班級:<input type="number" name="classroom" id="classroom"></p>
+      <p>座號:<input type="number" name="seatnum" id="seatnum"></p>
+      <p>姓名:<input type="text" name="name" id="name"></p>
+      <p>生日:<input type="date" name="birthday" id="birthday"></p>
+      <p>
+        <input type="button" value="確認新增" onclick="create()">
+      </p>
+    </form>
+  </div>
+  <div id="editForm"></div>
 
   <a href="javascript:query(101)">101</a>
   <a href="javascript:query(102)">102</a>
@@ -24,7 +36,7 @@
   <a href="javascript:query(108)">108</a>
   <a href="javascript:query(109)">109</a>
   <a href="javascript:query(110)">110</a>
-
+  <h3 id="classroom"></h3>
   <table id="list">
 
   </table>
@@ -39,15 +51,23 @@
 * 4.是否會有回傳值？回傳值的功用及處理？
 * 5.是否需要更新畫面內容？更新畫面的方法？
 ************************************/
-//query(101);
+query(101);
 
 //新增資料的函式
 function create(){
+  let form={
+    "classroom":$("#classroom").val(),
+    "seatnum":$("#seatnum").val(),
+    "name":$("#name").val(),
+    "birthday":$("#birthday").val()
+  }
 
+  console.log(form)
 }
 
 //查詢資料的函式
 function query(classroom){
+  $("#classroom").html(`現在顯示的是${classroom}班的學生`)
   $.get("api/query.php",{classroom},(students)=>{
     students=JSON.parse(students)
     let tr="";

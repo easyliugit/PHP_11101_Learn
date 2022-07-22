@@ -4,6 +4,8 @@
 * [BSC:be-start-classroom](https://github.com/wdaweb/be-start-classroom-easyliugit)
 * [BSC:PerpetualCalendar0606](https://github.com/wdaweb/PerpetualCalendar-easyliugit.git)
 * [BSC:WebBackend-Polling-System0715](https://github.com/wdaweb/WebBackend-Polling-System-easyliugit.git)
+* [BSC:WebFrontEnd-Final](https://github.com/wdaweb/WebFrontEnd-Final-easyliugit)
+* [BSC:FullStack-Final](https://github.com/wdaweb/FullStack-Final-easyliugit)
 
 # PHP基礎課程Basic
 

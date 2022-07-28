@@ -26,8 +26,20 @@ function login(){
     let acc=$("#acc").val();
     let pw=$("#pw").val();
     $.post("./api/chk_acc.php",{acc},(res)=>{
-        console.log(res)
+        console.log('acc',res)
         if(parseInt(res)===1){
+            $.post("./api/chk_pw.php",{acc,pw},(res)=>{
+                console.log('pw',res)
+                if(parseInt(res)===1){
+                    if(acc==='admin'){
+                        location.href='back.php'
+                    }else{
+                        location.href='index.php'
+                    }
+                }else{
+                    alert("密碼錯誤");
+                }
+            })
         }else{
             alert("查無帳號")
         }

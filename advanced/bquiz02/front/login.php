@@ -21,3 +21,16 @@
         </tr>
     </table>
 </fieldset>
+<script>
+function login(){
+    let acc=$("#acc").val();
+    let pw=$("#pw").val();
+    $.post("./api/chk_acc.php",{acc},(res)=>{
+        console.log(res)
+        if(parseInt(res)===1){
+        }else{
+            alert("查無帳號")
+        }
+    })
+}
+</script>

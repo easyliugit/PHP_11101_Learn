@@ -144,7 +144,7 @@ function to($url){
 }
 
 $Total=new DB('total');
-
+$User=new DB('user');
 
 if(!isset($_SESSION['total'])){
     $chkDate=$Total->math('count','id',['date'=>date("Y-m-d")]);

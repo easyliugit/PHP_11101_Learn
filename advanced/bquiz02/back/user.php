@@ -10,8 +10,8 @@
     </tbody>
     </table>
     <div class="ct">
-        <button>確定刪除</button>
-        <button>清空選取</button>
+        <button onclick="del()">確定刪除</button>
+        <button onclick="$('table input').prop('checked',false)">清空選取</button>
     </div>
 </fieldset>
 
@@ -20,4 +20,15 @@
 $.get("./api/users.php",(users)=>{
     $("#users").html(users)
 })
+function del(){
+    let ids=new Array();
+    $("table input[type='checkbox']:checked").each((idx,box)=>{
+        ids.push($(box).val())
+    })
+    $.post("./api/del_user.php",{del:ids},()=>{
+        $.get("./api/users.php",(users)=>{
+            $("#users").html(users)
+        })
+    })
+}
 </script>

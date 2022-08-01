@@ -19,8 +19,14 @@
         foreach($rows as $row){
         ?>
         <tr>
-            <td><?=$row['title'];?></td>
-            <td><?=mb_substr($row['text'],0,20);?>...</td>
+            <td class="title clo" style="cursor:pointer"><?=$row['title'];?></td>
+            <td class="pop">
+                <span class="summary"><?=mb_substr($row['text'],0,20);?>...</span>
+                
+                <div class="modal">
+                    <?=nl2br($row['text']);?>
+                </div>
+            </td>
             <td></td>
         </tr>
         <?php 
@@ -49,3 +55,32 @@
     </div>        
     </table>
 </fieldset>
+<script>
+$(".title,.pop").hover(
+    function (){
+        $(this).parent().find('.modal').show()
+    },
+    function (){
+        $(this).parent().find('.modal').hide()
+    }
+)
+
+
+/* $(".title").hover(
+    function (){
+        $(this).next().children('.modal').show()
+    },
+    function (){
+        $(this).next().children('.modal').hide()
+    }
+)
+$(".pop").hover(
+    function (){
+        $(this).children('.modal').show()
+    },
+    function (){
+        $(this).children('.modal').hide()
+    }
+)
+ */
+</script>

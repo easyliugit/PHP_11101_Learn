@@ -27,7 +27,11 @@
             <td>
             <?php 
                 if(isset($_SESSION['user'])){
-                    echo "<a class='great' href='#'>讚</a>";
+                    if($Log->math('count','id',['news'=>$row['id'],'user'=>$_SESSION['user']])>0){
+                        echo "<a class='great' href='#' data-id='{$row['id']}'>收回讚</a>";
+                    }else{
+                        echo "<a class='great' href='#' data-id='{$row['id']}'>讚</a>";
+                    }
                 }
                 ?>
             </td>
@@ -63,14 +67,17 @@ $(".title").on("click",function(){
     $(this).next().children().toggle()
 })
 $(".great").on("click",function(){
-    let text=$(this).text()
+    let type=$(this).text()
     let num=parseInt($(this).siblings('span').text())
-    if(text==='讚'){
-        text=$(this).text('收回讚')
-        $(this).siblings('span').text(num+1)
-    }else{
-        text=$(this).text('讚')
-        $(this).siblings('span').text(num-1)
-    }
+    let id=$(this).data('id')
+    $.post('./api/good.php',{id,type},()=>{
+        if(type==='讚'){
+            $(this).text('收回讚')
+            $(this).siblings('span').text(num+1)
+        }else{
+            $(this).text('讚')
+            $(this).siblings('span').text(num-1)
+        }
+    })
 })
 </script>

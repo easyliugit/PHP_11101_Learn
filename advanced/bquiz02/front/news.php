@@ -31,11 +31,20 @@
     <div>
         <?php 
 
+        if(($now-1)>0){
+            $p=$now-1;
+            echo "<a href='?do=news&p={$p}'> &lt; </a>";
+        }
+        
         for($i=1;$i<=$pages;$i++){
             $fontsize=($now==$i)?'24px':'18px';
             echo "<a href='?do=news&p={$i}' style='font-size:{$fontsize}'> $i </a>";
         }
-
+        if(($now+1)<=$pages){
+            $p=$now+1;
+            echo "<a href='?do=news&p={$p}'> &gt; </a>";
+        }
+        
         ?>
     </div>
-</fieldset> 
+</fieldset>

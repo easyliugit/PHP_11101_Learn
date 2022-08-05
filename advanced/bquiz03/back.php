@@ -32,9 +32,17 @@
       <a href="?do=admin&redo=vv">院線片管理</a>| 
       <a href="?do=admin&redo=order">電影訂票管理</a> 
     </div>
-    <div class="rb tab">
-      <h2 class="ct">請選擇所需功能</h2>
-    </div>
+    <?php
+    $do=$_GET['do']??'main';
+    $file='./back/'.$do.".php";
+    if(file_exists($file)){
+      include $file;
+    }else{
+      include "./back/main.php";
+    }
+
+    ?>
+
   </div>
   <div id="bo"> ©Copyright 2010~2014 ABC影城 版權所有 </div>
 </div>

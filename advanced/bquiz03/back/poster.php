@@ -4,7 +4,7 @@
 <hr>
 <div style="height:180px;">
 <div class="ct">新增預告片海報</div>
-<form action="./api/add_poster.php" method="post" enctype="multpart/form-data">
+<form action="./api/add_poster.php" method="post" enctype="multipart/form-data">
 <table style="width:80%;margin:auto">
     <tr>
         <td>預告片海報</td>

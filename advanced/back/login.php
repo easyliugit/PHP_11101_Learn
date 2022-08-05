@@ -1,6 +1,4 @@
-
 <?php
-
 if(!empty($_POST)){
     if($_POST['acc']=='admin'  && $_POST['pw']=='1234'){
         $_SESSION['login']=1;
@@ -11,7 +9,6 @@ if(!empty($_POST)){
 }
 
 ?>
-
 <h3 style="color:red" class='ct'><?=(isset($error))?$error:'';?></h3>
 <form action="back.php" method='post'>
 <table style="width:30%;margin:auto">
@@ -27,5 +24,4 @@ if(!empty($_POST)){
         <td colspan="2" class="ct"><input type="submit" value="送出"></td>
     </tr>
 </table>
-
 </form>

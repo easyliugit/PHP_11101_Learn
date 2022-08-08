@@ -75,7 +75,7 @@ class DB
                 $tmp[]="`$key`='$val'";
             }
 
-            $sql="update $this->table set ".join(",",$tmp);
+            $sql="update $this->table set ".join(",",$tmp) . " where `id`='{$array['id']}'";
         }else{
 
             $col=join("`,`",array_keys($array));
@@ -89,7 +89,7 @@ class DB
 
     function del($id)
     {
-        $sql="delect from $this->table where ";
+        $sql="delete from $this->table where ";
         if(is_array($id))
         {
             foreach($id as $key => $val){

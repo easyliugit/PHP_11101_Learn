@@ -1,6 +1,6 @@
 <button onclick="location.href='?do=add_movie'">新增電影</button>
 <hr>
-<div style="overflow:scroll;height:430px;">
+<div style="overflow:auto;height:430px;">
 <?php
 $rows=$Movie->all(" order by rank");
 foreach($rows as $key => $row){
@@ -38,6 +38,20 @@ foreach($rows as $key => $row){
 ?>    
 </div>
 <script>
+function sw(table,id){
+    $.post("./api/switch.php",{table,id},()=>{
+        location.reload();
+    })
+}
+function del(table,id){
+    $.post('./api/del.php',{table,id},()=>{
+        location.reload();
+    })
+}
 
-
+function show(id){
+    $.post("./api/show.php",{id},()=>{
+        location.reload();
+    })
+}
 </script>

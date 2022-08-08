@@ -4,6 +4,9 @@
 <?php
 $rows=$Movie->all(" order by rank");
 foreach($rows as $key => $row){
+    $prev=(isset($rows[$key-1]))?$rows[$key-1]['id']:$row['id'];
+    $next=(isset($rows[$key+1]))?$rows[$key+1]['id']:$row['id'];
+
 ?>
     <div style="background:#eee;width:99%;height:140px;margin:2px 0;display:flex;">
         <div style="width:15%">
@@ -19,11 +22,11 @@ foreach($rows as $key => $row){
                 <div style="width:33.33%">上映時間:<?=$row['ondate'];?></div>
             </div>
             <div>
-                <button>顯示</button>
-                <button>往上</button>
-                <button>往下</button>
-                <button>編輯電影</button>
-                <button>刪除電影</button>
+                <button onclick="show(<?=$row['id'];?>)"><?=($row['sh']==1)?'顯示':'隱藏';?></button>
+                <button onclick="sw('movie',[<?=$row['id'];?>,<?=$prev;?>])">往上</button>
+                <button onclick="sw('movie',[<?=$row['id'];?>,<?=$next;?>])">往下</button>
+                <button onclick="location.href='?do=edit_movie&id=<?=$row['id'];?>'">編輯電影</button>
+                <button onclick="del('movie',<?=$row['id'];?>)">刪除電影</button>
             </div>
             <div>
                 劇情介紹:<?=$row['intro'];?>

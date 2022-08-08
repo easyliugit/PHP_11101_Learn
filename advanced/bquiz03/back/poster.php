@@ -52,10 +52,12 @@ foreach($rows as $key => $row){
 
 <script>
 $(".btn").on("click",function(){
-    let id=$(this).data('id')
-    console.log(id);
+    let id=$(this).data('id').split("-")
+    $.post("./api/switch.php",{table:'poster',id},()=>{
+        location.reload();
+    })
+    
 })
-
 
 </script>
 

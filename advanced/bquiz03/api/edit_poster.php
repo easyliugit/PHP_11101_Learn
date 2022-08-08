@@ -9,7 +9,6 @@ foreach($_POST['id'] as $key => $id){
         $row['name']=$_POST['name'][$key];
         $row['ani']=$_POST['ani'][$key];
         $row['sh']=(isset($_POST['sh']) && in_array($id,$_POST['sh']))?1:0;
-        $row['rank']=$_POST['num'][$key];
         $Poster->save($row);
     }
 }

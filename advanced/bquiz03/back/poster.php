@@ -11,7 +11,9 @@
 <div style="width:100%;height:210px;overflow:auto">
 <?php
 $rows=$Poster->all(" order by rank");
-foreach($rows as $row){
+foreach($rows as $key => $row){
+    $prev=(isset($rows[$key-1]))?$rows[$key-1]['id']:$row['id'];
+    $next=(isset($rows[$key+1]))?$rows[$key+1]['id']:$row['id'];
 ?>
 <div style="width:100%;display:flex;justify-content:space-between;margin:2px 0">
     <div style="width:24.6%" class="ct">
@@ -19,9 +21,8 @@ foreach($rows as $row){
     </div>
     <div style="width:24.6%" class="ct"><input type="text" name="name[]" value="<?=$row['name'];?>"></div>
     <div style="width:24.6%" class="ct">
-        <button type="button">往上</button>
-        <button type="button">往下</button>
-        <input type="number" name="num[]" value="<?=$row['rank'];?>">
+        <button type="button" class="btn" data-id="<?=$row['id']."-".$prev;?>">往上</button>
+        <button type="button" class="btn" data-id="<?=$row['id']."-".$next;?>">往下</button>
     </div>
     <div style="width:24.6%" class="ct">
         <input type="checkbox" name="sh[]" value="<?=$row['id'];?>" <?=($row['sh']==1)?'checked':'';?>> 顯示
@@ -49,7 +50,14 @@ foreach($rows as $row){
 </div>
 
 
+<script>
+$(".btn").on("click",function(){
+    let id=$(this).data('id')
+    console.log(id);
+})
 
+
+</script>
 
 
 

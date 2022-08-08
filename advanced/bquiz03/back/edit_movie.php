@@ -1,5 +1,8 @@
 <?php
 $row=$Movie->find($_GET['id']);
+$year=(int)explode('-',$row['ondate'])[0];
+$month=(int)explode('-',$row['ondate'])[1];
+$day=(int)explode('-',$row['ondate'])[2];
 ?>
 <h3 class="ct">編輯院線片</h3>
 <form action="./api/edit_movie.php" method="post" enctype="multipart/form-data">
@@ -10,34 +13,35 @@ $row=$Movie->find($_GET['id']);
             <div><label>片名:</label><input type="text" name="name" value="<?=$row['name'];?>"></div>
             <div><label>分級:</label>
                 <select name="level">
-                    <option value="普遍級">普遍級</option>
-                    <option value="輔導級">輔導級</option>
-                    <option value="保護級">保護級</option>
-                    <option value="限制級">限制級</option>
+                    <option value="普遍級" <?=($row['level']=='普遍級')?'selected':'';?>>普遍級</option>
+                    <option value="輔導級" <?=($row['level']=='輔導級')?'selected':'';?>>輔導級</option>
+                    <option value="保護級" <?=($row['level']=='保護級')?'selected':'';?>>保護級</option>
+                    <option value="限制級" <?=($row['level']=='限制級')?'selected':'';?>>限制級</option>
                 </select>
             </div>
             <div><label>片長:</label><input type="number" name="length" value="<?=$row['length'];?>"></div>
             <div><label>上映日期:</label>
             <select name="year" >
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
+                <option value="2022" <?=($year==2022)?'selected':'';?>>2022</option>
+                <option value="2023" <?=($year==2023)?'selected':'';?>>2023</option>
+                <option value="2024" <?=($year==2024)?'selected':'';?>>2024</option>
             </select>年
             <select name="month">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
+                <option value="1"  <?=($month==1)?'selected':'';?>>1</option>
+                <option value="2"  <?=($month==2)?'selected':'';?>>2</option>
+                <option value="3"  <?=($month==3)?'selected':'';?>>3</option>
+                <option value="4"  <?=($month==4)?'selected':'';?>>4</option>
+                <option value="5"  <?=($month==5)?'selected':'';?>>5</option>
+                <option value="6"  <?=($month==6)?'selected':'';?>>6</option>
+                <option value="7"  <?=($month==7)?'selected':'';?>>7</option>
+                <option value="8"  <?=($month==8)?'selected':'';?>>8</option>
+                <option value="9"  <?=($month==9)?'selected':'';?>>9</option>
+                <option value="10" <?=($month==10)?'selected':'';?>>10</option>
+                <option value="11" <?=($month==11)?'selected':'';?>>11</option>
+                <option value="12" <?=($month==12)?'selected':'';?>>12</option>
             </select>月
             <select name="day">
+                <?="<option value='{$day}'>{$day}</option>";?>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>

@@ -30,7 +30,9 @@
       ?>
         <div style="display:flex;flex-wrap:wrap;border:1px solid #ccc;border-radius:5px;width:49.5%;padding:5px;box-sizing:border-box;margin:2px 0">
             <div style="width:30%">
-              <img src="./upload/<?=$row['poster'];?>" style="width:60px;height:80px;border:2px solid white">
+             <a href='?do=intro&id=<?=$row['id'];?>'>
+                <img src="./upload/<?=$row['poster'];?>" style="width:60px;height:80px;border:2px solid white">
+              </a>
             </div>
             <div style="width:70%;padding-left:2px;box-sizing:border-box">
               <div><?=$row['name'];?></div>
@@ -41,7 +43,8 @@
               <div>上映日期:<?=$row['ondate'];?></div>
             </div>
             <div style="width:100%">
-              <button>劇情簡介</button><button>線上訂票</button>
+              <button onclick="location.href='?do=intro&id=<?=$row['id'];?>'">劇情簡介</button>
+              <button onclick="location.href='?do=order&id=<?=$row['id'];?>'">線上訂票</button>
             </div>
         </div>
 

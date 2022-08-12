@@ -17,8 +17,6 @@
             foreach($opts as $opt){
                 echo "<option value='{$opt['movie']}'>{$opt['movie']}</option>";
             }
-
-
         ?>
     </select>
     <button onclick="qDel()">刪除</button>
@@ -67,6 +65,28 @@
     $.post('./api/del.php',{table,id},()=>{
         location.reload();
     })
+}
+
+function qDel(){
+    let type=$("input[name='type']:checked").val();
+    let target;
+    switch(type){
+        case "date":
+            target=$("input[name='date']").val()
+        break;
+        case 'movie':
+            target=$("select[name='movie']").val()
+        break;
+    }
+
+    let con=confirm("你確定要刪除全部"+target+"的資料嗎?");
+
+    if(con){
+
+        $.post("./api/q_del.php",{type,target},()=>{
+            location.reload();
+        })
+    }
 }
 
 </script>

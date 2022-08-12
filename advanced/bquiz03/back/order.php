@@ -6,6 +6,23 @@
         text-align: center;
     }
 </style>
+<div>
+    快速刪除:
+    <input type="radio" name="type" value="date">依日期 
+    <input type="text" name="date" >
+    <input type="radio" name="type" value="movie">依電影
+    <select name="movie" >
+        <?php
+            $opts=$Order->q("select `movie` from `orders` group by `movie`");
+            foreach($opts as $opt){
+                echo "<option value='{$opt['movie']}'>{$opt['movie']}</option>";
+            }
+
+
+        ?>
+    </select>
+    <button onclick="qDel()">刪除</button>
+</div>
 <div class="header" style="display:flex;width:100%">
     <div>訂單編號</div>
     <div>電影名稱</div>
@@ -30,8 +47,8 @@
             $seats=unserialize($ord['seats']);
             sort($seats);
             foreach($seats as $seat){
-                echo floor(($seat/5))+1 ."排";
-                echo ($seat%5)+1 ."號";
+                echo   floor(($seat/5))+1 ."排";
+                echo   ($seat%5)+1 ."號";
                 echo "<br>";
             }
         ?></div>

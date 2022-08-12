@@ -1,8 +1,62 @@
+<style>
+.lists{
+  width:210px;
+  height:280px;
+  margin:auto;
+  background:white;
+  position: relative;
+}
+
+.controls{
+  width:420px;
+  height:100px;
+  margin: 1rem auto;
+  background:white;
+  display:flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.right,.left{
+  width:0;
+  border-top:25px solid transparent;
+  border-bottom:25px solid transparent;
+}
+.right{
+  border-left:30px solid #999;
+}
+.left{
+  border-right:30px solid #999;
+}
+.icons{
+  width:320px;
+  background:yellow;
+  height:100%;
+}
+.poster{
+  width:100%;
+  text-align: center;
+  position: absolute;
+}
+.poster img{
+  width:99%;
+}
+</style>
+
 <div class="half" style="vertical-align:top;">
       <h1>預告片介紹</h1>
       <div class="rb tab" style="width:95%;">
-      <div>
+        <div>
           <div class="lists">
+            <?php
+              $pos=$Poster->all(['sh'=>1]," order by rank");
+              foreach($pos as $key => $po){
+                echo "<div class='poster' id='p{$po['id']}' data-ani='{$po['ani']}'>";
+                echo "<img src='./upload/{$po['img']}'>";
+                echo "<div>{$po['name']}</div>";
+                echo "</div>";
+              }
+
+            ?>
           </div>
           <div class="controls">
             <div class="left"></div>

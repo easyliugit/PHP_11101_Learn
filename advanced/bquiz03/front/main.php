@@ -49,6 +49,7 @@
   padding:2px;
   text-align: center;
   font-size: small;
+  position:relative;
 }
 .icon img{
   width:70px;
@@ -63,7 +64,6 @@
 .icon:hover{
   border:2px solid white;
 }
-
 </style>
 
 <div class="half" style="vertical-align:top;">
@@ -106,19 +106,71 @@
 <script>
 $(".poster").eq(0).show()
 let start=0;
-let slider=setInterval(()=>{
+$(".icon").on("click",function(){
+  let now=$(".poster:visible").hide(1000)
+  let id=$(this).attr("id").replace("i","p")
+  $("#"+id).show(1000)
+})
+let slider=setInterval(()=>{ transition() },2000)
 
-  $(".poster").eq(start).fadeOut(800,()=>{
+function transition(){
+  let now=$(".poster:visible")
+  let eq=$(now).index()
+    //判斷下一張海報的索引值
+    if(eq>=$('.icon').length-1){
+      eq=0;
+    }else{
+      eq=eq+1;
+    }
+  let next=$(".poster").eq(eq)
+  let ani=$(now).data('ani')
 
-      if(start>=$(".poster").length-1){
-        start=0
-      }else{
-        start++;
+  switch(ani){
+    case 1:
+      //淡入淡出
+      $(now).fadeOut(800,()=>{
+        $(next).fadeIn(800)
+      })
+
+    break;
+    case 2:
+      //滑入滑出
+      $(now).slideUp(800,()=>{
+        $(next).slideDown(800)
+      })
+    break;
+    case 3:
+      //縮放
+      $(now).hide(800,()=>{
+        $(next).show(800)
+      })
+    break;
+  }
+  
+}
+
+let p=1
+let pages=$(".poster").length-4
+
+$(".left,.right").on("click",function(){
+  let arrow=$(this).attr('class');
+  let shift;
+  switch(arrow){
+    case "left":
+      if(p>1){
+        p--
       }
-      console.log("現在在跑的是eq"+start+"的海報")
-    $(".poster").eq(start).fadeIn(800)
-  })
-},2000)
+    break;
+    case "right":
+      if(p<=pages){
+        p++;
+      }
+      break;
+    }
+    shift=(p-1)*80;
+    $(".icon").animate({right:shift})
+
+})
 </script>
 
 

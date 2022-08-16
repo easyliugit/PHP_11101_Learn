@@ -106,21 +106,18 @@
 <script>
 $(".poster").eq(0).show()
 let start=0;
-$(".icon").on("click",function(){
-  let now=$(".poster:visible").hide(1000)
-  let id=$(this).attr("id").replace("i","p")
-  $("#"+id).show(1000)
-})
+
 let slider=setInterval(()=>{ transition() },2000)
 
-function transition(){
+function transition(n){
+
   let now=$(".poster:visible")
   let eq=$(now).index()
     //判斷下一張海報的索引值
     if(eq>=$('.icon').length-1){
-      eq=0;
+      eq=(n!==undefined)?n:0;
     }else{
-      eq=eq+1;
+      eq=(n!==undefined)?n:eq+1;
     }
   let next=$(".poster").eq(eq)
   let ani=$(now).data('ani')
@@ -148,6 +145,22 @@ function transition(){
   }
   
 }
+
+
+$(".icon").on("click",function(){
+  let eq=$(this).index()
+  transition(eq)
+})
+
+$(".icons").hover(
+  function(){
+    clearInterval(slider);
+  },
+  function(){
+    slider=setInterval(()=>{ transition() },2000)
+  }
+)
+
 
 let p=1
 let pages=$(".poster").length-4

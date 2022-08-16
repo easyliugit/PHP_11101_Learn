@@ -38,6 +38,7 @@
   width:100%;
   text-align: center;
   position: absolute;
+  display: none;
 }
 .poster img{
   width:99%;
@@ -102,7 +103,23 @@
       </div>
     </div>
 
+<script>
+$(".poster").eq(0).show()
+let start=0;
+let slider=setInterval(()=>{
 
+  $(".poster").eq(start).fadeOut(800,()=>{
+
+      if(start>=$(".poster").length-1){
+        start=0
+      }else{
+        start++;
+      }
+      console.log("現在在跑的是eq"+start+"的海報")
+    $(".poster").eq(start).fadeIn(800)
+  })
+},2000)
+</script>
 
 
     <div class="half">

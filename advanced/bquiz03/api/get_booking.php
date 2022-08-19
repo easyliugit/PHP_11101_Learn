@@ -65,9 +65,20 @@ for($i=0;$i<20;$i++){
     <div style="width:60%;margin:auto;">
         <div>您選擇的電影是：<span id='movieName'></span></div>
         <div>您選擇的時刻是：<span id='dateStr'> </span>&nbsp;&nbsp; <span id='sessionName'></span></div>
+        <div>您已經勾選<span id='tickets'></span>張票，最多可以購買四張票</div>
         <div>
             <button onclick="$('#order,#booking').toggle();$('#booking').html('')">上一步</button>
-            <button>訂購</button>
+            <button onclick="checkout()">訂購</button>
         </div>
     </div>
 </div>
+<script>
+function checkout(){
+    $.post("./api/order.php",info,(no)=>{
+        console.log(no)
+        location.href=`?do=result&no=${no}`
+
+    })
+}
+
+</script>

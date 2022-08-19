@@ -35,6 +35,15 @@
 </div>
 
 <script>
+
+    let info={
+        movieId:0,
+        movieName:'',
+        date:'',
+        sessionId:0,
+        session:'',
+    }
+
     $("#movie").load("./api/movie_list.php",{id:<?=$selectedMovieId;?>},()=>{
         let movie=$("#movie").val();
         getDate(movie)
@@ -65,17 +74,32 @@
 
         })
     }
+
     function booking(){
         $("#order").hide();
         $("#booking").show();
         $.get("./api/get_booking.php",(seats)=>{
             $("#booking").html(seats)
+            updateInfo()
             setSeatEvents()
         })
     }
 
+    function updateInfo(){
+        info.movieId=$("#movie").val()
+        info.movieName=$("#movie option:selected").text()
+        info.date=$("#date").val()
+        info.sessionId=$("#session").val()
+        info.session=$("#session option:selected").text().split(" ")[0]
+    }
+
     function setSeatEvents(){
         let seats=new Array();
+        $("#movieName").text(info.movieName)
+        $("#dateStr").text(info.date)
+        $("#sessionName").text(info.session)
+            
+            
         $(".seat input").on("change",function(){
             let num=$(this).val()
 
@@ -97,6 +121,8 @@
             $("#tickets").text(seats.length)
 
             })
+
+
     }
 
 </script>

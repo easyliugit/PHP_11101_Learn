@@ -70,17 +70,33 @@
         $("#booking").show();
         $.get("./api/get_booking.php",(seats)=>{
             $("#booking").html(seats)
-            $(".seat input").on("change",function(){
-                if($(this).parent().hasClass("empty")){
+            setSeatEvents()
+        })
+    }
+
+    function setSeatEvents(){
+        let seats=new Array();
+        $(".seat input").on("change",function(){
+            let num=$(this).val()
+
+            if($(this).prop('checked')){
+                if(seats.length>=4){
+                    alert("最多只能勾選四張票")
+                    $(this).prop('checked',false)
+                }else{
+                    seats.push(num)
                     $(this).parent().removeClass("empty")
                     $(this).parent().addClass("checked")
-                }else{
-                    $(this).parent().removeClass("checked")
-                    $(this).parent().addClass("empty")
+                }
+            }else{
+                seats.splice(seats.indexOf(num),1);
+                $(this).parent().removeClass("checked")
+                $(this).parent().addClass("empty")
+            }
+            
+            $("#tickets").text(seats.length)
 
-                    }
-                })
-        })
+            })
     }
 
 </script>

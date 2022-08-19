@@ -25,6 +25,23 @@ include_once "../base.php";
     width:20%;
     height:25%;
     text-align: center;
+    position: relative;
+}
+
+.empty{
+    background-image: url('icon/03D02.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.checked{
+    background-image: url('icon/03D03.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.chk{
+    position: absolute;
+    bottom:0;
+    right:0;
 }
 </style>
 <div id="block">
@@ -32,11 +49,12 @@ include_once "../base.php";
 <?php
 
 for($i=0;$i<20;$i++){
-    echo "<div class='seat'>";
+    echo "<div class='seat empty'>";
     echo floor($i/5)+1;
     echo "排";
     echo floor($i%5)+1;
     echo "號";
+    echo "<input type='checkbox' name='seat' value='$i' class='chk'>";
     echo "</div>";
 }
 

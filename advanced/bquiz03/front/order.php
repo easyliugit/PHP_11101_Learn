@@ -70,6 +70,16 @@
         $("#booking").show();
         $.get("./api/get_booking.php",(seats)=>{
             $("#booking").html(seats)
+            $(".seat input").on("change",function(){
+                if($(this).parent().hasClass("empty")){
+                    $(this).parent().removeClass("empty")
+                    $(this).parent().addClass("checked")
+                }else{
+                    $(this).parent().removeClass("checked")
+                    $(this).parent().addClass("empty")
+
+                    }
+                })
         })
     }
 

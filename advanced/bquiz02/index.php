@@ -76,7 +76,7 @@
 							?>
 
                     </span>
-                    <div class="content">
+                    <div>
                         <?php 
 
 								// if(isset($_GET['do'])){

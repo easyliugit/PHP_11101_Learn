@@ -18,35 +18,29 @@ include_once "../base.php";
     width:316px;
     height:340px;
     margin:auto;
-    background-color: yellow;
+    display:flex;
+    flex-wrap:wrap;
 }
 .seat{
     width:20%;
     height:25%;
+    text-align: center;
 }
 </style>
 <div id="block">
     <div class='seats'>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
+<?php
+
+for($i=0;$i<20;$i++){
+    echo "<div class='seat'>";
+    echo floor($i/5)+1;
+    echo "排";
+    echo floor($i%5)+1;
+    echo "號";
+    echo "</div>";
+}
+
+?>
     </div>
 </div>
 <div style="width:540px;margin:1rem auto;">

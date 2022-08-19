@@ -14,5 +14,7 @@ $now=ceil((24-date("H"))/2);
 $now=((6-$now)<=0)?0:(6-$now);
 
 for($i=($now+1);$i<=5;$i++){
-echo "<option value='{$i}'>{$session[$i]} 剩餘座位()</option>";
+    $qt=20-$Order->math('sum','qt',['movie'=>"{$movie['name']}",'date'=>"{$date}",'session'=>"{$session[$i]}"]);
+
+    echo "<option value='{$i}'><span>{$session[$i]}</span> 剩餘座位($qt)</option>";
 }

@@ -1,3 +1,6 @@
+<?php 
+// echo serialize([1,2,3,4,5]); 
+?>
 <table class="all">
     <tr>
         <td class="tt ct">帳號</td>

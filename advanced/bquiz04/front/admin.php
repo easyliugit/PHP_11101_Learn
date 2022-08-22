@@ -1,4 +1,5 @@
 <?php 
+// 將管理者權限 將陣列以字串呈現
 // echo serialize([1,2,3,4,5]); 
 ?>
 <table class="all">

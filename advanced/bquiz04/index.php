@@ -27,14 +27,13 @@
                 <a href="?do=login">會員登入</a> |
                 <a href="?do=admin">管理登入</a>
             </div> 
-            <marquee behavior="" direction="">
-
-                    情人節特惠活動 &nbsp; 年終特賣會開跑了
+            <marquee>
+                情人節特惠活動 &nbsp; 年終特賣會開跑了
             </marquee>
         </div>
         <div id="left" class="ct">
             <div style="min-height:400px;">
-            選單區
+            <a href="#">全部商品(8)</a>
             </div>
             <span>
                 <div>進站總人數</div>
@@ -44,8 +43,13 @@
         </div>
         <div id="right">
         <?php 
-
-        include "./front/main.php";
+        $do=$_GET['do']??'main';
+        $file="./front/".$do.".php";
+        if(file_exists($file)){
+                include $file;
+        }else{
+                include "./front/main.php";
+        }
         ?>
 
         </div>

@@ -7,14 +7,8 @@
     <select name="bigtype" id="bigtype"></select>
     <input type="text" name="mid" id="mid"><button onclick="addType('mid')">新增</button>
 </div>
-<table class="all">
-    <tr class="tt">
-        <td></td>
-        <td>
-            <button>修改</button><button>刪除</button>
-        </td>
-    </tr>
-</table>
+<div id="typeList">
+</div>
 <h2 class="ct">商品管理</h2>
 <div class="ct"><button>新增商品</button></div>
 <table class="all">
@@ -40,6 +34,7 @@
 </table>
 <script>
     bigtypes();
+    typeList();
     function addType(type){
         let name,parent;
         switch(type){
@@ -55,6 +50,12 @@
         $.post("./api/save_type.php",{name,parent},()=>{
             bigtypes();
             $("#big,#mid").val('')
+            typeList();
+        })
+    }
+    function typeList(){
+        $.get("./api/type_list.php",(list)=>{
+            $("#typeList").html(list)
         })
     }
     function bigtypes(){

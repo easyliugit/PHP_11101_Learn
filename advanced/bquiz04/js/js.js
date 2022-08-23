@@ -39,3 +39,18 @@ function logout(table){
 		location.href='index.php';
 	})
 }
+
+function del(table,id){
+	$.post('./api/del.php',{table,id},()=>{
+		location.reload()
+	})
+}
+
+function edit(table,id){
+	let form=$('#editForm input').serializeArray()
+	// console.log(form)
+	$.post('./api/edit.php',{table,form,id},(res)=>{
+		// console.log(res)
+		location.href='?do=mem';
+	})
+}

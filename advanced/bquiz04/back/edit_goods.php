@@ -1,4 +1,7 @@
-<h2 class="ct">新增商品</h2>
+<?php 
+$goods=$Goods->find($_GET['id']);?>
+
+<h2 class="ct">修改商品</h2>
 <form action="./api/save_goods.php" method="post" enctype="multipart/form-data">
     <table class="all">
         <tr>
@@ -15,7 +18,7 @@
         </tr>
         <tr>
             <td class="tt ct">商品編號</td>
-            <td class="pp">完成分類後自動分配</td>
+            <td class="pp"><?=$goods['no'];?></td>
         </tr>
         <tr>
             <td class="tt ct">商品名稱</td>
@@ -45,17 +48,22 @@
         </tr>
     </table>
     <div class="ct">
-        <input type="submit" value="新增">|
+        <input type="hidden" name="id" value="<?=$_GET['id'];?>">
+        <input type="submit" value="修改">|
         <input type="reset" value="重置">|
         <input type="button" value="返回" onclick="location.href='?do=th'">
     </div>
 </form>
+
 <script>
 getBigs()
+
+
 $("#big").on('change',()=>{
     let big=$("#big").val();
         getMids(big);
 })
+
 function getBigs(){
     $.get("./api/get_types.php",{type:'big',parent:0},(list)=>{
         $("#big").html(list)
@@ -63,6 +71,7 @@ function getBigs(){
         getMids(big);
     })
 }
+
 function getMids(big){
     $.get("./api/get_types.php",{type:'mid',parent:big},(list)=>{
         $("#mid").html(list)

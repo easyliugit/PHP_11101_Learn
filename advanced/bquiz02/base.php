@@ -149,18 +149,29 @@ $News=new DB('news');
 $Que=new DB('que');
 $Log=new DB('log');
 
-if(!isset($_SESSION['total'])){
-    $chkDate=$Total->math('count','id',['date'=>date("Y-m-d")]);
-    if($chkDate>=1){
-        $total=$Total->find(['date'=>date("Y-m-d")]);
-        $total['total']=$total['total']+1;
-        $Total->save($total);
-        $_SESSION['total']=1;
-    }else{
-        $Total->save(['date'=>date("Y-m-d"),'total'=>1]);
-        $_SESSION['total']=1;
-    }
+$chkDate=$Total->math('count','id',['date'=>date("Y-m-d")]);
+if($chkDate<1){
+    $Total->save(['date'=>date("Y-m-d"),'total'=>0]);
 }
+if(!isset($_SESSION['total'])){
+    $total=$Total->find(['date'=>date("Y-m-d")]);
+    $total['total']++;
+    $Total->save($total);
+}
+$_SESSION['total']=1;
+
+// if(!isset($_SESSION['total'])){
+//     $chkDate=$Total->math('count','id',['date'=>date("Y-m-d")]);
+//     if($chkDate>=1){
+//         $total=$Total->find(['date'=>date("Y-m-d")]);
+//         $total['total']=$total['total']+1;
+//         $Total->save($total);
+//         $_SESSION['total']=1;
+//     }else{
+//         $Total->save(['date'=>date("Y-m-d"),'total'=>1]);
+//         $_SESSION['total']=1;
+//     }
+// }
 
 
 ?>

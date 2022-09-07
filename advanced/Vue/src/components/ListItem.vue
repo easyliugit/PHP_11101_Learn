@@ -37,6 +37,7 @@
               <option value="3">不重要</option>
           </select>
       </div>
+      <div>{{ todo.status }}</div>
       <button  v-if="edit" @click="updateTodo">OK</button>
       <button  v-if="!edit" @click="editTodo">編輯</button>
       <button  v-if="!edit" @click="delTodo">X</button>

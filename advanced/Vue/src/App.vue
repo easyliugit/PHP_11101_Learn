@@ -6,7 +6,19 @@
   const show=ref(false)
   const addTodo=()=>{
     show.value=false
-    todos.push({todo:form.todo,due:form.due,type:form.type})
+    
+    let now=new Date();
+    let diff=(now-(new Date(form.due)))
+    let day=Math.floor(diff/(60*60*24*1000))
+    let hour=Math.floor((diff%(60*60*24*1000))/(60*60*1000))
+    if(day<0){
+      form.status=`還有${Math.abs(day)}天${Math.abs(hour)}小時到期`
+    }else if(day==0){
+      form.status='今天到期'
+    }else{
+      form.status=`已過期${day}天${hour}小時`
+    }
+    todos.push({todo:form.todo,due:form.due,type:form.type,status:form.status})
     form.todo=''
     form.due=''
     form.type=1

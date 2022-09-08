@@ -1,5 +1,6 @@
 # 泰山PHP網頁設計職訓課程
 * [指導老師GitHub:https://github.com/mackliu](https://github.com/mackliu)
+* [指導老師GitHubWeb:https://mackliu.github.io/php-book/categories/](https://mackliu.github.io/php-book/categories/)
 * [BSC:be-start-github](https://github.com/wdaweb/be-start-github-easyliugit)
 * [BSC:be-start-classroom](https://github.com/wdaweb/be-start-classroom-easyliugit)
 * [BSC:PerpetualCalendar0606](https://github.com/wdaweb/PerpetualCalendar-easyliugit.git)

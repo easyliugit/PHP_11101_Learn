@@ -63,6 +63,24 @@ class DB
     function math($math,$col,...$arg)
     {
         $sql="select $math($col) from $this->table ";
+        if(isset($arg[0]))
+        {
+            if(is_array($arg[0]))
+            {
+                foreach($arg[0] as $key => $val){
+                    $tmp[]="`$key`='$val'";
+                }
+    
+                $sql.= " where ".join(" && ",$tmp);
+            }else{
+                $sql.=$arg[0];
+            }
+        }
+
+        if(isset($arg[1]))
+        {
+            $sql.=$arg[1];
+        }
 
         return $this->pdo->query($sql)->fetchColumn();
     }
@@ -125,5 +143,12 @@ function to($url){
 
 $Poster=new DB('poster');
 $Movie=new DB('movie');
+$Order=new DB('orders');
+$Level=[
+    '普遍級'=>'03C01.png',
+    '輔導級'=>'03C02.png',
+    '保護級'=>'03C03.png',
+    '限制級'=>'03C04.png',
+];
 
 ?>

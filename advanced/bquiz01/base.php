@@ -248,7 +248,12 @@ if(isset($do)){
     $Str=new Str($do);
 }
 
-
+if(!isset($_SESSION['total'])){
+    $total=$Total->find(1);
+    $total['total']++;
+    $Total->save($total);
+    $_SESSION['total']=1;
+}
 
 
 ?>

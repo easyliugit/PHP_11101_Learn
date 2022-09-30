@@ -1,0 +1,20 @@
+nod.js <= 安裝他，為了附加的npm
+npm <= 下載vue.js 
+
+*在命令提示字元 版本確認
+輸入nod -v
+輸入npm -v
+
+vite 介紹
+https://vitejs.dev/guide/
+
+命令提示字元
+https://vitejs.dev/guide/#scaffolding-your-first-vite-project
+With NPM:
+npm create vite@latest
+
+npx degit user/project my-project
+cd my-project
+
+npm install
+npm run dev
